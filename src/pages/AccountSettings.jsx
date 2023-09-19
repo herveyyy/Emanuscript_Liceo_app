@@ -4,6 +4,7 @@ import { Avatar,
         Radio, 
             } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import AccountTabs from "../components/AccountTabs";
 
 
 function AccountSettings() {
@@ -20,22 +21,7 @@ function AccountSettings() {
                 </div>
             </div>
             <div className="flex justify-center items-center mt-[8rem]">
-                <div className="bg-red-900 rounded-md">
-                    <ul className="flex justify-evenly cursor-pointer">
-                      <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                        <Link to='AccountSettings'>Account</Link>
-                      </Typography>
-                      <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                        <Link to='Bookmark'>Bookmark</Link>
-                      </Typography>
-                      <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                        Rated
-                      </Typography>
-                      <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                        History
-                      </Typography>
-                    </ul>
-                </div>
+                <AccountTabs/>
                 <form className="absolute flex justify-center mt-[50rem]">
                 <div class="flex flex-wrap mb-8 w-[40rem]">
                     <div class="w-[20rem] md:w-1/2 px-3 mb-6 md:mb-0">

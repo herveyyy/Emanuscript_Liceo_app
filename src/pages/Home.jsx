@@ -1,0 +1,75 @@
+import React from 'react'
+import { Carousel } from "@material-tailwind/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
+ 
+const Home = () => {
+  return (
+  
+  <div className='min-h-screen'>
+    <div className='mx-8 '>
+    <Carousel
+    className="rounded-xl mt-3 "
+    navigation={({ setActiveIndex, activeIndex, length }) => (
+      <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+        {new Array(length).fill("").map((_, i) => (
+          <span
+            key={i}
+            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
+              activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+            }`}
+            onClick={() => setActiveIndex(i)}
+          />
+        ))}
+      </div>
+    )}
+  >
+    <img
+      src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+      alt="image 1"
+      className="h-[25rem] w-full object-cover"
+    />
+    <img
+      src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+      alt="image 2"
+      className="h-[25rem] w-full object-cover"
+    />
+    <img
+      src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
+      alt="image 3"
+      className="h-[25rem] w-full object-cover"
+    />
+  </Carousel>
+  </div>
+<div className='px-8 mt-4 w-full flex md:justify-start  sm:justify-start  lg:justify-center'>
+  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%]">
+      <CardBody>
+      <p className='text-4xl text-black my-4'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
+        <Typography>
+        The LIBRARY is indeed the most important intellectual resource in the academic community. It is the place where the teaching-learning process is effectively enhanced and aptly complemented through the use of books, periodicals, journals, and variety of multi-media resources. It is an intellectual center of an academic community – a place for research, thought, and reflection. It significantly plays an indispensable role in accomplishing the educational objectives of Liceo de Cagayan University.
+        </Typography>
+        <p className='text-3xl text-black uppercase my-4'>vision</p>
+        <Typography>
+        Facilitates total human formation through excellent and relevant information services.
+</Typography>
+<p className='text-3xl text-black uppercase my-4'>mission</p>
+        <Typography>
+        Supports the university's commitment to academic excellence, Christian values, research, and extension programs via adequate library resources, facilities, and fast delivery of information service.
+</Typography>
+      </CardBody>
+      <CardFooter className="pt-0 flex w-full justify-end gap-x-4">
+        <Button color='red'>Register</Button>
+        <Button>Login</Button>
+      </CardFooter>
+    </Card>
+</div>
+</div>
+  )
+}
+
+export default Home;

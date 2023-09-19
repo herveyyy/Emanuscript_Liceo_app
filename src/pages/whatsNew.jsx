@@ -2,7 +2,7 @@ import React from 'react'
 
 const whatsNew = () => {
   return (
-    <div>whatsNew</div>
+    <div className='min-h-screen'>whatsNew</div>
   )
 }
 

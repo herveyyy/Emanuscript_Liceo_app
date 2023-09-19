@@ -5,12 +5,11 @@ import {Avatar,
   MenuList,
   MenuItem,
   IconButton,
-  MobileNav,
   Button,
-  Navbar} from "@material-tailwind/react"
+  Navbar,
+  Collapse} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
 import React from "react";
-import Home from "./Home";
 
 export default function NavBar() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -24,14 +23,22 @@ export default function NavBar() {
 
 const navList = (
   <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+   
     <Typography
       as="li"
       variant="large"
       color="white"
       className="p-1 font-normal"
     >
-      <Link to='Home' className="flex items-center">
-        HOME
+      <Link to='/Home' className="flex items-center">
+      <Button
+       className="w-full bg-red-800"
+       color=""
+       size="sm"
+       >
+      HOME
+      </Button>
+       
       </Link>
     </Typography>
     <Typography
@@ -40,8 +47,15 @@ const navList = (
       color="white"
       className="p-1 font-normal"
     >
-      <Link to='Search' className="flex items-center">
-        SEARCH
+      <Link to='/Search' className="flex items-center">
+      <Button
+       className="w-full bg-red-800"
+       color=""
+       size="sm"
+       >
+      SEARCH
+      </Button>
+       
       </Link>
     </Typography>
     <Typography
@@ -50,28 +64,40 @@ const navList = (
       color="white"
       className="p-1 font-normal"
     >
-      <Link to='whatsNew' className="flex items-center">
+      <Link to='/whatsNew' className="flex items-center">
+      <Button
+       className="w-full bg-red-800"
+       color=""
+       size="sm"
+       variant="filled">
         WHAT'S NEW
+        </Button>
       </Link>
     </Typography>
   </ul>
 );
 
     return (  
-        <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 mt-4 bg-red-900">
-        <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+        <Navbar
+        color="transparent"
+        variant = "gradient"
+         className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-red-900  z-50 ">
+        <div className="container mx-auto flex items-center justify-between text-blue-gray-50">
         <div className="w-12 max-h-12">
                 <img src="static/images/libraryLogo.png"/>
             </div>
         <div className="hidden lg:block">{navList}</div>
   <Menu>
     <MenuHandler>
-    <Avatar
+      <Typography>
+      <Avatar
           variant="circular"
           alt="User Profile"
-          className="cursor-pointer hidden lg:block"
+          className="cursor-pointer hidden lg:block "
           src="static/images/khian.png"
         />
+       </Typography>
+    
       </MenuHandler>
           <MenuList>
             <MenuItem className="flex items-center gap-2">
@@ -89,7 +115,7 @@ const navList = (
                     />
                 </svg>
                 <Typography variant="small" className="font-normal text-red-900">
-                <Link to='AccountSettings'>Account</Link>
+                <Link to='/AccountSettings'>Account</Link>
                 </Typography>
               </MenuItem>
               <MenuItem className="flex items-center gap-2">
@@ -112,7 +138,7 @@ const navList = (
                 />
               </svg>
               <Typography variant="small" className="font-normal text-red-900">
-              <Link to='Bookmark'>Bookmark</Link>
+              <Link to='/AccountSettings/Bookmark'>Bookmark</Link>
               </Typography>
               </MenuItem>
               <MenuItem className="flex items-center gap-2">
@@ -135,7 +161,7 @@ const navList = (
                 />
               </svg>
               <Typography variant="small" className="font-normal text-red-900">
-                <Link to='History'>History</Link>
+                <Link to='/AccountSettings/History'>History</Link>
               </Typography>
               </MenuItem>
               <MenuItem className="flex items-center gap-2">
@@ -153,7 +179,7 @@ const navList = (
                   />
                 </svg>
                 <Typography variant="small" className="font-normal text-red-900">
-                  <Link to='Rated'>Rated</Link>
+                  <Link to='/AccountSettings/Rated'>Rated</Link>
                 </Typography>
               </MenuItem>
               <MenuItem className="flex items-center gap-2">
@@ -233,19 +259,30 @@ const navList = (
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse  open={openNav}>
         <div className="container mx-auto">
           {navList}
-      <Menu>
-        <MenuHandler>
+      <Menu  >
+        
+        <MenuHandler >
+          <Button variant="text" className="w-full justify-center flex">
+          <Typography
+          color={"white"} variant={"small"} className={"flex items-center gap-x-2"}>
         <Avatar
               variant="circular"
               alt="User Profile"
               className="cursor-pointer"
               src="static/images/khian.png"
-            />
+            /> <div className="">
+              <p className="flex">Khian Justice Abad</p>
+              <p className="flex">sjakdkjahkjda@liceo.edu.ph</p>
+            </div>
+            </Typography>
+            </Button>
               </MenuHandler>
+             
               <MenuList>
+                
                 <MenuItem className="flex items-center gap-2">
                   <svg
               fill="none"
@@ -284,7 +321,7 @@ const navList = (
               />
             </svg>
             <Typography variant="small" className="font-normal text-red-900">
-            <Link to='Bookmark'>Bookmark</Link>
+            <Link to='/AccountSettings/Bookmark'>Bookmark</Link>
             </Typography>
             </MenuItem>
             <MenuItem className="flex items-center gap-2">
@@ -307,7 +344,7 @@ const navList = (
                 />
               </svg>
               <Typography variant="small" className="font-normal text-red-900">
-                <Link to='History'>History</Link>
+                <Link to='/AccountSettings/History'>History</Link>
               </Typography>
               </MenuItem>
               <MenuItem className="flex items-center gap-2">
@@ -325,7 +362,7 @@ const navList = (
                 />
               </svg>
               <Typography variant="small" className="font-normal text-red-900">
-                <Link to='Rated'>Rated</Link>
+                <Link to='/AccountSettings/Rated'>Rated</Link>
               </Typography>
             </MenuItem>
             <MenuItem className="flex items-center gap-2">
@@ -368,7 +405,7 @@ const navList = (
         </MenuList>
       </Menu>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
     );
 }
