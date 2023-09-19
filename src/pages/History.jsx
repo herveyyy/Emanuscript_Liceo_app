@@ -1,36 +1,25 @@
 import { Avatar, Typography, Card, CardHeader,CardBody, Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import AccountTabs from "../components/AccountTabs";
 
 function History() {
     return ( 
-        <div className="flex justify-center mt-6">
-      <div className="absolute flex justify-center items-center mb-[20rem] px-1">
+        <div className=" min-h-screen">
+      <div className=" flex justify-center items-center mb-[2rem] px-1">
           <div className="bg-red-800 rounded-full flex justify-center mb-[1rem] py-1 px-1">
               <Avatar src="static/images/khian.png" alt='profile' size="xl"/>
           </div>
           <div className="px-3 italic">
               <h1>Khian Justice A. Abad</h1>
               <h2>kabad37796@liceo.edu.ph</h2>
-          </div>
+       
       </div>
-      <div className="flex justify-center items-center mt-[8rem]">
-          <div className="bg-red-900 rounded-md">
-              <ul className="flex justify-evenly cursor-pointer">
-                <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                  <Link to='AccountSettings'>Account</Link>
-                </Typography>
-                <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                  <Link to='Bookmark'>Bookmark</Link>
-                </Typography>
-                <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                  Rated
-                </Typography>
-                <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
-                  History
-                </Typography>
-              </ul>
-          </div>
-        <div className="flex flex-wrap absolute mt-[31rem] gap-3 justify-center">
+      </div>
+      <div className="flex w-full justify-center my-4">
+        <AccountTabs/>
+        </div>
+      <div className="flex justify-center items-center">
+        <div className="flex flex-wrap  gap-3 justify-center">
         <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
         <CardHeader
         shadow={false}
