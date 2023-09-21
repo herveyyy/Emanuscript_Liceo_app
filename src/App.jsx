@@ -12,13 +12,12 @@ import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 function App() {
   
   return (
-    <div className=" bg-transparent">
-      <Router >
+    <div className="bg-transparent">
+      <Router>
         <div className="m-4">
         <NavBar/>
         </div>
-     
-        <Routes>
+        <Routes baseline="/Home">
           <Route path="/Home" element={<Home/>} />
           <Route path="/Search" element={<Search/>} />
           <Route path="/WhatsNew" element={<WhatsNew/>} />
@@ -27,6 +26,7 @@ function App() {
           <Route path="/AccountSettings/History" element={<History/>} />
           <Route path="/AccountSettings/Rated" element={<Rated/>} />
         </Routes>
+        
       </Router>
     </div>
   )
