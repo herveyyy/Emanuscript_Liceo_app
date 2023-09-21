@@ -25,7 +25,7 @@ module.exports = withMT({
       },
     },
     screen: {
-      'sm': {'min': '640px', 'max': '767px'},
+      'sm': {'min': '1px', 'max': '767px'},
       'md': {'min': '768px', 'max': '1023px'},
       'lg': {'min': '1024px', 'max': '1279px'},
     },

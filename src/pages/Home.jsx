@@ -8,13 +8,21 @@ import {
   Button,
 } from "@material-tailwind/react";
  import ModalRegister from '../components/ModalRegister';
+ import { Footer } from '../components/Footer';
+ import {FcGoogle} from 'react-icons/fc'
 const Home = () => {
   return (
   
-  <div className='min-h-screen '>
-    <div className='sm:mx-4 md:mx-8 lg:mx-52'>
+    <div className="absolute top-0  bottom-0 -z-10  h-screen">
+       <div className='absolute top-0  bg-black h-screen' >
+        
+        <img src='/static/images/LiceoBG.jpg' className="blur-sm object-cover h-screen w-screen bg-black"/>
+      <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
+     
+      </div>
+    <div className='sm:mx-9 md:mx-8 lg:mx-52 px-2 mt-28'>
     <Carousel
-    className="rounded-xl mt-3 "
+    className="rounded-xl mt-3  "
     navigation={({ setActiveIndex, activeIndex, length }) => (
       <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
         {new Array(length).fill("").map((_, i) => (
@@ -47,8 +55,8 @@ const Home = () => {
     />
   </Carousel>
   </div>
-  <div className='px-8 mt-4 w-full flex justify-center '>
-  <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 ">
+  <div className='px-8 w-full flex justify-center '>
+  <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 bg-transparent">
     <div className="flex justify-center">
       <div className='w-auto shadow-xl rounded-xl group'>
       <img src='/static/images/liceo.png' className='w-24 blur-2xl absolute group-hover:blur-3xl duration-500'/>
@@ -56,29 +64,33 @@ const Home = () => {
       </div>
     </div>
       <ModalRegister/>
-        <Button color='blue'>Login</Button>
+        <Button color='blue' className='flex justify-center gap-2 items-center '><FcGoogle className='w-8 h-8'/>Login
+        </Button>
       </Card>
       </div>
-<div className='px-8 mt-4 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
-  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%]">
-      <CardBody>
-        
-      <p className='text-4xl text-black my-4'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
-        <Typography>
+<div className='px-8 mt-2 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
+  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%]" >
+      <CardBody >
+      <p className='lg:text-4xl text-2xl   md:text-3xl text-black my-4 lg:text-start text-center'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
+      <Typography className='md:text-justify  text-left'>
         The LIBRARY is indeed the most important intellectual resource in the academic community. It is the place where the teaching-learning process is effectively enhanced and aptly complemented through the use of books, periodicals, journals, and variety of multi-media resources. It is an intellectual center of an academic community – a place for research, thought, and reflection. It significantly plays an indispensable role in accomplishing the educational objectives of Liceo de Cagayan University.
         </Typography>
-        <p className='text-3xl text-black uppercase my-4'>vision</p>
-        <Typography>
+        <p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>vision</p>
+        <Typography className='md:text-justify  text-left'>
         Facilitates total human formation through excellent and relevant information services.
 </Typography>
-<p className='text-3xl text-black uppercase my-4'>mission</p>
-        <Typography>
+<p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>mission</p>
+<Typography className='md:text-justify  text-left'>
         Supports the university's commitment to academic excellence, Christian values, research, and extension programs via adequate library resources, facilities, and fast delivery of information service.
 </Typography>
       </CardBody>
-    
     </Card>
 </div>
+
+<div className='mt-10 z-0 relative'>
+<Footer/>
+</div>
+
 </div>
   )
 }

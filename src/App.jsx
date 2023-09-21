@@ -8,15 +8,18 @@ import AccountSettings from "./pages/AccountSettings";
 import History from "./pages/History";
 import Rated from "./pages/Rated";
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
+import { Footer } from "./components/Footer";
 
 function App() {
   
   return (
-    <div className="bg-transparent">
+    <>
+    <div className="bg-transparent ">
       <Router>
         <div className="m-4">
         <NavBar/>
         </div>
+   
         <Routes baseline="/Home">
           <Route path="/Home" element={<Home/>} />
           <Route path="/Search" element={<Search/>} />
@@ -29,6 +32,7 @@ function App() {
         
       </Router>
     </div>
+    </>
   )
 }
 

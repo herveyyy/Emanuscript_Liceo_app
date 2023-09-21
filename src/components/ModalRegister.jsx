@@ -13,7 +13,7 @@ import {
   Option,
 } from "@material-tailwind/react";
 import Datepicker from "react-tailwindcss-datepicker"; 
-
+import {BsGoogle} from 'react-icons/bs'
 const ModalRegister = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
@@ -39,7 +39,7 @@ const ModalRegister = () => {
     } 
   return (
     <>
-      <Button onClick={handleOpen}>Sign In</Button>
+      <Button className="flex justify-center items-center gap-2" onClick={handleOpen}><BsGoogle className="w-6 h-6"/>Sign Up</Button>
       <Dialog
         size="lg"
         open={open}
@@ -232,10 +232,13 @@ const ModalRegister = () => {
                 />
                 </div>
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button variant="gradient" color="amber" onClick={handleOpen} fullWidth>
+          <CardFooter className="pt-0 flex w-full justify-center   ">
+            <div className="sm:w-full md:w-[55%] lg:w-[25%]">
+            
+            <Button variant="gradient" color="blue" onClick={handleOpen} fullWidth>
               Register
             </Button>
+            </div>
           </CardFooter>
         </Card>
       </Dialog>
