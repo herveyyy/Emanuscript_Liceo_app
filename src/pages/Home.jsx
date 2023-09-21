@@ -57,29 +57,35 @@ const Home = () => {
   </div>
   <div className='px-8 w-full flex justify-center '>
   <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 bg-transparent">
-    <div className="flex justify-center">
-      <div className='w-auto shadow-xl rounded-xl group'>
-      <img src='/static/images/liceo.png' className='w-24 blur-2xl absolute group-hover:blur-3xl duration-500'/>
-      <img src='/static/images/liceo.png' className='w-24 group-hover:w-28 duration-500'/>
-      </div>
-    </div>
+   <Typography color='white' className='text-center'>(⌐■_■) ( ´･･)ﾉ(._.`) ಥ_ಥ ᓚᘏᗢ (┬┬﹏┬┬) ¯\_(ツ)_/¯ ╰(*°▽°*)╯ ༼ つ ◕_◕ ༽つ
+
+</Typography>
       <ModalRegister/>
         <Button color='blue' className='flex justify-center gap-2 items-center '><FcGoogle className='w-8 h-8'/>Login
         </Button>
       </Card>
       </div>
 <div className='px-8 mt-2 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
-  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%]" >
+  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%] " >
       <CardBody >
-      <p className='lg:text-4xl text-2xl   md:text-3xl text-black my-4 lg:text-start text-center'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
+        <div className='flex justify-center'>
+<img src='/static/images/libraryIcon.gif' className='lg:w-20 sm:w-14 w-12 '/>
+        </div>
+      <p className='lg:text-4xl text-2xl md:text-3xl text-black my-4  text-center'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
       <Typography className='md:text-justify  text-left'>
         The LIBRARY is indeed the most important intellectual resource in the academic community. It is the place where the teaching-learning process is effectively enhanced and aptly complemented through the use of books, periodicals, journals, and variety of multi-media resources. It is an intellectual center of an academic community – a place for research, thought, and reflection. It significantly plays an indispensable role in accomplishing the educational objectives of Liceo de Cagayan University.
         </Typography>
+        <div className='flex justify-center lg:justify-start gap-2'>
+          <img src='/static/images/vision.gif' className='w-12 h-12 ' />
         <p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>vision</p>
+        </div>
         <Typography className='md:text-justify  text-left'>
         Facilitates total human formation through excellent and relevant information services.
 </Typography>
+<div className='flex justify-center lg:justify-start gap-2'>
+  <img src='/static/images/mission.gif' className='w-12 h-12 ' />
 <p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>mission</p>
+</div>
 <Typography className='md:text-justify  text-left'>
         Supports the university's commitment to academic excellence, Christian values, research, and extension programs via adequate library resources, facilities, and fast delivery of information service.
 </Typography>
