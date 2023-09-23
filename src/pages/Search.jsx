@@ -1,6 +1,21 @@
-import React from "react";
-
+import React,{useEffect,useContext } from "react";
+import { UserContext } from "../data/userData";
+import { useNavigate } from "react-router-dom";
+import Home from "./Home";
 function Search() {
+  const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+useEffect(() => {
+  
+  if (!currentUser) {
+    navigate("/Home");
+  }
+
+}, [currentUser])
+    if (!currentUser) {
+return <Home/>
+    }else{
   return (
     <div className="absolute top-0  bottom-0 -z-10  h-screen bg-black">
       <img
@@ -41,6 +56,8 @@ function Search() {
       <div className="absolute w-full bottom-0"></div>
     </div>
   );
+    }
+
 }
 
 export default Search;

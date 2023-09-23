@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Carousel } from "@material-tailwind/react";
 import {
   Card,
@@ -10,9 +11,21 @@ import {
  import ModalRegister from '../components/ModalRegister';
  import { Footer } from '../components/Footer';
  import {FcGoogle} from 'react-icons/fc'
+ import { database, handleLogin } from '../../firebaseConfig';
+ import { UserContext } from '../data/userData';
 const Home = () => {
+  const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    // Redirect to /Home if currentUser is false or null
+    if (!currentUser) {
+      navigate("/Home");
+      
+    }
+  }, [currentUser]);
+
   return (
-  
     <div className="absolute top-0  bottom-0 -z-10  h-screen">
        <div className='absolute top-0  bg-black h-screen' >
         
@@ -29,8 +42,9 @@ const Home = () => {
           <span
             key={i}
             className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-              activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
-            }`}
+            activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+            }`
+          }
             onClick={() => setActiveIndex(i)}
           />
         ))}
@@ -55,16 +69,18 @@ const Home = () => {
     />
   </Carousel>
   </div>
+{!currentUser &&
   <div className='px-8 w-full flex justify-center '>
   <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 bg-transparent">
-   <Typography color='white' className='text-center'>(⌐■_■) ( ´･･)ﾉ(._.`) ಥ_ಥ ᓚᘏᗢ (┬┬﹏┬┬) ¯\_(ツ)_/¯ ╰(*°▽°*)╯ ༼ つ ◕_◕ ༽つ
-
-</Typography>
-      <ModalRegister/>
-        <Button color='blue' className='flex justify-center gap-2 items-center '><FcGoogle className='w-8 h-8'/>Login
+      <ModalRegister  />
+        <Button
+        onClick={handleLogin} 
+        color='blue' className='flex justify-center gap-2 items-center '>
+          <FcGoogle className='w-8 h-8'/>Login
         </Button>
       </Card>
       </div>
+      }
 <div className='px-8 mt-2 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
   <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%] " >
       <CardBody >

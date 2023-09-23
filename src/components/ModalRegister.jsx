@@ -11,12 +11,12 @@ import {
   Input,
   Select,
   Option,
+  Radio,
 } from "@material-tailwind/react";
 import Datepicker from "react-tailwindcss-datepicker"; 
 import {BsGoogle} from 'react-icons/bs'
 const ModalRegister = () => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,6 +28,7 @@ const ModalRegister = () => {
   const [gender, setGender] = useState("");
   const [customGender, setCustomGender] = useState("");
   const [schoolID,setSchoolID] = useState("")
+const [selectedType, setSelectedType] =useState("student")
   const [value, setValue] = useState({ 
     startDate: new Date(), 
     endDate: new Date().setMonth(11) 
@@ -37,13 +38,21 @@ const ModalRegister = () => {
     console.log("newValue:", newValue); 
     setValue(newValue); 
     } 
+    const handleRegister = () => {
+      console.log("Register Clicked")
+      setOpen(true)
+  
+    }
+    
   return (
     <>
-      <Button className="flex justify-center items-center gap-2" onClick={handleOpen}><BsGoogle className="w-6 h-6"/>Sign Up</Button>
+      <Button
+      
+       className="flex justify-center items-center gap-2" onClick={handleRegister}><BsGoogle className="w-6 h-6"/>Sign Up</Button>
       <Dialog
         size="lg"
         open={open}
-        handler={handleOpen}
+        handler={handleRegister}
         className="bg-transparent shadow-none"
       >
         <Card className="mx-auto w-full">
@@ -71,7 +80,16 @@ const ModalRegister = () => {
                 </Typography>
               </div>
             </div>
-            <div className="pt-2 lg:w-[30%] md:w-full">
+            <div className=" flex flex-wrap justify-center gap-x-3 w-full">
+              
+            <div className="flex gap-10 lg:justify-start justify-center w-[65%] ">
+             
+      <Radio name="type" label="Student" value={"student"} checked={ selectedType === "student"} onChange={(e)=> setSelectedType(e.target.value)}/>
+      <Radio name="type" label="Non-Student" value={"non-student"} checked={selectedType === 'non-student'} onChange={(e)=> setSelectedType(e.target.value)} />
+
+    </div>
+           
+            <div className=" pt-2 lg:w-[10%] w-full">
                 <Input
                   label="School ID"
                   size="lg"
@@ -80,6 +98,7 @@ const ModalRegister = () => {
                   value={schoolID}
                   
                 />
+                </div>
                 </div>
             <div className="flex-1 lg:flex lg:gap-x-2">
               <div className="py-2 w-full">
@@ -91,6 +110,7 @@ const ModalRegister = () => {
                   value={firstName}
                 />
               </div>
+         
               <div className="py-2 w-full">
                 <Input
                   label="Middle Name"
@@ -158,7 +178,7 @@ const ModalRegister = () => {
                   label="Course"
                   value={selectedCourse}
                   onChange={(e) => setSelectedCourse(e)}
-                  
+                  disabled={selectedType==='non-student'}
                   animate={{
                     mount:{maxHeight: 200},
                     unmount:{maxHeight:200}
@@ -172,6 +192,7 @@ const ModalRegister = () => {
                 <Select
                   label="Year Level"
                   value={selectedYearLevel}
+                  disabled={selectedType==='non-student'}
                   onChange={(e) => setSelectedYearLevel(e)}
                 >
                   <Option value="1st Year">1st Year</Option>
@@ -235,7 +256,7 @@ const ModalRegister = () => {
           <CardFooter className="pt-0 flex w-full justify-center   ">
             <div className="sm:w-full md:w-[55%] lg:w-[25%]">
             
-            <Button variant="gradient" color="blue" onClick={handleOpen} fullWidth>
+            <Button variant="gradient" color="blue" onClick={handleRegister} fullWidth>
               Register
             </Button>
             </div>

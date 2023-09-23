@@ -9,11 +9,11 @@ import {Avatar,
   Navbar,
   Collapse} from "@material-tailwind/react"
 import { Link } from "react-router-dom";
-import React from "react";
-
-export default function NavBar() {
+import React,{useContext} from "react";
+import { UserContext } from "../data/userData";
+export default function NavBar({displayName, email, profilePic}) {
   const [openNav, setOpenNav] = React.useState(false);
- 
+   const {currentUser, logout } = useContext(UserContext);
   React.useEffect(() => {
     window.addEventListener(
       "resize",
@@ -23,7 +23,6 @@ export default function NavBar() {
 
 const navList = (
   <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-   
     <Typography
       as="li"
       variant="large"
@@ -94,7 +93,7 @@ const navList = (
           variant="circular"
           alt="User Profile"
           className="cursor-pointer hidden lg:block "
-          src="static/images/khian.png"
+          src={profilePic}
         />
        </Typography>
     
@@ -198,7 +197,7 @@ const navList = (
                 d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
               />
             </svg>
-            <Typography variant="small" className="font-normal text-red-900">
+            <Typography onClick={logout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
@@ -255,10 +254,10 @@ const navList = (
               variant="circular"
               alt="User Profile"
               className="cursor-pointer"
-              src="static/images/khian.png"
+              src={profilePic}
             /> <div className="">
-              <p className="flex">Khian Justice Abad</p>
-              <p className="flex">sjakdkjahkjda@liceo.edu.ph</p>
+              <p className="flex">{displayName}</p>
+              <p className="flex">{email}</p>
             </div>
             </Typography>
             </Button>
@@ -364,7 +363,8 @@ const navList = (
                 d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
               />
             </svg>
-            <Typography variant="small" className="font-normal text-red-900">
+            <Typography
+             onClick={logout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
