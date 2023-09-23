@@ -8,19 +8,22 @@ import {Avatar,
   Button,
   Navbar,
   Collapse} from "@material-tailwind/react"
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import React,{useContext} from "react";
 import { UserContext } from "../data/userData";
 export default function NavBar({displayName, email, profilePic}) {
   const [openNav, setOpenNav] = React.useState(false);
    const {currentUser, logout } = useContext(UserContext);
+   const navigate = useNavigate("")
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
-
+const handleClick = () => {
+  navigate("/Home")
+}
 const navList = (
   <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
     <Typography
@@ -83,7 +86,7 @@ const navList = (
          className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-red-900  z-50  tra">
         <div className="container mx-auto flex items-center justify-between text-blue-gray-50">
         <div className="w-12 max-h-12">
-                <img src="static/images/libraryLogo.png"/>
+                <img src="static/images/libraryLogo.png" onClick={handleClick}/>
             </div>
         <div className="hidden lg:block">{navList}</div>
   <Menu>

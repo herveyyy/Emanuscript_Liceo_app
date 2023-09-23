@@ -31,7 +31,7 @@ return <Home/>
         />
         <label className="flex justify-center">
           <h1 className="text-gray-100 text-lg font-bold sm:text-1xl lg:text-1xl italic mt-8">
-            Hello Khian, ?
+            Hi, {currentUser.displayName}
           </h1>
         </label>
         <div className="flex border-2 rounded">
