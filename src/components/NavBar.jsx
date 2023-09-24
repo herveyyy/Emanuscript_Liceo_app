@@ -8,22 +8,24 @@ import {Avatar,
   Button,
   Navbar,
   Collapse} from "@material-tailwind/react"
-import { Link } from "react-router-dom";
-import React from "react";
-
-export default function NavBar() {
+import { Link,useNavigate } from "react-router-dom";
+import React,{useContext} from "react";
+import { UserContext } from "../data/userData";
+export default function NavBar({displayName, email, profilePic}) {
   const [openNav, setOpenNav] = React.useState(false);
- 
+   const {currentUser, logout } = useContext(UserContext);
+   const navigate = useNavigate("")
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
-
+const handleClick = () => {
+  navigate("/Home")
+}
 const navList = (
   <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-   
     <Typography
       as="li"
       variant="large"
@@ -81,10 +83,10 @@ const navList = (
         <Navbar
         color="transparent"
         variant = "gradient"
-         className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-red-900  z-50 ">
+         className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-red-900  z-50  tra">
         <div className="container mx-auto flex items-center justify-between text-blue-gray-50">
         <div className="w-12 max-h-12">
-                <img src="static/images/libraryLogo.png"/>
+                <img src="static/images/libraryLogo.png" onClick={handleClick}/>
             </div>
         <div className="hidden lg:block">{navList}</div>
   <Menu>
@@ -94,7 +96,7 @@ const navList = (
           variant="circular"
           alt="User Profile"
           className="cursor-pointer hidden lg:block "
-          src="static/images/khian.png"
+          src={profilePic}
         />
        </Typography>
     
@@ -182,24 +184,7 @@ const navList = (
                   <Link to='/AccountSettings/Rated'>Rated</Link>
                 </Typography>
               </MenuItem>
-              <MenuItem className="flex items-center gap-2">
-              <svg
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.712 4.33a9.027 9.027 0 011.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 00-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 010 9.424m-4.138-5.976a3.736 3.736 0 00-.88-1.388 3.737 3.737 0 00-1.388-.88m2.268 2.268a3.765 3.765 0 010 2.528m-2.268-4.796a3.765 3.765 0 00-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 01-1.388.88m2.268-2.268l4.138 3.448m0 0a9.027 9.027 0 01-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0l-3.448-4.138m3.448 4.138a9.014 9.014 0 01-9.424 0m5.976-4.138a3.765 3.765 0 01-2.528 0m0 0a3.736 3.736 0 01-1.388-.88 3.737 3.737 0 01-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 01-1.652-1.306 9.027 9.027 0 01-1.306-1.652m0 0l4.138-3.448M4.33 16.712a9.014 9.014 0 010-9.424m4.138 5.976a3.765 3.765 0 010-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 011.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 00-1.652 1.306A9.025 9.025 0 004.33 7.288"
-                />
-              </svg>
-              <Typography variant="small" className="font-normal text-red-900">
-                About
-              </Typography>
-            </MenuItem>
+             
             <hr className="my-2 border-blue-gray-50" />
             <MenuItem className="flex items-center gap-2 ">
               <svg
@@ -215,7 +200,7 @@ const navList = (
                 d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
               />
             </svg>
-            <Typography variant="small" className="font-normal text-red-900">
+            <Typography onClick={logout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
@@ -272,10 +257,10 @@ const navList = (
               variant="circular"
               alt="User Profile"
               className="cursor-pointer"
-              src="static/images/khian.png"
+              src={profilePic}
             /> <div className="">
-              <p className="flex">Khian Justice Abad</p>
-              <p className="flex">sjakdkjahkjda@liceo.edu.ph</p>
+              <p className="flex">{displayName}</p>
+              <p className="flex">{email}</p>
             </div>
             </Typography>
             </Button>
@@ -365,24 +350,7 @@ const navList = (
                 <Link to='/AccountSettings/Rated'>Rated</Link>
               </Typography>
             </MenuItem>
-            <MenuItem className="flex items-center gap-2">
-              <svg
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-4 w-4"
-              >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.712 4.33a9.027 9.027 0 011.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 00-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 010 9.424m-4.138-5.976a3.736 3.736 0 00-.88-1.388 3.737 3.737 0 00-1.388-.88m2.268 2.268a3.765 3.765 0 010 2.528m-2.268-4.796a3.765 3.765 0 00-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 01-1.388.88m2.268-2.268l4.138 3.448m0 0a9.027 9.027 0 01-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0l-3.448-4.138m3.448 4.138a9.014 9.014 0 01-9.424 0m5.976-4.138a3.765 3.765 0 01-2.528 0m0 0a3.736 3.736 0 01-1.388-.88 3.737 3.737 0 01-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 01-1.652-1.306 9.027 9.027 0 01-1.306-1.652m0 0l4.138-3.448M4.33 16.712a9.014 9.014 0 010-9.424m4.138 5.976a3.765 3.765 0 010-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 011.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 00-1.652 1.306A9.025 9.025 0 004.33 7.288"
-              />
-            </svg>
-            <Typography variant="small" className="font-normal text-red-900">
-              About
-            </Typography>
-          </MenuItem>
+            
           <hr className="my-2 border-blue-gray-50" />
           <MenuItem className="flex items-center gap-2 ">
             <svg
@@ -398,7 +366,8 @@ const navList = (
                 d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
               />
             </svg>
-            <Typography variant="small" className="font-normal text-red-900">
+            <Typography
+             onClick={logout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
