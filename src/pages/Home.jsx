@@ -12,19 +12,62 @@ import {
  import { Footer } from '../components/Footer';
  import {FcGoogle} from 'react-icons/fc'
  import { database, handleLogin } from '../../firebaseConfig';
+ import { collection, doc, getDoc } from 'firebase/firestore';
  import { UserContext } from '../data/userData';
+import { useState } from 'react';
 const Home = () => {
   const { currentUser } = useContext(UserContext);
+  const [newUser,setNewUser] = useState(false)
   const navigate = useNavigate(); // Initialize useNavigate
-
+  const hasSchoolID = async (currentUser) => {
+    try {
+      if (!currentUser) {
+        // currentUser is not available, return false
+        return false;
+      }
+  
+      // Reference to the "Users" collection in Firestore
+      const usersCollectionRef = collection(database, 'Users');
+  
+      // Get the user's document from the collection using the user's UID
+      const userDocRef = doc(usersCollectionRef, currentUser.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+  
+      if (userDocSnapshot.exists()) {
+        // Check if the user document has a schoolID field
+        const userData = userDocSnapshot.data();
+        if (userData && userData.schoolID) {
+          return true; // User has a schoolID
+        }
+      }
+  
+      return false; // User does not have a schoolID
+    } catch (error) {
+      console.error('Error checking for schoolID:', error);
+      throw error;
+    }
+  };
   useEffect(() => {
     // Redirect to /Home if currentUser is false or null
     if (!currentUser) {
       navigate("/Home");
       
     }
+    const checkSchoolID = async () => {
+      const userHasSchoolID = await hasSchoolID(currentUser);
+      if (userHasSchoolID) {
+        // User has a schoolID, you can perform actions or render content accordingly
+        setNewUser(false)
+      } else {
+        // User does not have a schoolID, you can handle this case as needed
+        setNewUser(true)
+      }
+    };
+    if (currentUser) {
+      checkSchoolID();
+    }
+    
   }, [currentUser]);
-  
   return (
     <div className="absolute top-0  bottom-0 -z-10  h-screen">
        <div className='absolute top-0  bg-black h-screen' >
@@ -69,18 +112,23 @@ const Home = () => {
     />
   </Carousel>
   </div>
-{!currentUser &&
+
   <div className='px-8 w-full flex justify-center '>
   <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 bg-transparent">
-      <ModalRegister  />
+    {currentUser &&
+      <ModalRegister user={currentUser} userNew={newUser}/>
+
+    }
+      {!currentUser &&
         <Button
         onClick={handleLogin} 
         color='blue' className='flex justify-center gap-2 items-center '>
           <FcGoogle className='w-8 h-8'/>Login
         </Button>
+          }
       </Card>
       </div>
-      }
+    
 <div className='px-8 mt-2 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
   <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%] " >
       <CardBody >

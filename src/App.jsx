@@ -12,12 +12,12 @@ import { Route, Routes, Navigate} from "react-router-dom";
 import { UserContext } from "./data/userData";
 import { getAuth,deleteUser } from "firebase/auth";
 import { useState } from "react";
-import { database} from "../firebaseConfig";
-import {collection,getDocs,query,where} from 'firebase/firestore'
+import {database} from "../firebaseConfig";
+import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
 function App() {
   const { currentUser, logout } = useContext(UserContext);
   const [displayName,setDisplayName] =useState("")
-const [profile,setProfile] =useState("")
+  const [profile,setProfile] =useState("")
   const [email,setEmail] =useState("")
 const auth = getAuth()
 const isEmailExistsInUsersCollection = async (email) => {
@@ -38,6 +38,42 @@ const isEmailExistsInUsersCollection = async (email) => {
   }
 };
 
+const handleRegister = async () => {
+  try {
+    // Check if the email exists in the "Users" collection
+    const emailExists = await isEmailExistsInUsersCollection(email);
+
+    if (!currentUser.email) {
+      console.log("User is not logged in.");
+      return;
+    }
+
+    if (!emailExists) {
+      // Gather user input data
+      const userData = {
+        displayName: currentUser.displayName,
+        email: currentUser.email,
+        photoURL: currentUser.photoURL
+      };
+
+      // Add user data to Firestore's "Users" collection
+      // Replace "collectionName" with your actual Firestore collection name
+      const usersCollectionRef = collection(database, "Users");
+      const userDocRef = doc(usersCollectionRef, auth.currentUser.uid);
+      await setDoc(userDocRef, userData);
+
+      // Registration successful
+      console.log("Registration successful!");
+    } else {
+      // Email exists, continue with the login process
+      // Add your login code here
+      // For example, sign in the user with Firebase Authentication.
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+  }
+};
+
   useEffect(() => {
     const login = async (email) => {
       // Check if the email exists in the "Users" collection
@@ -49,9 +85,7 @@ const isEmailExistsInUsersCollection = async (email) => {
         // Email exists, continue with the login process
         // Add your login code here
       } else {
-        logout()
-        console.log("Pag register gard")
-        console.log("Email not found in the Users collection. Please register.");
+        handleRegister()
       }
     };
 

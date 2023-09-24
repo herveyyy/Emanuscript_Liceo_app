@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -15,7 +15,8 @@ import {
 } from "@material-tailwind/react";
 import Datepicker from "react-tailwindcss-datepicker"; 
 import {BsGoogle} from 'react-icons/bs'
-const ModalRegister = () => {
+import { database } from "../../firebaseConfig";
+const ModalRegister = ({user,userNew}) => {
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -33,26 +34,68 @@ const [selectedType, setSelectedType] =useState("student")
     startDate: new Date(), 
     endDate: new Date().setMonth(11) 
     }); 
-    
     const handleValueChange = (newValue) => {
     console.log("newValue:", newValue); 
     setValue(newValue); 
     } 
-    const handleRegister = () => {
-      console.log("Register Clicked")
-      setOpen(true)
+    useEffect(() => {
   
-    }
+    }, [])
+
+    const collectUserData = () => {
+      const userData = {
+       firstName: firstName,
+       middleName: middleName,
+       lastName: lastName,
+        suffix: selectedSuffix,
+        department: selectedDepartment,
+        course: selectedCourse,
+        yearLevel: selectedYearLevel,
+        address: address,
+        gender: gender === "Other" ? customGender : gender,
+        schoolID: schoolID,
+        userType: selectedType,
+        birthday: value.startDate,
+        status: "online",
+        
+        // Add other user data fields as needed
+      };
+      return userData;
+    };
+    
+    const handleRegister = async () => {
+      const userData = collectUserData(); // Collect user data
+    
+      // Check if any of the required fields are empty
+      if (
+        !userData.firstName ||
+        !userData.lastName ||
+        !userData.selectedDepartment ||
+        !userData.selectedCourse ||
+        !userData.selectedYearLevel ||
+        !userData.address ||
+        !userData.schoolID
+        // Add more required fields here if needed
+      ) {
+        window.alert("Please fill out all required fields.");
+        return; // Exit the function if any required field is empty
+      }
+    
+      try {
+        // Continue with registration logic
+        // ...
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
+    };
     
   return (
     <>
-      <Button
-      
-       className="flex justify-center items-center gap-2" onClick={handleRegister}><BsGoogle className="w-6 h-6"/>Sign Up</Button>
+
       <Dialog
         size="lg"
-        open={open}
-        handler={handleRegister}
+        open={userNew}
+        
         className="bg-transparent shadow-none"
       >
         <Card className="mx-auto w-full">
@@ -68,15 +111,15 @@ const [selectedType, setSelectedType] =useState("student")
               Register
             </Typography>
             <div className="flex items-center gap-x-2">
-              <Avatar src="" alt="avatar" />
+              <Avatar src={user.photoURL} alt="avatar" />
               <div>
-                <Typography variant="h6">user display name</Typography>
+                <Typography variant="h6">{user.displayName}</Typography>
                 <Typography
                   variant="small"
                   color="gray"
                   className="font-normal"
                 >
-                  user email
+                  {user.email}
                 </Typography>
               </div>
             </div>
@@ -96,7 +139,7 @@ const [selectedType, setSelectedType] =useState("student")
                   className=""
                   onChange={(e) => setSchoolID(e.target.value)}
                   value={schoolID}
-                  
+                  required = {schoolID.length > 0 ? false : true }
                 />
                 </div>
                 </div>
@@ -108,6 +151,7 @@ const [selectedType, setSelectedType] =useState("student")
                   className=""
                   onChange={(e) => setFirstName(e.target.value)}
                   value={firstName}
+                  required = {firstName.length > 0 ? false : true}
                 />
               </div>
          
@@ -118,6 +162,7 @@ const [selectedType, setSelectedType] =useState("student")
                   className=""
                   onChange={(e) => setMiddleName(e.target.value)}
                   value={middleName}
+                  required = {middleName.length > 0 ? false : true}
                 />
               </div>
               <div className="py-2 w-full">
@@ -127,6 +172,7 @@ const [selectedType, setSelectedType] =useState("student")
                   className=""
                   onChange={(e) => setLastName(e.target.value)}
                   value={lastName}
+                  required = {lastName.length > 0 ? false : true}
                 />
               </div>
             </div>
@@ -138,6 +184,8 @@ const [selectedType, setSelectedType] =useState("student")
                   value={selectedSuffix}
                   onChange={(e) => setSelectedSuffix(e)}
                   className="h-10"
+                 
+
                 >
                   <Option value="">None</Option>
                   <Option value="Jr.">Jr.</Option>
@@ -152,6 +200,7 @@ const [selectedType, setSelectedType] =useState("student")
   value={selectedDepartment}
   onChange={(e) => setSelectedDepartment(e)}
   label="Department"
+  error={selectedDepartment.length > 0 ? false : true}
   animate={{
     mount:{height: 200},
     unmount:{height:200}
@@ -179,6 +228,8 @@ const [selectedType, setSelectedType] =useState("student")
                   value={selectedCourse}
                   onChange={(e) => setSelectedCourse(e)}
                   disabled={selectedType==='non-student'}
+                  error={selectedCourse.length > 0 ?  false: true}
+                  
                   animate={{
                     mount:{maxHeight: 200},
                     unmount:{maxHeight:200}
@@ -194,6 +245,7 @@ const [selectedType, setSelectedType] =useState("student")
                   value={selectedYearLevel}
                   disabled={selectedType==='non-student'}
                   onChange={(e) => setSelectedYearLevel(e)}
+                  error={selectedYearLevel.length > 0 ? false : true}
                 >
                   <Option value="1st Year">1st Year</Option>
                   <Option value="2nd Year">2nd Year</Option>
@@ -209,6 +261,7 @@ const [selectedType, setSelectedType] =useState("student")
                   label="Gender"
                   value={gender}
                   onChange={(e) => setGender(e)}
+                  error={gender.length > 0 ? false : true}
                 >
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -238,6 +291,7 @@ const [selectedType, setSelectedType] =useState("student")
             containerClassName=" bg-slate-300 text-slate-100 rounded-2xl relative "
             popoverDirection="down" 
             displayFormat={"MM/DD/YYYY"}
+           
             />
               </div>
             </div>
@@ -249,7 +303,7 @@ const [selectedType, setSelectedType] =useState("student")
                   className=""
                   onChange={(e) => setAddress(e.target.value)}
                   value={address}
-                  
+                  required={address.length > 0 ? false : true}
                 />
                 </div>
           </CardBody>

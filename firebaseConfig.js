@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import {getFirestore } from "@firebase/firestore";
+import { doc,collection } from "firebase/firestore";
 import { signInWithRedirect, getAuth, GoogleAuthProvider, signOut, deleteUser } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBrRWaQiYXjRdjPpC4dICUh63bm1sy7a88",
   authDomain: "mls-liceo-app.firebaseapp.com",
@@ -43,5 +45,31 @@ const handleLogin = async () => {
       console.error("Error during login:", error);
     }
   };
+// Function to check if user exists in Users collection and create if not
+const checkAndCreateUser = async (user) => {
+  try {
+    const usersRef = collection(database, "Users");
+    const userDoc = doc(usersRef, user.uid);
+    const userSnapshot = await getDoc(userDoc);
 
-export { handleLogin };
+    if (userSnapshot.exists()) {
+      // User already exists in the Users collection
+      console.log("User already exists");
+    } else {
+      // User does not exist, create a new document with user data
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        // Add other user data as needed
+      };
+      await setDoc(userDoc, userData);
+      console.log("User created in Users collection");
+    }
+  } catch (error) {
+    console.error("Error checking/creating user:", error);
+  }
+};
+export {
+  handleLogin,
+  checkAndCreateUser
+};
