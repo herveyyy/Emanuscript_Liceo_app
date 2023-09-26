@@ -16,6 +16,8 @@ import {
 import Datepicker from "react-tailwindcss-datepicker"; 
 import {BsGoogle} from 'react-icons/bs'
 import { database } from "../../firebaseConfig";
+import { collection,addDoc } from "firebase/firestore";
+import colleges from "../colleges";
 const ModalRegister = ({user,userNew}) => {
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -29,7 +31,10 @@ const ModalRegister = ({user,userNew}) => {
   const [gender, setGender] = useState("");
   const [customGender, setCustomGender] = useState("");
   const [schoolID,setSchoolID] = useState("")
-const [selectedType, setSelectedType] =useState("student")
+  const [selectedType, setSelectedType] =useState("student")
+  const collegeNames = Object.keys(colleges["List of Colleges"]);
+  const courses = colleges["List of Colleges"][selectedDepartment] || [];
+
   const [value, setValue] = useState({ 
     startDate: new Date(), 
     endDate: new Date().setMonth(11) 
@@ -38,9 +43,7 @@ const [selectedType, setSelectedType] =useState("student")
     console.log("newValue:", newValue); 
     setValue(newValue); 
     } 
-    useEffect(() => {
-  
-    }, [])
+
 
     const collectUserData = () => {
       const userData = {
@@ -65,10 +68,10 @@ const [selectedType, setSelectedType] =useState("student")
     
     const handleRegister = async () => {
       const userData = collectUserData(); // Collect user data
-    
       // Check if any of the required fields are empty
       if (
         !userData.firstName ||
+        !userData.middleName ||
         !userData.lastName ||
         !userData.selectedDepartment ||
         !userData.selectedCourse ||
@@ -78,12 +81,14 @@ const [selectedType, setSelectedType] =useState("student")
         // Add more required fields here if needed
       ) {
         window.alert("Please fill out all required fields.");
+        console.log(userData)
+
         return; // Exit the function if any required field is empty
       }
     
       try {
-        // Continue with registration logic
-        // ...
+        const getRef = collection(database, "Users")
+        
       } catch (error) {
         console.error("Registration error:", error);
       }
@@ -207,19 +212,11 @@ const [selectedType, setSelectedType] =useState("student")
   }}
   
 >
-                  <Option  value="Department 1">Department 1</Option>
-                  <Option value="Department 2">Department 2</Option>
-                  <Option value="Department 3">Department 3</Option>
-                  <Option value="Department 1">Department 1</Option>
-                  <Option value="Department 2">Department 2</Option>
-                  <Option value="Department 3">Department 3</Option>
-                  <Option value="Department 1">Department 1</Option>
-                  <Option value="Department 2">Department 2</Option>
-                  <Option value="Department 3">Department 3</Option>
-                  <Option value="Department 3">Department 3</Option>
-                  <Option value="Department 1">Department 1</Option>
-                  <Option value="Department 2">Department 2</Option>
-                  <Option value="Department 3">Department 3</Option>
+{collegeNames.map((college, index) => (
+          <Option key={index} value={college}>
+            {college}
+          </Option>
+        ))}
                 </Select>
               </div>
               <div className="pt-2 w-full">
@@ -235,8 +232,11 @@ const [selectedType, setSelectedType] =useState("student")
                     unmount:{maxHeight:200}
                   }}
                 >
-                  <Option value="Course 1">Course 1</Option>
-                  <Option value="Course 2">Course 2</Option>
+{courses.map((course, index) => (
+            <Option key={index} value={course}>
+              {course}
+            </Option>
+          ))}
                 </Select>
               </div>
               <div className="pt-2 w-full">
