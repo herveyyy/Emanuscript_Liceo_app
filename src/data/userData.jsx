@@ -5,6 +5,7 @@ import { auth } from "../../firebaseConfig";
 export const UserContext = createContext({
   currentUser: null,
   setCurrentUser: () => null,
+  logout: () => null,
 });
 
 export const UserProvider = ({ children }) => {
