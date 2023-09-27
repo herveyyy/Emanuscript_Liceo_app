@@ -53,7 +53,7 @@ const handleRegister = async () => {
       const userData = {
         displayName: currentUser.displayName,
         email: currentUser.email,
-        photoURL: currentUser.photoURL
+        profilePictureURL: currentUser.photoURL
       };
 
       // Add user data to Firestore's "Users" collection

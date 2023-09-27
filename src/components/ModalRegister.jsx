@@ -16,7 +16,7 @@ import {
 import Datepicker from "react-tailwindcss-datepicker"; 
 import {BsGoogle} from 'react-icons/bs'
 import { database } from "../../firebaseConfig";
-import { collection,addDoc } from "firebase/firestore";
+import { collection,addDoc,updateDoc,doc } from "firebase/firestore";
 import colleges from "../colleges";
 const ModalRegister = ({user,userNew}) => {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,6 @@ const ModalRegister = ({user,userNew}) => {
     setValue(newValue); 
     } 
 
-
     const collectUserData = () => {
       const userData = {
        firstName: firstName,
@@ -61,37 +60,42 @@ const ModalRegister = ({user,userNew}) => {
         birthday: value.startDate,
         status: "online",
         
+        
         // Add other user data fields as needed
       };
+      console.log("User Data:", userData); // Add this line for debugging
       return userData;
     };
+    useEffect(() => {
+
+    }, [])
     
     const handleRegister = async () => {
+      try {
       const userData = collectUserData(); // Collect user data
       // Check if any of the required fields are empty
-      if (
-        !userData.firstName ||
-        !userData.middleName ||
-        !userData.lastName ||
-        !userData.selectedDepartment ||
-        !userData.selectedCourse ||
-        !userData.selectedYearLevel ||
-        !userData.address ||
-        !userData.schoolID
-        // Add more required fields here if needed
-      ) {
+      if (!userData) {
         window.alert("Please fill out all required fields.");
-        console.log(userData)
-
-        return; // Exit the function if any required field is empty
+      }else{
+        if(
+          !firstName || !middleName || !lastName || !schoolID || !address 
+          || !(gender + customGender) || !selectedType
+        ){
+          window.alert("Please fill out all required fields.",(gender + customGender));
+        }else{
+ // Get a reference to the "Users" collection in Firestore
+ const userCollectionRef = doc(database, "Users",user.uid);
+ // Add the user data to the Firestore collection
+ await updateDoc(userCollectionRef, userData);
+ console.log("User data updated for UID: ", user.uid);
+window.location.reload()
+        }
+         
       }
-    
-      try {
-        const getRef = collection(database, "Users")
-        
-      } catch (error) {
-        console.error("Registration error:", error);
-      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      // Handle registration error, e.g., display an error message to the user.
+    }
     };
     
   return (
