@@ -157,7 +157,7 @@ const Home = () => {
     </Card>
 </div>
 
-<div className='mt-10 z-0 relative'>
+<div className='mt-32 z-0 relative '>
 <Footer/>
 </div>
 
