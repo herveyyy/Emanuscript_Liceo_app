@@ -1,11 +1,11 @@
-import React,{useEffect,useContext } from "react";
+import React,{useEffect,useContext, useState } from "react";
 import { UserContext } from "../data/userData";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
 function Search() {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate(); // Initialize useNavigate
-
+  const [search,setSearchData] = useState("")
 useEffect(() => {
   
   if (!currentUser) {
@@ -34,7 +34,7 @@ return <Home/>
             Hi, {currentUser.displayName}
           </h1>
         </label>
-        <div className="flex border-2 rounded">
+        <div className="flex border-2 rounded w-auto">
           <button className="flex items-center justify-center px-4 border-r">
             <svg
               className="w-6 h-6 text-red-600"
@@ -48,12 +48,16 @@ return <Home/>
           </button>
           <input
             type="text"
-            className="px-3 py-2 w-60"
+            className="px-3 py-2 sm:w-full md:w-60 w-60"
             placeholder="Search Manuscript..."
+            onChange={(e) => setSearchData(e.target.value)}
+            value={search}
+           
           />
         </div>
+      <button className={`m-2 px-2 py-1 border-2 rounded-lg ${search.length === 0 ? "blur-lg collapse" : "blur-0"} text-white duration-500`}>Search</button>
       </div>
-      <div className="absolute w-full bottom-0"></div>
+    
     </div>
   );
     }

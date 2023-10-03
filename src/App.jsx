@@ -65,9 +65,6 @@ const handleRegister = async () => {
       // Registration successful
       console.log("Registration successful!");
     } else {
-      // Email exists, continue with the login process
-      // Add your login code here
-      // For example, sign in the user with Firebase Authentication.
     }
   } catch (error) {
     console.error("Registration error:", error);
@@ -110,7 +107,6 @@ const handleRegister = async () => {
     
     }
   }, [currentUser, logout]);
-
   return (
     <>
       <div className="bg-transparent">

@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from "@material-tailwind/react";
+import LoadingPage from './LoadingPage';
 import {
   Card,
   CardBody,
@@ -71,7 +72,6 @@ const Home = () => {
   return (
     <div className="absolute top-0  bottom-0 -z-10  h-screen">
        <div className='absolute top-0  bg-black h-screen' >
-        
         <img src='/static/images/LiceoBG.jpg' className="blur-sm object-cover h-screen w-screen bg-black"/>
       <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
      
@@ -156,7 +156,6 @@ const Home = () => {
       </CardBody>
     </Card>
 </div>
-
 <div className='mt-32 z-0 relative '>
 <Footer/>
 </div>
