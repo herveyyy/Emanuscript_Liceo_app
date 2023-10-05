@@ -15,7 +15,9 @@ import {
   } from "@material-tailwind/react";
 const AdvanceSearch = () => {
   return (
-    <div>AdvanceSearch</div>
+<>
+
+</>
   )
 }
 
