@@ -5,7 +5,7 @@ import Home from "./Home";
 import SearchResults from "./SearchResults";
 import SearchCard from "../components/SearchCards";
 import {RxHamburgerMenu} from 'react-icons/rx'
-import { Tooltip } from "@material-tailwind/react";
+import { Tooltip, collapse } from "@material-tailwind/react";
 import AdvanceSearch from "../components/AdvanceSearch";
 function Search() {
   const { currentUser } = useContext(UserContext);
@@ -14,13 +14,14 @@ function Search() {
   const [searchDatas,setSearchDatas] = useState([])
 
   const handleSearch = () => {
+    console.log("User searched Keyword: ",search)
+
     setSearchDatas([...searchDatas, "hehe"]); // Update searchDatas with new data
   };
   useEffect(() => {
   if (!currentUser) {
     navigate("/Home");
   }
-
 }, [currentUser,searchDatas])
     if (!currentUser) {
 return <Home/>
@@ -51,7 +52,9 @@ return <Home/>
                 </h1>
               </label>
               <div className="flex border-2 rounded w-auto">
-                <button className="flex items-center justify-center px-4 border-r">
+                <button
+              onClick={handleSearch}
+                className="flex items-center justify-center px-4 border-r">
                   <svg
                     className="w-6 h-6 text-red-600"
                     fill="currentColor"
@@ -62,6 +65,7 @@ return <Home/>
                     ></path>
                   </svg>
                 </button>
+                
                 <input
                   type="text"
                   className="px-3 py-2 sm:w-full md:w-60 w-60"
