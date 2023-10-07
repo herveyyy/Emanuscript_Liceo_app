@@ -7,14 +7,17 @@ import Search from "./pages/Search";
 import AccountSettings from "./pages/AccountSettings";
 import History from "./pages/History";
 import Rated from "./pages/Rated";
-import Errorpage from "./pages/Errorpage";
+import LoadingModal from "./components/Loading";
 import { Route, Routes, Navigate} from "react-router-dom";
 import { UserContext } from "./data/userData";
 import { getAuth,deleteUser } from "firebase/auth";
 import { useState } from "react";
 import {database} from "../firebaseConfig";
+
+
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser, logout } = useContext(UserContext);
   const [displayName,setDisplayName] =useState("")
   const [profile,setProfile] =useState("")
@@ -87,7 +90,7 @@ const handleRegister = async () => {
     };
 
     if (currentUser && currentUser.email) {
-      login(currentUser.email)
+      login(currentUser.email);
       if (!currentUser.email.endsWith("@liceo.edu.ph")) {
         // The email is not from the "liceo.edu.ph" domain
         // You can perform actions here, like showing an alert or deleting the user
@@ -99,16 +102,18 @@ const handleRegister = async () => {
             console.error("Error deleting user account:", error);
           }
         };
-        
+    
         deleteUserAccount(); // Call the function to delete the user
         logout(); // Log out the user
+        setIsLoading(false); // Set isLoading to false to hide the loading modal
         return; // Exit the function to prevent further execution
       }
-    
+      setIsLoading(false); // Set isLoading to false when loading is complete
     }
   }, [currentUser, logout]);
   return (
     <>
+     {isLoading && <LoadingModal />}
       <div className="bg-transparent">
         <div className="m-4">
           {currentUser ? (
