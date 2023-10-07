@@ -6,6 +6,7 @@ import SearchResults from "./SearchResults";
 import SearchCard from "../components/SearchCards";
 import {RxHamburgerMenu} from 'react-icons/rx'
 import { Tooltip } from "@material-tailwind/react";
+import AdvanceSearch from "../components/AdvanceSearch";
 function Search() {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -69,11 +70,7 @@ return <Home/>
                   value={search}
                  
                 />
-               <Tooltip content="Advance Search Filter">
-               <button className="flex items-center justify-center px-2 border-r hover:bg-blue-gray-800 hover:bg-opacity-30 duration-300">
-            <RxHamburgerMenu className="text-white w-5"/>
-                </button>
-                </Tooltip>
+                <AdvanceSearch/>
               </div>
             <button 
             onClick={handleSearch}
