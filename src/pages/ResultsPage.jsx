@@ -1,16 +1,16 @@
 import React from 'react'
 import SearchCard from '../components/SearchCards'
 
-const SearchResults = ({results,inputSearch}) => {
+const ResultsPage = ({results,inputSearch}) => {
     console.log(results)
   return (
-        <div className=' w-full'>
-        <div className='w-full text-center pt-24 pb-12'>
+    <div className="">
+        <div className='w-full text-center pt-10 pb-12'>
         <p>
         Searched for "{inputSearch}"
         </p>
         <p>
-        Search Results({results.length})
+        Search Results("{results.length}")
             </p>
         </div>
         <div className='mx-2 flex justify-center'>
@@ -34,17 +34,18 @@ const SearchResults = ({results,inputSearch}) => {
                 />
               </div>
               </div>
-        <div className='flex flex-wrap gap-3 justify-center '>
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        </div>
+              <div className='flex flex-wrap gap-3 justify-center '>
+        {results.map((result) => (
+          <SearchCard
+            key={result.docID} // You should use a unique key for each result
+            title={result.title}
+            abstract={result.abstract}
+            frontPage={result.frontPageURL}
+            keywords={result.keywords}
+            department={result.department}
+          />
+        ))}
+      </div>
         <div className='w-full '>
         <div className="flex items-center justify-center py-10 lg:px-0 sm:px-6 px-4">
         <div className="lg:w-3/5 w-full  flex items-center justify-between border-t border-gray-200">
@@ -80,4 +81,4 @@ const SearchResults = ({results,inputSearch}) => {
   )
 }
 
-export default SearchResults
+export default ResultsPage

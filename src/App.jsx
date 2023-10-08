@@ -74,43 +74,42 @@ const handleRegister = async () => {
   }
 };
 
-  useEffect(() => {
-    const login = async (email) => {
-      // Check if the email exists in the "Users" collection
-      const emailExists = await isEmailExistsInUsersCollection(email);
-      setDisplayName(currentUser.displayName)
-      setEmail(currentUser.email)
-      setProfile(currentUser.photoURL)
-      if (emailExists) {
-        // Email exists, continue with the login process
-        // Add your login code here
-      } else {
-        handleRegister()
-      }
-    };
-
-    if (currentUser && currentUser.email) {
-      login(currentUser.email);
-      if (!currentUser.email.endsWith("@liceo.edu.ph")) {
-        // The email is not from the "liceo.edu.ph" domain
-        // You can perform actions here, like showing an alert or deleting the user
-        window.alert("Please use a valid @liceo.edu.ph email address.");
-        const deleteUserAccount = async () => {
-          try {
-            await deleteUser(auth.currentUser);
-          } catch (error) {
-            console.error("Error deleting user account:", error);
-          }
-        };
-    
-        deleteUserAccount(); // Call the function to delete the user
-        logout(); // Log out the user
-        setIsLoading(false); // Set isLoading to false to hide the loading modal
-        return; // Exit the function to prevent further execution
-      }
-      setIsLoading(false); // Set isLoading to false when loading is complete
+useEffect(() => {
+  const login = async (email) => {
+    // Check if the email exists in the "Users" collection
+    const emailExists = await isEmailExistsInUsersCollection(email);
+    setDisplayName(currentUser.displayName);
+    setEmail(currentUser.email);
+    setProfile(currentUser.photoURL);
+    if (emailExists) {
+      // Email exists, continue with the login process
+      // Add your login code here
+    } else {
+      handleRegister();
     }
-  }, [currentUser, logout]);
+  };
+
+  if (currentUser && currentUser.email) {
+    login(currentUser.email);
+    if (!currentUser.email.endsWith("@liceo.edu.ph")) {
+      // The email is not from the "liceo.edu.ph" domain
+      // You can perform actions here, like showing an alert or deleting the user
+      window.alert("Please use a valid @liceo.edu.ph email address.");
+      const deleteUserAccount = async () => {
+        try {
+          await deleteUser(auth.currentUser);
+        } catch (error) {
+          console.error("Error deleting user account:", error);
+        }
+      };
+
+      deleteUserAccount(); // Call the function to delete the user
+      logout(); // Log out the user
+    }
+  } else {
+    setIsLoading(false); // Set isLoading to false when there is no user
+  }
+}, [currentUser, logout]);
   return (
     <>
      {isLoading && <LoadingModal />}
@@ -137,6 +136,7 @@ const handleRegister = async () => {
           <Route path="/AccountSettings/History" element={<History />} />
           <Route path="/AccountSettings/Rated" element={<Rated />} />
           <Route path="/*" element={<Navigate to="/Home" />} />
+        
          
         </Routes>
       </div>
