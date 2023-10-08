@@ -5,7 +5,6 @@ import Home from "./Home";
 import AdvanceSearch from "../components/AdvanceSearch";
 import {
   collection,
-  doc,
   getDocs,
   query,
   where,

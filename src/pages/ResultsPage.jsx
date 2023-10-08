@@ -1,13 +1,72 @@
-import React from 'react'
+import React,{useState} from 'react'
 import SearchCard from '../components/SearchCards'
-
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { database } from "../../firebaseConfig";
+import AdvanceSearch from '../components/AdvanceSearch';
+import LoadingModal from '../components/Loading';
 const ResultsPage = ({results,inputSearch}) => {
-    console.log(results)
+  const [search, setSearch] = useState("");
+  const [keywords, setKeywords] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [open, setOpen] = useState(false)
+    const handleSearchInputChange = (event) => {
+      const query = event.target.value;
+      setSearch(query);
+      const parsedKeywords = splitSearchQuery(query.toLowerCase()); // Convert the query to lowercase
+      setKeywords(parsedKeywords);
+    };
+    if(searchResults.length === 0 ){
+      setSearchResults(results)
+      setSearch(inputSearch)
+    }
+
+    const splitSearchQuery = (searchData) => {
+      return searchData.split(" ").filter((keyword) => keyword.trim() !== "");
+    };
+    const handleSearch = async () => {
+      try {
+        setOpen(true)
+        console.log(keywords);
+        const manuscriptRef = collection(database, "Manuscript");
+        const querySnapshot = await getDocs(
+          query(
+            manuscriptRef,
+            where("keywords", "array-contains-any", keywords)
+          )
+        );
+    
+        const results = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            docID: doc.id,
+            title: data.title,
+            abstract: data.abstract,
+            frontPageURL: data.frontPageURL,
+            department: data.department,
+            keywords: data.keywords,
+  
+          };
+        });
+        setSearchResults(results);
+        console.log("Search results:", results); // Log the results to the console
+      } catch (error) {
+        console.error("Error searching manuscripts:", error);
+      }finally{
+        setOpen(false)
+      }
+      setOpen(false)
+    };
   return (
     <div className="">
+      {open && <LoadingModal/>}
         <div className='w-full text-center pt-10 pb-12'>
         <p>
-        Searched for "{inputSearch}"
+        Searched for "{search}"
         </p>
         <p>
         Search Results("{results.length}")
@@ -15,7 +74,9 @@ const ResultsPage = ({results,inputSearch}) => {
         </div>
         <div className='mx-2 flex justify-center'>
         <div className=" mb-2 flex border-2 rounded w-full sm:w-full md:w-96 border-black ring-black d">
-                <button className="flex items-center justify-center px-4 border-r border-black ">
+                <button 
+                onClick={handleSearch}
+                className="flex items-center justify-center px-4 border-r border-black ">
                   <svg
                     className="w-6 h-6 text-black "
                     fill="currentColor"
@@ -30,12 +91,14 @@ const ResultsPage = ({results,inputSearch}) => {
                   type="text"
                   className="px-3 py-2 w-96 sm:w-full md:w-96"
                   placeholder="Search Manuscript..."
-                 
+                  onChange={handleSearchInputChange}
+                  value={search}
                 />
+                
               </div>
               </div>
               <div className='flex flex-wrap gap-3 justify-center '>
-        {results.map((result) => (
+        {searchResults.map((result) => (
           <SearchCard
             key={result.docID} // You should use a unique key for each result
             title={result.title}
@@ -51,11 +114,11 @@ const ResultsPage = ({results,inputSearch}) => {
         <div className="lg:w-3/5 w-full  flex items-center justify-between border-t border-gray-200">
             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.1665 4H12.8332" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.1665 4L4.49984 7.33333" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.1665 4.00002L4.49984 0.666687" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1.1665 4H12.8332" stroke="currentColor" strokeWidth="1.25" stroke-linecap="round" strokeLinejoin="round"/>
+                    <path d="M1.1665 4L4.49984 7.33333" stroke="currentColor" strokeWidth="1.25" stroke-linecap="round" strokeLinejoin="round"/>
+                    <path d="M1.1665 4.00002L4.49984 0.666687" stroke="currentColor" strokeWidth="1.25" stroke-linecap="round" strokeLinejoin="round"/>
                     </svg>
-                    <p class="text-sm ml-3 font-medium leading-none ">Previous</p>                    
+                    <p className="text-sm ml-3 font-medium leading-none ">Previous</p>                    
             </div>
             <div className="sm:flex hidden">
                 <p className="text-sm font-medium leading-none cursor-pointer text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2">1</p>
