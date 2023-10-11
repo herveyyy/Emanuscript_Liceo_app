@@ -7,14 +7,17 @@ import Search from "./pages/Search";
 import AccountSettings from "./pages/AccountSettings";
 import History from "./pages/History";
 import Rated from "./pages/Rated";
-import Errorpage from "./pages/Errorpage";
+import LoadingModal from "./components/Loading";
 import { Route, Routes, Navigate} from "react-router-dom";
 import { UserContext } from "./data/userData";
 import { getAuth,deleteUser } from "firebase/auth";
 import { useState } from "react";
 import {database} from "../firebaseConfig";
+
+
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser, logout } = useContext(UserContext);
   const [displayName,setDisplayName] =useState("")
   const [profile,setProfile] =useState("")
@@ -65,54 +68,51 @@ const handleRegister = async () => {
       // Registration successful
       console.log("Registration successful!");
     } else {
-      // Email exists, continue with the login process
-      // Add your login code here
-      // For example, sign in the user with Firebase Authentication.
     }
   } catch (error) {
     console.error("Registration error:", error);
   }
 };
 
-  useEffect(() => {
-    const login = async (email) => {
-      // Check if the email exists in the "Users" collection
-      const emailExists = await isEmailExistsInUsersCollection(email);
-      setDisplayName(currentUser.displayName)
-      setEmail(currentUser.email)
-      setProfile(currentUser.photoURL)
-      if (emailExists) {
-        // Email exists, continue with the login process
-        // Add your login code here
-      } else {
-        handleRegister()
-      }
-    };
-
-    if (currentUser && currentUser.email) {
-      login(currentUser.email)
-      if (!currentUser.email.endsWith("@liceo.edu.ph")) {
-        // The email is not from the "liceo.edu.ph" domain
-        // You can perform actions here, like showing an alert or deleting the user
-        window.alert("Please use a valid @liceo.edu.ph email address.");
-        const deleteUserAccount = async () => {
-          try {
-            await deleteUser(auth.currentUser);
-          } catch (error) {
-            console.error("Error deleting user account:", error);
-          }
-        };
-        
-        deleteUserAccount(); // Call the function to delete the user
-        logout(); // Log out the user
-        return; // Exit the function to prevent further execution
-      }
-    
+useEffect(() => {
+  const login = async (email) => {
+    // Check if the email exists in the "Users" collection
+    const emailExists = await isEmailExistsInUsersCollection(email);
+    setDisplayName(currentUser.displayName);
+    setEmail(currentUser.email);
+    setProfile(currentUser.photoURL);
+    if (emailExists) {
+      // Email exists, continue with the login process
+      // Add your login code here
+    } else {
+      handleRegister();
     }
-  }, [currentUser, logout]);
+  };
 
+  if (currentUser && currentUser.email) {
+    login(currentUser.email);
+    if (!currentUser.email.endsWith("@liceo.edu.ph")) {
+      // The email is not from the "liceo.edu.ph" domain
+      // You can perform actions here, like showing an alert or deleting the user
+      window.alert("Please use a valid @liceo.edu.ph email address.");
+      const deleteUserAccount = async () => {
+        try {
+          await deleteUser(auth.currentUser);
+        } catch (error) {
+          console.error("Error deleting user account:", error);
+        }
+      };
+
+      deleteUserAccount(); // Call the function to delete the user
+      logout(); // Log out the user
+    }
+  } else {
+    setIsLoading(false); // Set isLoading to false when there is no user
+  }
+}, [currentUser, logout]);
   return (
     <>
+     {isLoading && <LoadingModal />}
       <div className="bg-transparent">
         <div className="m-4">
           {currentUser ? (
@@ -136,6 +136,7 @@ const handleRegister = async () => {
           <Route path="/AccountSettings/History" element={<History />} />
           <Route path="/AccountSettings/Rated" element={<Rated />} />
           <Route path="/*" element={<Navigate to="/Home" />} />
+        
          
         </Routes>
       </div>

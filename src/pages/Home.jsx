@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from "@material-tailwind/react";
+import LoadingPage from './LoadingPage';
 import {
   Card,
   CardBody,
-  CardFooter,
   Typography,
   Button,
 } from "@material-tailwind/react";
@@ -48,10 +48,8 @@ const Home = () => {
     }
   };
   useEffect(() => {
-    // Redirect to /Home if currentUser is false or null
-    if (!currentUser) {
+        if (!currentUser) {
       navigate("/Home");
-      
     }
     const checkSchoolID = async () => {
       const userHasSchoolID = await hasSchoolID(currentUser);
@@ -68,15 +66,15 @@ const Home = () => {
     }
     
   }, [currentUser]);
+  
   return (
     <div className="absolute top-0  bottom-0 -z-10  h-screen">
        <div className='absolute top-0  bg-black h-screen' >
-        
         <img src='/static/images/LiceoBG.jpg' className="blur-sm object-cover h-screen w-screen bg-black"/>
       <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
      
       </div>
-    <div className='sm:mx-9 md:mx-8 lg:mx-52 px-2 mt-28'>
+    <div className='sm:mx-9 md:mx-8 lg:mx-52 px-2 mt-28 md:h-[32rem] h-[14rem] '>
     <Carousel
     className="rounded-xl mt-3  "
     navigation={({ setActiveIndex, activeIndex, length }) => (
@@ -97,17 +95,17 @@ const Home = () => {
     <img
       src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
       alt="image 1"
-      className="h-[25rem] w-full object-cover"
+      className="h-full w-full object-cover"
     />
     <img
       src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
       alt="image 2"
-      className="h-[25rem] w-full object-cover"
+      className="h-full w-full object-cover"
     />
     <img
       src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
       alt="image 3"
-      className="h-[25rem] w-full object-cover"
+      className="h-full w-full object-cover"
      
     />
   </Carousel>
@@ -156,8 +154,7 @@ const Home = () => {
       </CardBody>
     </Card>
 </div>
-
-<div className='mt-10 z-0 relative'>
+<div className='mt-32 z-0 relative '>
 <Footer/>
 </div>
 

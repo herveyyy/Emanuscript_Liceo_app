@@ -2,7 +2,7 @@ import { Avatar,
         Typography, 
         Button, 
         Radio, 
-            } from "@material-tailwind/react";
+        } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import AccountTabs from "../components/AccountTabs";
 
