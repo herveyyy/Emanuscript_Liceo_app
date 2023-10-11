@@ -18,6 +18,9 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const updateManuscripts = (newManuscripts) => {
+    setSearchResults(newManuscripts);
+  }
 
   useEffect(() => {
     if (!currentUser) {
@@ -105,7 +108,7 @@ const Search = () => {
               onChange={handleSearchInputChange}
               value={search}
             />
-            <AdvanceSearch />
+            <AdvanceSearch updatedManuscripts={updateManuscripts} />
           </div>
           <button
             onClick={() => handleSearch()}

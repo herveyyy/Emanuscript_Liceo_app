@@ -1,23 +1,24 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState } from 'react';
 import {
   DialogHeader,
   DialogFooter,
   DialogBody,
-    Dialog,
-    Tooltip,
-    Select,
-    Option,
-    Button,
-    Input,
-    Typography,
-    Textarea,
-  } from "@material-tailwind/react";
-  import { RxHamburgerMenu } from 'react-icons/rx';
-  import {HiOutlineXMark} from 'react-icons/hi2'
+  Dialog,
+  Tooltip,
+  Select,
+  Option,
+  Button,
+  Input,
+} from "@material-tailwind/react";
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { HiOutlineXMark } from 'react-icons/hi2';
 import colleges from '../colleges';
-import {LuSearchCode} from "react-icons/lu"
+import { LuSearchCode } from "react-icons/lu";
 import researchKeywords from '../data/searchData';
-const AdvanceSearch = () => {
+import { database } from "../../firebaseConfig";
+import { Timestamp, collection, query, where, getDocs } from 'firebase/firestore';
+
+const AdvanceSearch = ({updatedManuscripts}) => {
   const [open, setOpen] = useState(false);
   const [department, setDepartment] = useState("");
   const [course, setCourse] = useState("");
@@ -25,12 +26,51 @@ const AdvanceSearch = () => {
   const courses = colleges["List of Colleges"][department] || [];
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
-  const [fromYear,setFromYear] =useState("");
+  const [fromYear, setFromYear] = useState("");
   const [toYear, setToYear] = useState("");
   const [suggestedKeywords, setSuggestedKeywords] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const handleSearch = () => {
-    console.log("From Year",fromYear,"To Year",toYear,"Course",course, "and","Department", department, "Tags:", tags);
+  const handleSearch = async () => {
+    console.log("From Year: ", fromYear, "To Year: ", toYear, "Course: ", course, "and", "Department: ", department, "Tags:", tags);
+    
+    // Call the fetchManuscriptData function
+    const manuscriptData = await fetchManuscriptData();
+    updatedManuscripts(manuscriptData)
+  };
+  const fetchManuscriptData = async () => {
+    try {
+      const db = database;
+      const manuscriptCollection = collection(db, 'Manuscript'); // Replace with your collection name
+
+      let manuscriptQuery = query(manuscriptCollection);
+
+      // Convert fromYear and toYear strings to Timestamp objects
+      if (fromYear && toYear) {
+        const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+        const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+
+        manuscriptQuery = query(manuscriptCollection, where('date', '>=', fromYearTimestamp), where('date', '<=', toYearTimestamp));
+      }
+
+      if (course) {
+        manuscriptQuery = query(manuscriptCollection, where('course', '==', course));
+      }
+
+      if (department) {
+        manuscriptQuery = query(manuscriptCollection, where('department', '==', department));
+      }
+
+      const querySnapshot = await getDocs(manuscriptQuery);
+      const manuscriptData = [];
+
+      querySnapshot.forEach((doc) => {
+        manuscriptData.push(doc.data());
+      });
+
+      return manuscriptData;
+    } catch (error) {
+      console.error('Error fetching manuscript data:', error);
+    }
   };
 
   const addTag = () => {
@@ -199,7 +239,6 @@ onClick={handleSearch}
 >Search </Button>
         </DialogFooter>
                 </Dialog>
-
 </>
   )
 }
