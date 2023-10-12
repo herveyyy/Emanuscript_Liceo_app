@@ -16,6 +16,7 @@ import {database} from "../firebaseConfig";
 
 
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
+import Manuscript from "./pages/Manuscript";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser, logout } = useContext(UserContext);
@@ -135,9 +136,9 @@ useEffect(() => {
           <Route path="/AccountSettings/Bookmark" element={<Bookmark />} />
           <Route path="/AccountSettings/History" element={<History />} />
           <Route path="/AccountSettings/Rated" element={<Rated />} />
+          <Route path="/Manuscript/:id" Component={Manuscript} />
           <Route path="/*" element={<Navigate to="/Home" />} />
         
-         
         </Routes>
       </div>
     </>
