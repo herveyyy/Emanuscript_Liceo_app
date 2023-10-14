@@ -17,7 +17,6 @@ const ResultsPage = ({ results, inputSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 9; // Number of results to display per page
   const [open, setOpen] = useState(false);
-
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
     setSearch(query);
@@ -55,14 +54,14 @@ const ResultsPage = ({ results, inputSearch }) => {
         };
       });
 
-      setSearchResults(results);
-      console.log('Search results:', results);
+    setSearchResults(results);
+    console.log('Search results:', results);
     } catch (error) {
-      console.error('Error searching manuscripts:', error);
+    console.error('Error searching manuscripts:', error);
     } finally {
-      setOpen(false);
+    setOpen(false);
     }
-  };
+};
 
   const maxPage = Math.ceil(searchResults.length / resultsPerPage);
 
@@ -102,7 +101,7 @@ const ResultsPage = ({ results, inputSearch }) => {
   const showPrevious = currentPage > 1;
   const showNext = currentPage < maxPage;
 
-  return (
+ return (
     <div className="">
       {open && <LoadingModal />}
       <div className="w-full text-center pt-10 pb-12">
@@ -120,9 +119,10 @@ const ResultsPage = ({ results, inputSearch }) => {
               fill="currentColor"
               viewBox="0 0 24 24"
             >
-              <path
+            <path
                 d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-              ></path>
+            >
+            </path>
             </svg>
           </button>
           <input
