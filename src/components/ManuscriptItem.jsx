@@ -1,13 +1,13 @@
 import React from 'react';
-
+import {Link, useNavigate } from 'react-router-dom';
 function ManuscriptItem({ title, imgUrl, stack, link, key}) {
   const titleTruncated = title.length > 20 ? title.substring(0, 25) + '...' : title;
   const keywords = 3;
-
+  const navigate = useNavigate()
   return (
-    <button
+    <Link
       className=" hover:ease-in-out duration-300 border-2 border-stone-900 border-black rounded-2xl overflow-hidden  "
-      key={key}
+      to={"/Manuscript/"+ title}
     >
       <img
         src={imgUrl}
@@ -27,7 +27,7 @@ function ManuscriptItem({ title, imgUrl, stack, link, key}) {
           ))}
         </p>
       </div>
-    </button>
+    </Link>
   );
 }
 
