@@ -4,7 +4,7 @@ import ManuscriptScreens from '../components/ManuscriptsScreen';
 
 const WhatsNew = () => {
   return (
-    <div className="absolute top-0 -z-10 h-[120vh] overflow-hidden bg-black w-full">
+    <div className="absolute top-0 -z-10 h-[130vh] overflow-hidden bg-black w-full">
       {/* Background Image */}
       <img
         src="/static/images/LiceoBG.jpg"
@@ -12,7 +12,7 @@ const WhatsNew = () => {
         alt="background"
       />
       
-      <div className="z-50 mt-24 h-screen xl:overflow-hidden overflow-y-scroll  relative">
+      <div className="z-50 mt-10  xl:overflow-hidden overflow-y-scroll w-full h-[120vh] relative">
         <ManuscriptScreens />
       </div>
     </div>
