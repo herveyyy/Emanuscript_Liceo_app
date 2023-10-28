@@ -4,15 +4,17 @@ import AuthorCard from './AuthorCard'
 const AuthorList = () => {
   return (
     // balay nina oy
-    <div className=' h-32 w-[90vh] '>
-        <div>Authors :</div>
-        <div className='flex gap-x-3 overflow-x-scroll absolute'>
-        <AuthorCard/>
-        <AuthorCard/>
-        <AuthorCard/>
-        </div>
-        
+    <div className='h-32 w-80 md:w-[90vh] lg:w-[140vh] overflow-x-auto'>
+    <div>Authors :</div>
+    <div className='flex gap-x-3'>
+        <AuthorCard />
+        <AuthorCard />
+        <AuthorCard />
+        <AuthorCard />
+        <AuthorCard />
     </div>
+</div>
+
   )
 }
 

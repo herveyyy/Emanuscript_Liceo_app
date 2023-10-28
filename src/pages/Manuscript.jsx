@@ -33,9 +33,25 @@ const Manuscript = () => {
       </div>
     </div>
     </div>
-    <div className='w-full mb-4'>
+    {/* AuthorList */}
+    <div className='w-full mb-4 flex justify-center'>
     <div className='px-12'>
       <AuthorList/>
+      </div>
+    </div>
+    {/* Abstract */}
+    <div className='w-full mb-4'>
+    <div className='px-12'>
+    <p>Abstract</p>
+    <p className='px-0 sm:px-14 lg:px-32 h-56 sm:h-40  bg-blue-gray-600'></p>
+      </div>
+    </div>
+    <div className='w-full mb-4'>
+    <div className='px-12'>
+    <div className='h-56  flex flex-wrap items-center bg-blue-gray-600 '>
+      <div className='w-1/2 bg-red-200 '></div>
+      <div className='w-1/2 bg-blue-200 '></div>
+    </div>
       </div>
     </div>
     </div>
