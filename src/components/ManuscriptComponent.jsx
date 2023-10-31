@@ -17,8 +17,12 @@ function ManuscriptComponent() {
         const snapshot = await getDocs(query(getRef, orderBy('date', 'desc'), limit(10)));
 
         // Extract data from the documents in the snapshot
-        const results = snapshot.docs.map((doc) => doc.data());
-
+        const results = snapshot.docs.map((doc) => ({
+          frontPageURL: doc.data().frontPageURL,
+          title: doc.data().title,
+          course: doc.data().course,
+          department: doc.data().department,
+        }));
         setLatestManuscript(results);
 
         // Log the latest data after it's set
