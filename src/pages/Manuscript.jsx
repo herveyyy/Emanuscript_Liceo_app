@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import AuthorList from '../components/AuthorList';
 import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,BsNewspaper,BsPostcard} from 'react-icons/bs';
 import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
+import { Progress } from '@material-tailwind/react';
+import { Footer } from '../components/Footer';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -132,17 +134,57 @@ const Manuscript = () => {
           </div>
         </div>
         <div className='w-full mb-4'>
-          <div className=''>
-            <div className='h-56 flex flex-wrap gap-2 md:gap-0 items-center '>
-              <div className='md:w-1/2 w-full h-56 border-2 px-2'>Ratings</div>
-              <div className='md:w-1/2 w-full h-56 border-2 px-2'>Rules and Regulations</div>
+          <div className='p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
+            <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
+              <div className='md:w-1/2 w-full h-40 px-2'>
+                <div className='text-center md:text-left'>Ratings</div>
+                <div>
+                  <div className='flex items-center w-[90%] gap-2'>
+                  <div className='text-sm sm:hidden'>5</div>
+                  <Progress value={90} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>5</div>
+                  </div>
+                  <div className='flex items-center w-[90%] gap-2'>
+                    <div className='text-sm sm:hidden'>4</div>
+                  <Progress value={70} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>4</div>
+                  </div>
+                  <div className='flex items-center w-[90%] gap-2'>
+                  <div className='text-sm sm:hidden'>3</div>
+                  <Progress value={40} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>3</div>
+                  </div>
+                  <div className='flex items-center w-[90%] gap-2'>
+                  <div className='text-sm sm:hidden'>2</div>
+                  <Progress value={20} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>2</div>
+                  </div>
+                  <div className='flex items-center w-[90%] gap-2'>
+                  <div className='text-sm sm:hidden'>1</div>
+                  <Progress value={10} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>1</div>
+                  </div>
+                </div>
+              </div>
+              <div className='md:w-1/2 w-full h-52 px-2 '>
+                <div className='text-center md:text-left'>Rules and Regulations</div>
+                <p className='text-justify md:text-left text-xs sm:text-sm '>
+                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse maiores maxime nesciunt error commodi quaerat est mollitia harum suscipit repellendus repellat cum, alias molestias voluptates expedita, totam sapiente nam ad.
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
+              </div>
+              <Footer/>
+
             </div>
+
           </div>
+          
         </div>
       </div>
           </div>
         </div>
+        
     </div>
+
     </div>
   );
 };
