@@ -8,7 +8,7 @@ function ManuscriptItem({ title, imgUrl,course,department,year }) {
 
   return (
     <Link
-      className=" w-72 hover:ease-in-out duration-300 border-2 border-stone-900 border-black rounded-2xl overflow-hidden"
+      className="w-64 sm:w-72 hover:ease-in-out duration-300 border-2 border-stone-900 border-black rounded-2xl overflow-hidden"
       to={"/Manuscript/" + title}
     >
       <img

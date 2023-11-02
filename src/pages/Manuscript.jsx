@@ -5,7 +5,7 @@ import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,Bs
 import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
 import { Progress } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
-import Loading from '../components/Loading'
+import Loading from '../components/Loading';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -24,27 +24,29 @@ const handleBookmark = () => {
 }
 
   return (
-    <div className=''>
+    <div className='w-full'>
+
       <div>ManuscriptID: {id}</div>
+      
       <div className='max-w-screen-xl mx-auto'>
         {/* Picture and Title and bookmark Icon */}
         <div className='w-full mb-2'>
           <div className='flex w-full px-12 h-80 gap-x-4 gap-y-1 flex-wrap justify-center duration-300'>
-            <div className='lg:w-[20%] w-full flex justify-center items-center shadow-xl rounded-lg'>
+            <div className='lg:w-[28%] w-full flex justify-center items-center shadow-2xl  rounded-2xl  '>
               <img
                 className='w-full h-32 sm:w-full sm:h-40 md:h-56 md:w-full lg:h-72 lg:w-full object-cover'
                 src='/static/images/liceo.png'
                 alt='Manuscript Cover'
               />
             </div>
-            <div className='lg:w-[70%] w-full shadow-2xl rounded-lg'>
-              <div className='border-b-2 p-4 flex items-center justify-between sm:flex-nowrap flex-wrap-reverse'>
+            <div className='lg:w-[70%] w-full  rounded-lg  '>
+              <div className='border-b  p-4 flex justify-between sm:flex-nowrap flex-wrap-reverse'>
                 <div className='h-auto'>
-                  <p className='lg:text-2xl md:text-lg font-bold md:text-left text-center text-md sm:text-left'>
+                  <p className='lg:text-2xl md:text-lg font-bold md:text-left text-center text-md sm:text-left '>
                     Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name
                   </p>
                 </div>
-                <div className='flex items-center w-full sm:w-auto justify-center'>
+                <div className='flex items-baseline w-full sm:w-auto justify-center '>
                   <button onClick={handleBookmark}>
                   <div className='text-maroon-800'>
                     <BsFillBookmarkPlusFill className='w-9 h-9' />
@@ -53,7 +55,7 @@ const handleBookmark = () => {
                 </div>
               </div>
               <div className='w-full flex flex-col p-1 md:p-2 lg:p-4'>
-                <div className='w-full'>
+                <div className='w-full pb-4'>
                   <p className='text-center sm:text-left'>Year: 2023</p>
                 </div>
                 <div className='flex gap-2 justify-center sm:justify-start lg:flex-wrap flex-col lg:flex-row pl-2'>
@@ -134,14 +136,29 @@ const handleBookmark = () => {
             <div className=''>
         {/* AuthorList */}
         <div className='w-full  justify-center'>
-          <p className='text-center'>Authors </p>
+          <p className='text-center text-gray-900  font-semibold '>Authors </p>
             <AuthorList />
         </div>
         {/* Abstract */}
         <div className=' p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
-        <p className='md:text-left text-center'>Abstract</p>
-          <div className='text-xs md:text-sm text-justify'>
+        <p className='md:text-left text-center text-gray-900  font-semibold '>Abstract</p>
+          <div className='text-xs md:text-sm text-justify py-2'>
             <p className='indent-8'>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
@@ -152,38 +169,38 @@ const handleBookmark = () => {
           <div className='p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
             <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
               <div className='md:w-1/2 w-full h-40 px-2'>
-                <div className='text-center md:text-left'>Ratings</div>
-                <div>
+                <div className='text-center md:text-left text-gray-900  font-semibold border-b '>Ratings</div>
+                <div className='py-2'>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>5</div>
-                  <Progress value={90} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={90} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>5</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                     <div className='text-sm sm:hidden'>4</div>
-                  <Progress value={70} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={70} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>4</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>3</div>
-                  <Progress value={40} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={40} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>3</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>2</div>
-                  <Progress value={20} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={20} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>2</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>1</div>
-                  <Progress value={10} color='yellow' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={10} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>1</div>
                   </div>
                 </div>
               </div>
               <div className='md:w-1/2 w-full h-52 px-2 '>
-                <div className='text-center md:text-left'>Rules and Regulations</div>
-                <p className='text-justify md:text-left text-xs sm:text-sm '>
+                <div className='text-center md:text-left text-gray-900 font-semibold border-b '>Rules and Regulations</div>
+                <p className='text-justify md:text-left text-xs sm:text-sm  py-2'>
                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse maiores maxime nesciunt error commodi quaerat est mollitia harum suscipit repellendus repellat cum, alias molestias voluptates expedita, totam sapiente nam ad.
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
               </div>
