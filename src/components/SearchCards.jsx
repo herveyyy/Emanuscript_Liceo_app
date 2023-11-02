@@ -25,11 +25,11 @@ const SearchCard = ({title,department,abstract,id,frontPage}) => {
     </CardHeader>
     <CardBody>
     <div className="flex justify-between">
-    <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
+    <Typography color="gray" className="mb-1 uppercase text-xs -top-1 ">
       {department}
     </Typography>
     </div>
-    <Typography color="blue-gray" className="mb-1 text-sm uppercase">
+    <Typography color="blue-gray" className="mb-1 text-sm uppercase hover:underline">
       {title}
     </Typography>
     <Typography color="gray" className="mb-8 font-normal text-sm invisible md:visible" >

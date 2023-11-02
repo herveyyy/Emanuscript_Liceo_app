@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from "@material-tailwind/react";
-import LoadingPage from './LoadingPage';
 import {
   Card,
   CardBody,
@@ -19,6 +18,8 @@ const Home = () => {
   const { currentUser } = useContext(UserContext);
   const [newUser,setNewUser] = useState(false)
   const navigate = useNavigate(); // Initialize useNavigate
+  let i = 0;
+
   const hasSchoolID = async (currentUser) => {
     try {
       if (!currentUser) {
