@@ -11,13 +11,15 @@ import {
 } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import ResultsPage from "./ResultsPage";
-
+import LoadingModal from "../components/Loading";
 const Search = () => {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState([]);
+
   const updateManuscripts = (newManuscripts) => {
     setSearchResults(newManuscripts);
   }
@@ -26,6 +28,9 @@ const Search = () => {
     if (!currentUser) {
       navigate("/Home");
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, [currentUser, searchResults]);
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
@@ -38,6 +43,7 @@ const Search = () => {
   };
   const handleSearch = async () => {
     try {
+      isLoading(true)
       console.log(keywords);
   
       const manuscriptRef = collection(database, "Manuscript");
@@ -64,6 +70,10 @@ const Search = () => {
       console.log("Search results:", results); // Log the results to the console
     } catch (error) {
       console.error("Error searching manuscripts:", error);
+    }finally{
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
   if (!currentUser) {
@@ -71,7 +81,9 @@ const Search = () => {
   } else {
     if(searchResults.length  === 0){
     return (
-    
+      <>
+  
+    {isLoading && <LoadingModal/>}
       <div className="absolute top-0  bottom-0 -z-10  h-screen bg-black">
         <img
           src="/static/images/LiceoBG.jpg"
@@ -89,8 +101,8 @@ const Search = () => {
               Hi, {currentUser.displayName}
             </h1>
           </label>
-          <div className="flex border-2 rounded w-auto">
-            <button onClick={handleSearch} className="flex items-center justify-center px-4 border-r">
+          <div className="flex border-2 rounded ">
+            <button onClick={handleSearch} className="hidden sm:flex items-center justify-center px-4 border-r ">
               <svg
                 className="w-6 h-6 text-red-600"
                 fill="currentColor"
@@ -103,7 +115,7 @@ const Search = () => {
             </button>
             <input
               type="text"
-              className="px-3 py-2 sm:w-full md:w-60 w-60"
+              className="px-3 py-2  sm:w-full md:w-60 "
               placeholder="Search Manuscript..."
               onChange={handleSearchInputChange}
               value={search}
@@ -120,10 +132,11 @@ const Search = () => {
           </button>
         </div>
       </div>
-    
+      </>
     );
   }else{
     return(
+      
       <ResultsPage results={searchResults} inputSearch={search}/>
     )
   }
