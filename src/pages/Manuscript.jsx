@@ -5,10 +5,23 @@ import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,Bs
 import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
 import { Progress } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
+import Loading from '../components/Loading'
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
   const isLargeScreen = window.innerWidth >= 1024;
+const handleRead = () => {
+console.log("ReadButton is Clicked")
+}
+const handleCite = () => {
+console.log("CiteBtn is Clicked")
+}
+const handleRate = () => {
+  console.log("RateBtn is Clicked")
+}
+const handleBookmark = () => {
+  console.log("BookmarkBtn is Clicked")
+}
 
   return (
     <div className=''>
@@ -32,9 +45,11 @@ const Manuscript = () => {
                   </p>
                 </div>
                 <div className='flex items-center w-full sm:w-auto justify-center'>
+                  <button onClick={handleBookmark}>
                   <div className='text-maroon-800'>
                     <BsFillBookmarkPlusFill className='w-9 h-9' />
                   </div>
+                  </button>
                 </div>
               </div>
               <div className='w-full flex flex-col p-1 md:p-2 lg:p-4'>
@@ -78,24 +93,24 @@ const Manuscript = () => {
           // Render the navigation bar on large screens
           <div className='flex w-full gap-x-2 justify-end'>
             <div className='h-16 flex items-center'>
-              <button className=' gap-x-2 bg-maroon-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button onClick={handleRead} className=' gap-x-2 bg-maroon-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaBookReader />Read
               </button>
             </div>
             <div className='h-16 flex items-center'>
-              <button className='gap-x-2 bg-blue-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button onClick={handleCite} className='gap-x-2 bg-blue-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaQuoteLeft />
                 Cite
               </button>
             </div>
             <div className='h-16 flex items-center'>
-              <button className='gap-x-2 bg-orange-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button onClick={handleRate} className='gap-x-2 bg-orange-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaStar />
                 Rate
               </button>
             </div>
             <div className='h-16 flex items-center'>
-              <button className='bg-blue-500 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button  className='bg-blue-500 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 Request Read On-site
               </button>
             </div>
@@ -104,13 +119,13 @@ const Manuscript = () => {
           // Render the navigation bar on small screens
           <div className='bg-maroon-600 p-2 fixed bottom-0 left-0 right-0'>
             <div className='flex justify-around'>
-              <button className='text-center text-white  w-full  flex justify-center' >
+              <button onClick={handleRead} className='text-center text-white  w-full  flex justify-center' >
                 <FaBookReader />
               </button>
-              <button className='text-center text-white border-x-2 w-full  flex justify-center'>
+              <button onClick={handleCite} className='text-center text-white border-x-2 w-full  flex justify-center'>
                 <FaQuoteLeft />
               </button>
-              <button className='text-center text-white w-full flex justify-center'>
+              <button onClick={handleRate} className='text-center text-white w-full flex justify-center'>
                 <FaStar />
               </button>
             </div>
@@ -173,18 +188,13 @@ const Manuscript = () => {
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
               </div>
               <Footer/>
-
             </div>
-
-          </div>
-          
+          </div>          
         </div>
       </div>
-          </div>
-        </div>
-        
+      </div>
+      </div>
     </div>
-
     </div>
   );
 };
