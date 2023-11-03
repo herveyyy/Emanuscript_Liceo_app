@@ -75,7 +75,7 @@ const Home = () => {
     }else{
       setTimeout(() => {
         setIsLoading(false);
-      }, 5000);
+      }, 10000);
     }
   }, [currentUser]);
 

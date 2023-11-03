@@ -6,17 +6,24 @@ import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
 import { Progress } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
 import Loading from '../components/Loading';
+import CiteModal from '../components/CiteModal';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
   const isLargeScreen = window.innerWidth >= 1024;
+  const [readModal, setReadModal] = useState(false)
+  const [rateModal, setRateModal] = useState(false)
+  const [citeModal, setCiteModal] = useState(false)
 const handleRead = () => {
 console.log("ReadButton is Clicked")
+setReadModal(!readModal)
 }
 const handleCite = () => {
+  setCiteModal(!citeModal)
 console.log("CiteBtn is Clicked")
 }
 const handleRate = () => {
+  setRateModal(!rateModal)
   console.log("RateBtn is Clicked")
 }
 const handleBookmark = () => {
@@ -24,10 +31,9 @@ const handleBookmark = () => {
 }
 
   return (
-    <div className='w-full'>
-
+    <div className='w-full '>
+       <CiteModal open={citeModal} handler={handleCite}/>
       <div>ManuscriptID: {id}</div>
-      
       <div className='max-w-screen-xl mx-auto'>
         {/* Picture and Title and bookmark Icon */}
         <div className='w-full mb-2'>
@@ -50,6 +56,7 @@ const handleBookmark = () => {
                   <button onClick={handleBookmark}>
                   <div className='text-maroon-800'>
                     <BsFillBookmarkPlusFill className='w-9 h-9' />
+                    
                   </div>
                   </button>
                 </div>
@@ -202,7 +209,8 @@ const handleBookmark = () => {
                 <div className='text-center md:text-left text-gray-900 font-semibold border-b '>Rules and Regulations</div>
                 <p className='text-justify md:text-left text-xs sm:text-sm  py-2'>
                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse maiores maxime nesciunt error commodi quaerat est mollitia harum suscipit repellendus repellat cum, alias molestias voluptates expedita, totam sapiente nam ad.
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
+                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
+              
               </div>
               <Footer/>
             </div>

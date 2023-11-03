@@ -93,18 +93,22 @@ function App() {
       setIsLoading(false);
     }, 1000);
   }, [currentUser, logout]);
-
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 1000);
   return (
     <>
-     {isLoading && <LoadingModal />}
+    {isLoading && <LoadingModal />}
       <div className="bg-transparent">
         <div className="m-4">
           {currentUser ? (
             <NavBar profilePic={profile} displayName={displayName} email={email} />
+            
           ) : (
             <div className="flex justify-center w-full lg:justify-between gap-x-5">
               <img className="w-24 lg:w-32" src="/static/images/liceo.png" />
               <img
+              
                 className="w-24 lg:visible invisible lg:relative absolute"
                 src="/static/images/libraryLogo.png"
               />
