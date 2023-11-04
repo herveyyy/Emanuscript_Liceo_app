@@ -7,6 +7,8 @@ import { Progress } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
 import Loading from '../components/Loading';
 import CiteModal from '../components/CiteModal';
+import ReadModal from '../components/ReadModal';
+import RateModal from '../components/RateModal';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -33,6 +35,8 @@ const handleBookmark = () => {
   return (
     <div className='w-full '>
        <CiteModal open={citeModal} handler={handleCite}/>
+       <ReadModal open={readModal} handler={handleRead}/>
+       <RateModal open={rateModal} handler={handleRate}/>
       <div>ManuscriptID: {id}</div>
       <div className='max-w-screen-xl mx-auto'>
         {/* Picture and Title and bookmark Icon */}
