@@ -18,7 +18,7 @@ const Search = () => {
   const [search, setSearch] = useState("");
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateManuscripts = (newManuscripts) => {
     setSearchResults(newManuscripts);
@@ -43,7 +43,7 @@ const Search = () => {
   };
   const handleSearch = async () => {
     try {
-      isLoading(true)
+      setIsLoading(true)
       console.log(keywords);
   
       const manuscriptRef = collection(database, "Manuscript");

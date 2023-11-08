@@ -9,6 +9,9 @@ import Loading from '../components/Loading';
 import CiteModal from '../components/CiteModal';
 import ReadModal from '../components/ReadModal';
 import RateModal from '../components/RateModal';
+import { database } from '../../firebaseConfig';
+import { collection, doc, where, getDoc} from 'firebase/firestore';
+import LoadingModal from '../components/Loading';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -16,6 +19,28 @@ const Manuscript = () => {
   const [readModal, setReadModal] = useState(false)
   const [rateModal, setRateModal] = useState(false)
   const [citeModal, setCiteModal] = useState(false)
+  useEffect(() => {
+    // Function to fetch manuscript data from Firebase Firestore
+    const fetchManuscriptData = async () => {
+      try {
+        const manuscriptRef = doc(database, "Manuscript", id);
+        const manuscriptDoc = await getDoc(manuscriptRef);
+        if (manuscriptDoc.exists()) {
+          // If the manuscript exists, set the manuscript state
+          setManuscript({ id: manuscriptDoc.id, ...manuscriptDoc.data() });
+        } else {
+          // Handle case when manuscript does not exist
+          console.log("Manuscript not found!");
+        }
+      } catch (error) {
+        console.error("Error fetching manuscript:", error);
+      }
+      
+   
+    };
+
+    fetchManuscriptData();
+  }, [id], console.log(manuscript));
 const handleRead = () => {
 console.log("ReadButton is Clicked")
 setReadModal(!readModal)
@@ -31,7 +56,11 @@ const handleRate = () => {
 const handleBookmark = () => {
   console.log("BookmarkBtn is Clicked")
 }
-
+if(!manuscript){
+  return <div>
+    <LoadingModal/>
+  </div>
+}
   return (
     <div className='w-full '>
        <CiteModal open={citeModal} handler={handleCite}/>
@@ -45,7 +74,7 @@ const handleBookmark = () => {
             <div className='lg:w-[28%] w-full flex justify-center items-center shadow-2xl  rounded-2xl  '>
               <img
                 className='w-full h-32 sm:w-full sm:h-40 md:h-56 md:w-full lg:h-72 lg:w-full object-cover'
-                src='/static/images/liceo.png'
+                src={manuscript.frontPageURL}
                 alt='Manuscript Cover'
               />
             </div>
@@ -53,8 +82,7 @@ const handleBookmark = () => {
               <div className='border-b  p-4 flex justify-between sm:flex-nowrap flex-wrap-reverse'>
                 <div className='h-auto'>
                   <p className='lg:text-2xl md:text-lg font-bold md:text-left text-center text-md sm:text-left '>
-                    Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name Manuscript Name
-                  </p>
+                  {manuscript.title}                  </p>
                 </div>
                 <div className='flex items-baseline w-full sm:w-auto justify-center '>
                   <button onClick={handleBookmark}>
@@ -67,7 +95,14 @@ const handleBookmark = () => {
               </div>
               <div className='w-full flex flex-col p-1 md:p-2 lg:p-4'>
                 <div className='w-full pb-4'>
-                  <p className='text-center sm:text-left'>Year: 2023</p>
+                <div className='w-full pb-4'>
+                  {manuscript.date ? (
+                    <p className='text-center sm:text-left'>Year: {manuscript.date.toDate().getFullYear()}</p>
+                  ) : (
+                    <p className='text-center sm:text-left'>Year: N/A</p>
+                  )}
+                </div>
+
                 </div>
                 <div className='flex gap-2 justify-center sm:justify-start lg:flex-wrap flex-col lg:flex-row pl-2'>
                   <div className=' h-8 border-gray-900 border-l-2 px-2 '>
@@ -75,21 +110,21 @@ const handleBookmark = () => {
                       <div className='text-maroon-900'><BsFillBuildingFill/></div>
                       <p className='text-xs text-center font-bold flex'>Department</p>
                   </div>
-                  <p className='text-xs text-center '>College of Information Technology</p>
+                  <p className='text-xs text-center '>{manuscript.department}</p>
                   </div>
                   <div className=' h-8 border-gray-900 border-l-2 px-2 mt-4 sm:mt-0 '>
                   <div className='flex items-center justify-center gap-1'>
                       <div className='text-maroon-900'><BsPostcard/></div>
                       <p className='text-xs text-center font-bold'>Course</p>
                   </div>
-                  <p className='text-xs text-center '>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY (BSIT)</p>
+                  <p className='text-xs text-center '>{manuscript.course}</p>
                   </div>
                   <div className=' h-8 border-gray-900 border-l-2 px-2 mt-8 sm:mt-0'>
                   <div className='flex items-center justify-center gap-1 '>
                       <div className='text-maroon-900'><BsFillHouseExclamationFill/></div>
                       <p className='text-xs text-center font-bold'>Location</p>
                   </div>
-                  <p className='text-xs text-center'>Main Campus Library</p>
+                  <p className='text-xs text-center'>{manuscript.location}</p>
                   </div>
                   <div className=' h-8 border-gray-900 border-l-2 px-2 lg:border-r-2 my-4 sm:my-0'>
                   <div className='flex items-center justify-center gap-1'>
@@ -148,31 +183,14 @@ const handleBookmark = () => {
         {/* AuthorList */}
         <div className='w-full  justify-center'>
           <p className='text-center text-gray-900  font-semibold '>Authors </p>
-            <AuthorList />
+            <AuthorList list={manuscript.authors || []} />
         </div>
         {/* Abstract */}
         <div className=' p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
         <p className='md:text-left text-center text-gray-900  font-semibold '>Abstract</p>
           <div className='text-xs md:text-sm text-justify py-2'>
             <p className='indent-8'>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto quis, ut id libero explicabo alias aspernatur earum, animi accusantium corporis repellendus magni nulla eligendi! Officiis ea fugiat eaque nostrum itaque!
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda aut, repellendus optio expedita, velit aliquam tenetur rerum, eos aperiam distinctio reiciendis! Hic architecto provident modi quisquam deserunt vel ipsa deleniti?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aliquid eius ipsum quidem explicabo, eaque possimus quis odio, fuga eligendi repellat molestias doloribus, nihil est quia perferendis nam commodi consequuntur.
+            {manuscript.abstract}
             </p>
           </div>
         </div>

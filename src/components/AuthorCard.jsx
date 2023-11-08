@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AuthorCard = () => {
+const AuthorCard = ({name,id}) => {
   return (
     <div className=' w-80 h-20 rounded-2xl flex shadow-lg border-r-[1px]'>
       <div className=' w-20 h-20 rounded-r-full overflow-hidden shadow-lg' >
@@ -8,7 +8,7 @@ const AuthorCard = () => {
       </div>
       <div className='w-60 h-20 bg-gray-100 flex items-center'>
         <div>
-          <p>Khian Justice Abad</p>
+          <p>{name}</p>
           <p className='text-sm'>hskdjhasd@liceo.edu.ph</p>
           <p className='text-xs'>09090129322</p>
         </div>

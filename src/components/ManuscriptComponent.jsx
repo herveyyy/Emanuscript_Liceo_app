@@ -18,6 +18,7 @@ function ManuscriptComponent() {
 
         // Extract data from the documents in the snapshot
         const results = snapshot.docs.map((doc) => ({
+          docID: doc.id,
           frontPageURL: doc.data().frontPageURL,
           title: doc.data().title,
           course: doc.data().course,
@@ -120,6 +121,7 @@ function ManuscriptComponent() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14">
           {getPageItems().map((doc, index) => (
             <ManuscriptItem
+            docID={doc.docID}
               key={index}
               imgUrl={doc.frontPageURL}
               title={doc.title}

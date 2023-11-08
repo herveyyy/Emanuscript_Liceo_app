@@ -1,15 +1,26 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-function ManuscriptItem({ title, imgUrl,course,department,year }) {
+import { database } from '../../firebaseConfig';
+function ManuscriptItem({ title, imgUrl,course,department,year,docID}) { 
   const titleTruncated = title.length > 20 ? title.substring(0, 25) + '...' : title;
   const keywords = 3;
   const navigate = useNavigate();
 
+
+  useEffect(()=>{
+const fetchDataManuscript = async () => {
+try {
+  const getRef = database("Manuscript")
+} catch (error) {
+  
+}
+}
+},[])
+
   return (
     <Link
       className="w-64 sm:w-72 hover:ease-in-out duration-300 border-2 border-stone-900 border-black rounded-2xl overflow-hidden"
-      to={"/Manuscript/" + title}
+      to={"/Manuscript/" + docID}
     >
       <img
         src={imgUrl}
