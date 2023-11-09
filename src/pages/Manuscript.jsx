@@ -183,7 +183,7 @@ if(!manuscript){
         {/* AuthorList */}
         <div className='w-full  justify-center'>
           <p className='text-center text-gray-900  font-semibold '>Authors </p>
-            <AuthorList list={manuscript.authors || []} />
+            <AuthorList list={manuscript.authors || []} dept= {manuscript.department} />
         </div>
         {/* Abstract */}
         <div className=' p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
@@ -198,7 +198,8 @@ if(!manuscript){
           <div className='p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
             <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
               <div className='md:w-1/2 w-full h-40 px-2'>
-                <div className='text-center md:text-left text-gray-900  font-semibold border-b '>Ratings</div>
+                <div className='text-center md:text-left text-gray-900  flex font-semibold border-b items-center'>Ratings
+                (<p className='text-sm flex items-center'>{manuscript.rate} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
                 <div className='py-2'>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>5</div>
@@ -232,8 +233,7 @@ if(!manuscript){
                 <p className='text-justify md:text-left text-xs sm:text-sm  py-2'>
                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse maiores maxime nesciunt error commodi quaerat est mollitia harum suscipit repellendus repellat cum, alias molestias voluptates expedita, totam sapiente nam ad.
                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
-              
-              </div>
+                </div>
               <Footer/>
             </div>
           </div>          
