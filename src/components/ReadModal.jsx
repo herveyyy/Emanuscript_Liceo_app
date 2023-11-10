@@ -1,16 +1,11 @@
 import React,{useState} from 'react'
 import {  Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from '@material-tailwind/react'
-import {FaXmark} from "react-icons/fa6"
-import { Document, Page } from 'react-pdf';
-import pdf from '../data/1-converted.pdf'
-const ReadModal = ({open,handler}) => {
+import {FaXmark} from "react-icons/fa6";
+const ReadModal = ({open,handler, fileLink}) => {
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
-
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
-  
+  const [pdfLink, setPDFLink] = useState(fileLink)
+console.log(fileLink)
   return (
     <Dialog open={open}  size='xxl'>
     <DialogHeader className='flex justify-between border-b-2 '>
@@ -20,14 +15,8 @@ const ReadModal = ({open,handler}) => {
       </div>
     </DialogHeader>
     <DialogBody>
-    <div>
-      <img />
-      <Document file="/static/images/1-converted.pdf" onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-      </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
+    <div className='w-full h-full'>
+
     </div>
     </DialogBody>
       <DialogFooter className='flex gap-x-2'>

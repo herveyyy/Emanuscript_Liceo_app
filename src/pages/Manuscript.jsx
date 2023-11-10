@@ -28,6 +28,7 @@ const Manuscript = () => {
         if (manuscriptDoc.exists()) {
           // If the manuscript exists, set the manuscript state
           setManuscript({ id: manuscriptDoc.id, ...manuscriptDoc.data() });
+
         } else {
           // Handle case when manuscript does not exist
           console.log("Manuscript not found!");
@@ -40,10 +41,11 @@ const Manuscript = () => {
     };
 
     fetchManuscriptData();
+
   }, [id], console.log(manuscript));
 const handleRead = () => {
 console.log("ReadButton is Clicked")
-setReadModal(!readModal)
+window.open(manuscript.manuscriptPDF, '_blank')
 }
 const handleCite = () => {
   setCiteModal(!citeModal)
@@ -56,6 +58,11 @@ const handleRate = () => {
 const handleBookmark = () => {
   console.log("BookmarkBtn is Clicked")
 }
+const handleReadRequest = () => {
+  console.log("handleReadRequest is Clicked")
+  setReadModal(!readModal)
+
+}
 if(!manuscript){
   return <div>
     <LoadingModal/>
@@ -64,7 +71,7 @@ if(!manuscript){
   return (
     <div className='w-full '>
        <CiteModal open={citeModal} handler={handleCite}/>
-       <ReadModal open={readModal} handler={handleRead}/>
+       <ReadModal open={readModal} handler={handleRead} fileLink={manuscript.manuscriptPDF}/>
        <RateModal open={rateModal} handler={handleRate}/>
       <div>ManuscriptID: {id}</div>
       <div className='max-w-screen-xl mx-auto'>
@@ -158,7 +165,7 @@ if(!manuscript){
               </button>
             </div>
             <div className='h-16 flex items-center'>
-              <button  className='bg-blue-500 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button onClick={handleReadRequest}  className='bg-blue-500 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 Request Read On-site
               </button>
             </div>
@@ -167,7 +174,7 @@ if(!manuscript){
           // Render the navigation bar on small screens
           <div className='bg-maroon-600 p-2 fixed bottom-0 left-0 right-0'>
             <div className='flex justify-around'>
-              <button onClick={handleRead} className='text-center text-white  w-full  flex justify-center' >
+              <button onClick={handleReadRequest} className='text-center text-white  w-full  flex justify-center' >
                 <FaBookReader />
               </button>
               <button onClick={handleCite} className='text-center text-white border-x-2 w-full  flex justify-center'>
