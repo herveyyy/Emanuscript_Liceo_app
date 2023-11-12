@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import AuthorList from '../components/AuthorList';
 import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,BsNewspaper,BsPostcard} from 'react-icons/bs';
@@ -10,7 +10,8 @@ import CiteModal from '../components/CiteModal';
 import ReadModal from '../components/ReadModal';
 import RateModal from '../components/RateModal';
 import { database } from '../../firebaseConfig';
-import { collection, doc, where, getDoc} from 'firebase/firestore';
+import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs} from 'firebase/firestore';
+import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 const Manuscript = () => {
   const { id } = useParams();
@@ -19,6 +20,8 @@ const Manuscript = () => {
   const [readModal, setReadModal] = useState(false)
   const [rateModal, setRateModal] = useState(false)
   const [citeModal, setCiteModal] = useState(false)
+  const { currentUser, logout } = useContext(UserContext);
+  const [onLoading,setOnLoading] = useState(false)
   useEffect(() => {
     // Function to fetch manuscript data from Firebase Firestore
     const fetchManuscriptData = async () => {
@@ -42,7 +45,7 @@ const Manuscript = () => {
 
     fetchManuscriptData();
 
-  }, [id], console.log(manuscript));
+  }, [id]);
 const handleRead = () => {
 console.log("ReadButton is Clicked")
 window.open(manuscript.manuscriptPDF, '_blank')
@@ -55,14 +58,57 @@ const handleRate = () => {
   setRateModal(!rateModal)
   console.log("RateBtn is Clicked")
 }
-const handleBookmark = () => {
-  console.log("BookmarkBtn is Clicked")
-}
+
 const handleReadRequest = () => {
   console.log("handleReadRequest is Clicked")
   setReadModal(!readModal)
-
 }
+const handleBookmark = () => {
+  console.log("BookmarkBtn is Clicked")
+  setOnLoading(true)
+  bookmarkManuscript(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName)
+}
+const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, userId, userName) => {
+  try {
+    const bookmarksCollectionRef = collection(database, 'Bookmark');
+
+    // Check if the bookmark already exists
+    const querySnapshot = await getDocs(
+      query(
+        bookmarksCollectionRef,
+        where('ManuscriptID', '==', manuscriptId),
+        where('UserID', '==', userId)
+      )
+    );
+
+    // If a bookmark already exists, don't bookmark again
+    if (querySnapshot.size > 0) {
+      alert('Bookmark already exists');
+      setOnLoading(false);
+      return;
+    }
+
+    const bookmarkData = {
+      Date: serverTimestamp(),
+      ManuscriptID: manuscriptId,
+      ManuscriptLocation: manuscriptLocation,
+      ManuscriptName: manuscriptName,
+      UserID: userId,
+      UserName: userName,
+    };
+
+    // Add the bookmark data to the 'Bookmark' collection
+    const docRef = await addDoc(bookmarksCollectionRef, bookmarkData);
+
+    alert('Bookmark added');
+    setOnLoading(false);
+    // Optionally, you can update the manuscript data with the new bookmark information if needed
+  } catch (error) {
+    console.log('Error adding bookmark: ', error);
+    setOnLoading(false);
+  }
+
+};
 if(!manuscript){
   return <div>
     <LoadingModal/>
@@ -70,9 +116,10 @@ if(!manuscript){
 }
   return (
     <div className='w-full '>
+      {onLoading && <LoadingModal/>}
        <CiteModal open={citeModal} handler={handleCite}/>
-       <ReadModal open={readModal} handler={handleRead} fileLink={manuscript.manuscriptPDF}/>
-       <RateModal open={rateModal} handler={handleRate}/>
+       <ReadModal open={readModal} handler={handleReadRequest}/>
+       <RateModal open={rateModal} handler={handleRate} userData={currentUser} manuscriptData={manuscript}/>
       <div>ManuscriptID: {id}</div>
       <div className='max-w-screen-xl mx-auto'>
         {/* Picture and Title and bookmark Icon */}

@@ -1,11 +1,9 @@
 import React,{useState} from 'react'
 import {  Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from '@material-tailwind/react'
 import {FaXmark} from "react-icons/fa6";
-const ReadModal = ({open,handler, fileLink}) => {
+const ReadModal = ({open,handler}) => {
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
-  const [pdfLink, setPDFLink] = useState(fileLink)
-console.log(fileLink)
   return (
     <Dialog open={open}  size='xxl'>
     <DialogHeader className='flex justify-between border-b-2 '>
