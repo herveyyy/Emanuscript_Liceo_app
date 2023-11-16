@@ -12,8 +12,8 @@ const [bookmark, setBookmark] = useState([])
 const {currentUser,logout} = useContext(UserContext)
   useEffect(()=> {
   const fetchUserBookmark = async () => {
-    const q = query(collection(database, "Bookmark"),where("userID", "==", currentUser.uid))
 try {
+  const q = query(collection(database, "Bookmark"),where("userID", "==", currentUser.uid))
 
 } catch (error) {
   
