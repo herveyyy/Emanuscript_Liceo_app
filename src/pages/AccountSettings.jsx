@@ -57,7 +57,11 @@ return true
             </div>
             <div className="flex-col mt-32 border-t sm:border-t-0 border-red-800 w-full ">
                 <div className="hidden  md:flex w-full justify-center"><AccountTabs/></div>
-                <div></div>
+                <div className="flex justify-center my-4 gap-x-2 px-2 ">
+       <div className="border-t  mt-2.5  border-gray-400 h-1 w-full"></div>
+        <p className="w-[24rem] text-center uppercase">Account Settings</p>
+        <div className="border-t mt-2.5 border-gray-400 h-1 w-full"></div>
+        </div>
                 <form className=" flex justify-center w-full  my-12">
                 <div className="flex flex-wrap mb-8 w-full justify-center md:justify-normal md:w-[40rem]">
                     <div className="w-full md:w-1/2 px-3 md:mb-0 text-center md:text-left ">

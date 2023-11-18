@@ -66,9 +66,9 @@ const handleReadRequest = () => {
 const handleBookmark = () => {
   console.log("BookmarkBtn is Clicked")
   setOnLoading(true)
-  bookmarkManuscript(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName)
+  bookmarkManuscript(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName,manuscript.abstract,manuscript.frontPageURL, manuscript.department)
 }
-const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, userId, userName) => {
+const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, userId, userName,manuscriptAbstract, manuscriptFrontPageURL,manuscriptDeparment) => {
   try {
     const bookmarksCollectionRef = collection(database, 'Bookmark');
 
@@ -95,6 +95,9 @@ const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptNa
       ManuscriptName: manuscriptName,
       UserID: userId,
       UserName: userName,
+      Department: manuscriptDeparment,
+      ManuscriptPicture: manuscriptFrontPageURL,
+      ManuscriptAbstract: manuscriptAbstract,
     };
 
     // Add the bookmark data to the 'Bookmark' collection
