@@ -2,7 +2,7 @@ import { Avatar, Typography, Card, CardHeader,CardBody, Button } from "@material
 import AccountTabs from "../components/AccountTabs";
 import React,{useEffect, useState,useContext} from "react";
 import { UserContext } from "../data/userData";
-import BookmarkCard from "../components/BookmarkCards";
+import BookmarkCard from "../components/BookmarkCard";
 import LoadingModal from "../components/Loading";
 import { database } from "../../firebaseConfig";
 import { collection,where, getDocs,query} from "firebase/firestore";
