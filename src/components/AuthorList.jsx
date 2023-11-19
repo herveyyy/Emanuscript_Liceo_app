@@ -1,20 +1,16 @@
-import React from 'react'
-import AuthorCard from './AuthorCard'
+import React from 'react';
+import AuthorCard from './AuthorCard';
 
-const AuthorList = () => {
+const AuthorList = ({ list, dept}) => {
   return (
-    // balay nina oy
     <div className='h-28 w-80 md:w-[90vh] lg:w-[150vh] overflow-x-auto'>
-    <div className='flex gap-x-3 '>
-        <AuthorCard />
-        <AuthorCard />
-        <AuthorCard />
-        <AuthorCard />
-        <AuthorCard />
+      <div className='flex gap-x-3'>
+        {list.map((author, index) => (
+          <AuthorCard key={index} name={author} dept={dept} />
+        ))}
+      </div>
     </div>
-</div>
-
-  )
+  );
 }
 
-export default AuthorList
+export default AuthorList;

@@ -14,26 +14,28 @@ import {
  import { collection, doc, getDoc } from 'firebase/firestore';
  import { UserContext } from '../data/userData';
 import { useState } from 'react';
+import LoadingModal from '../components/Loading';
 const Home = () => {
   const { currentUser } = useContext(UserContext);
-  const [newUser,setNewUser] = useState(false)
+  const [newUser, setNewUser] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // Initialize useNavigate
-  let i = 0;
 
   const hasSchoolID = async (currentUser) => {
     try {
+      setIsLoading(true);
       if (!currentUser) {
         // currentUser is not available, return false
         return false;
       }
-  
+
       // Reference to the "Users" collection in Firestore
       const usersCollectionRef = collection(database, 'Users');
-  
+
       // Get the user's document from the collection using the user's UID
       const userDocRef = doc(usersCollectionRef, currentUser.uid);
       const userDocSnapshot = await getDoc(userDocRef);
-  
+
       if (userDocSnapshot.exists()) {
         // Check if the user document has a schoolID field
         const userData = userDocSnapshot.data();
@@ -41,35 +43,50 @@ const Home = () => {
           return true; // User has a schoolID
         }
       }
-  
+
       return false; // User does not have a schoolID
     } catch (error) {
       console.error('Error checking for schoolID:', error);
       throw error;
     }
   };
+
   useEffect(() => {
-        if (!currentUser) {
-      navigate("/Home");
+    if (!currentUser) {
+      navigate('/Home');
     }
+
     const checkSchoolID = async () => {
       const userHasSchoolID = await hasSchoolID(currentUser);
       if (userHasSchoolID) {
         // User has a schoolID, you can perform actions or render content accordingly
-        setNewUser(false)
+        setNewUser(false);
       } else {
         // User does not have a schoolID, you can handle this case as needed
-        setNewUser(true)
+        setNewUser(true);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000); // Hide the loading screen after 1000 milliseconds (1 second)
     };
+
     if (currentUser) {
       checkSchoolID();
+    }else{
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 10000);
     }
-    
   }, [currentUser]);
-  
+
   return (
+    <>
+    
+    {isLoading &&
+      <LoadingModal/>
+    }
     <div className="absolute top-0  bottom-0 -z-10  h-screen">
+    
        <div className='absolute top-0  bg-black h-screen' >
         <img src='/static/images/LiceoBG.jpg' className="blur-sm object-cover h-screen w-screen bg-black"/>
       <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
@@ -160,6 +177,7 @@ const Home = () => {
 </div>
 
 </div>
+</>
   )
 }
 

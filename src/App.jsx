@@ -18,110 +18,97 @@ import {database} from "../firebaseConfig";
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
 import Manuscript from "./pages/Manuscript";
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
   const { currentUser, logout } = useContext(UserContext);
-  const [displayName,setDisplayName] =useState("")
-  const [profile,setProfile] =useState("")
-  const [email,setEmail] =useState("")
-const auth = getAuth()
-const isEmailExistsInUsersCollection = async (email) => {
-  try {
-    // Reference to the "Users" collection
-    const usersCollectionRef = collection(database, "Users");
+  const auth = getAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [displayName, setDisplayName] = useState("");
+  const [profile, setProfile] = useState("");
+  const [email, setEmail] = useState("");
 
-    // Query the collection to check if a document with the provided email exists
-    const querySnapshot = await getDocs(
-      query(usersCollectionRef, where("email", "==", email))
-    );
+  useEffect(() => {
+    setIsLoading(true)
+    const isEmailExistsInUsersCollection = async (email) => {
+      setIsLoading(true);
 
-    // Check if any documents match the query
-    return !querySnapshot.empty;
-  } catch (error) {
-    console.error("Error checking email existence:", error);
-    throw error;
-  }
-};
-
-const handleRegister = async () => {
-  try {
-    // Check if the email exists in the "Users" collection
-    const emailExists = await isEmailExistsInUsersCollection(email);
-
-    if (!currentUser.email) {
-      console.log("User is not logged in.");
-      return;
-    }
-
-    if (!emailExists) {
-      // Gather user input data
-      const userData = {
-        displayName: currentUser.displayName,
-        email: currentUser.email,
-        profilePictureURL: currentUser.photoURL
-      };
-
-      // Add user data to Firestore's "Users" collection
-      // Replace "collectionName" with your actual Firestore collection name
       const usersCollectionRef = collection(database, "Users");
-      const userDocRef = doc(usersCollectionRef, auth.currentUser.uid);
-      await setDoc(userDocRef, userData);
+      const querySnapshot = await getDocs(
+        query(usersCollectionRef, where("email", "==", email))
+      );
+      return !querySnapshot.empty;
+    };
 
-      // Registration successful
-      console.log("Registration successful!");
-    } else {
-    }
-  } catch (error) {
-    console.error("Registration error:", error);
-  }
-};
+    const handleRegister = async () => {
+      if (currentUser.email) {
+        setIsLoading(true);
 
-useEffect(() => {
-  const login = async (email) => {
-    // Check if the email exists in the "Users" collection
-    const emailExists = await isEmailExistsInUsersCollection(email);
-    setDisplayName(currentUser.displayName);
-    setEmail(currentUser.email);
-    setProfile(currentUser.photoURL);
-    if (emailExists) {
-      // Email exists, continue with the login process
-      // Add your login code here
-    } else {
-      handleRegister();
-    }
-  };
-
-  if (currentUser && currentUser.email) {
-    login(currentUser.email);
-    if (!currentUser.email.endsWith("@liceo.edu.ph")) {
-      // The email is not from the "liceo.edu.ph" domain
-      // You can perform actions here, like showing an alert or deleting the user
-      window.alert("Please use a valid @liceo.edu.ph email address.");
-      const deleteUserAccount = async () => {
-        try {
-          await deleteUser(auth.currentUser);
-        } catch (error) {
-          console.error("Error deleting user account:", error);
+        const emailExists = await isEmailExistsInUsersCollection(email);
+        if (!emailExists) {
+          const userData = {
+            displayName: currentUser.displayName,
+            email: currentUser.email,
+            profilePictureURL: currentUser.photoURL,
+          };
+          const usersCollectionRef = collection(database, "Users");
+          const userDocRef = doc(usersCollectionRef, auth.currentUser.uid);
+          await setDoc(userDocRef, userData);
+          console.log("Registration successful!");
         }
-      };
+      }
+    };
 
-      deleteUserAccount(); // Call the function to delete the user
-      logout(); // Log out the user
+    const login = async (email) => {
+      const emailExists = await isEmailExistsInUsersCollection(email);
+      setDisplayName(currentUser.displayName);
+      setEmail(currentUser.email);
+      setProfile(currentUser.photoURL);
+      if (!emailExists) {
+        handleRegister();
+        setIsLoading(true);
+
+      }
+    };
+
+    if (currentUser && currentUser.email) {
+      login(currentUser.email);
+          setIsLoading(true)
+
+      if (!currentUser.email.endsWith("@liceo.edu.ph")) {
+        window.alert("Please use a valid @liceo.edu.ph email address.");
+        const deleteUserAccount = async () => {
+          try {
+            setIsLoading(true);
+
+            await deleteUser(auth.currentUser);
+          } catch (error) {
+            console.error("Error deleting user account:", error);
+          }
+        };
+        deleteUserAccount();
+        logout();
+      }
+    } else {
+      setIsLoading(true);
     }
-  } else {
-    setIsLoading(false); // Set isLoading to false when there is no user
-  }
-}, [currentUser, logout]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [currentUser, logout]);
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 1000);
   return (
     <>
-     {isLoading && <LoadingModal />}
+    {isLoading && <LoadingModal />}
       <div className="bg-transparent">
         <div className="m-4">
           {currentUser ? (
             <NavBar profilePic={profile} displayName={displayName} email={email} />
+            
           ) : (
             <div className="flex justify-center w-full lg:justify-between gap-x-5">
               <img className="w-24 lg:w-32" src="/static/images/liceo.png" />
               <img
+              
                 className="w-24 lg:visible invisible lg:relative absolute"
                 src="/static/images/libraryLogo.png"
               />
