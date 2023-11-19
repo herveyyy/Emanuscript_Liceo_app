@@ -1,7 +1,40 @@
-import { Avatar, Typography, Card, CardHeader,CardBody, Button, Rating } from "@material-tailwind/react";
+import { Avatar } from "@material-tailwind/react";
 import AccountTabs from "../components/AccountTabs";
-
+import RatedCards from "../components/RatedCards";
+import { database } from "../../firebaseConfig";
+import { collection,query,where,getDocs} from "firebase/firestore";
+import React,{useState,useEffect,useContext} from "react";
+import { UserContext } from "../data/userData";
+import LoadingModal from "../components/Loading";
 function Rated() {
+  const [ratingsList,setRatingsList] = useState([])
+  const {currentUser} = useContext(UserContext)
+  const fetchUserRatings = async () => {
+    try {
+      const q = query(collection(database, "Ratings"), where("UserID", "==", currentUser.uid));
+      const snapshot = await getDocs(q);
+      const rating = snapshot.docs.map((doc) => {
+        const ratingData = doc.data();
+        return {
+          id: doc.id,
+          ...ratingData,
+        };
+      });
+      setRatingsList(rating);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    if (currentUser) {
+      fetchUserRatings()
+      console.log(ratingsList)
+    }
+  }, [currentUser]);
+  
+  if(!currentUser){
+    return <LoadingModal/>
+  }
     return ( 
         <div className=" justify-center mt-6 min-h-screen">
       <div className=" flex justify-center items-center">
@@ -14,185 +47,35 @@ function Rated() {
           </div>
       </div>
       <div className="">
-      <div className="flex justify-center my-4">
+      <div className=" justify-center my-4 hidden md:flex">
         <AccountTabs/>
         </div>
-        <div className="flex flex-wrap gap-3 justify-center">
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
+        <div className="flex justify-center items-center my-4 gap-x-2 px-2 w-full">
+       <div className="border-t   border-gray-400 h-1 w-full"></div>
+        <p className="uppercase text-center w-96">Rated Manuscripts</p>
+        <div className="border-t  border-gray-400 h-1 w-full"></div>
+        </div>
+        <div className="flex flex-wrap gap-x-3 justify-center">
+         {ratingsList.map((ratingsData, index) => {
+    if (ratingsData.ManuscriptName && ratingsData.Abstract && ratingsData.ManuscriptPicture && ratingsData.ManuscriptDepartment) {
+      return (
+        <RatedCards
+          key={index}
+          id={ratingsData.ManuscriptID}
+          title={ratingsData.ManuscriptName}
+          abstract={ratingsData.Abstract}
+          frontPage={ratingsData.ManuscriptPicture}
+          department={ratingsData.ManuscriptDepartment}
+          rate={ratingsData.Rating}
         />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
-        />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
-        />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
-        />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
-        />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        <Card className="w-[35rem] h-[11rem] max-w-[48rem] flex-row">
-        <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-r-none"
-        >
-        <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="card-image"
-          className="h-full w-full object-cover"
-        />
-        </CardHeader>
-        <CardBody>
-        <div className="flex justify-between">
-        <Typography color="gray" className="mb-1 uppercase text-xs -top-1">
-          Department
-        </Typography>
-        <Rating unratedColor="amber" ratedColor="amber" />
-        </div>
-        <Typography color="blue-gray" className="mb-1 text-sm uppercase">
-          Title
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal text-sm">
-          Like so many organizations these days, Autodesk is a company in
-          transition. It was until recently a traditional boxed software company
-          selling licenses.
-        </Typography>
-        </CardBody>
-        </Card>
-        </div>
+      );
+    } else {
+      // Handle missing bookmark data
+      console.error(`Missing bookmark data for bookmark with ID ${bookmarkData.id}`);
+      return null;
+    }
+  })}
+       </div>
       </div>
     </div>
      );

@@ -7,9 +7,9 @@ const RateModal = ({open,handler,manuscriptData,userData}) => {
 const [rating, setRating] = useState(1);
   const handleBTN = () => {
     console.log("The users rating is ",rating)
-    rateManuscript(manuscriptData.id,manuscriptData.location,manuscriptData.title,rating, userData.uid,userData.displayName)
+    rateManuscript(manuscriptData.id,manuscriptData.location,manuscriptData.title,rating, userData.uid,userData.displayName,manuscriptData.frontPageURL,manuscriptData.abstract, manuscriptData.department)
   }
-  const rateManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, rating, userId, userName) => {
+  const rateManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, rating, userId, userName,frontPageURL,abstract,department) => {
     try {
       const ratingsCollectionRef = collection(database, 'Ratings');
   
@@ -36,6 +36,9 @@ const [rating, setRating] = useState(1);
         Rating: rating,
         UserID: userId,
         UserName: userName,
+        Abstract: abstract,
+        ManuscriptPicture: frontPageURL,
+        ManuscriptDepartment: department,
       };
   
       // Add the rating data to the 'Ratings' collection
