@@ -3,8 +3,10 @@ import { Card,CardHeader,Typography,Button,CardBody } from '@material-tailwind/r
 import { database } from '../../firebaseConfig';
 import { collection,doc,deleteDoc } from 'firebase/firestore';
 import { CiBookmarkMinus } from "react-icons/ci";
+import { useNavigate } from 'react-router-dom';
 
-const BookmarkCard = ({title,department,abstract,id,frontPage}) => {
+const BookmarkCard = ({title,department,abstract,id,frontPage,manuscriptID}) => {
+ const navigate  = useNavigate("")
   const maxAbstractLength = 200;
   // Truncate the abstract if it exceeds the maximum length
   const truncatedAbstract =
@@ -17,7 +19,10 @@ const BookmarkCard = ({title,department,abstract,id,frontPage}) => {
         removeData(id);
 
       };
-  
+      const handleCardLink = () => {
+        navigate("/Manuscript/" + manuscriptID)
+
+    }
       const removeData = async (id) => {
         try {
           // Reference to the document
@@ -32,7 +37,9 @@ const BookmarkCard = ({title,department,abstract,id,frontPage}) => {
       };
   return (
     <div className='flex relative' > 
-    <Card className="md:w-[35rem] md:h-[11rem] md:max-w-[48rem]  w-[18rem] h-24  flex-row ">
+    <Card 
+    onClick={handleCardLink}
+    className="md:w-[35rem] md:h-[11rem] md:max-w-[48rem]  w-[18rem] h-24  flex-row ">
 
     <CardHeader
     shadow={false}

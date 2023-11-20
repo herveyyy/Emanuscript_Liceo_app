@@ -10,7 +10,7 @@ import CiteModal from '../components/CiteModal';
 import ReadModal from '../components/ReadModal';
 import RateModal from '../components/RateModal';
 import { database } from '../../firebaseConfig';
-import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs} from 'firebase/firestore';
+import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,updateDoc} from 'firebase/firestore';
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 const Manuscript = () => {
@@ -42,14 +42,66 @@ const Manuscript = () => {
       
    
     };
-
-    fetchManuscriptData();
-
+      fetchManuscriptData();
   }, [id]);
 const handleRead = () => {
 console.log("ReadButton is Clicked")
+addView(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName,manuscript.abstract,manuscript.frontPageURL, manuscript.department)
 window.open(manuscript.manuscriptPDF, '_blank')
 }
+const addView = async (
+  manuscriptId,
+  manuscriptLocation,
+  manuscriptName,
+  userId,
+  userName,
+  manuscriptAbstract,
+  manuscriptFrontPageURL,
+  manuscriptDepartment
+) => {
+  try {
+    const historyRef = collection(database, "History");
+
+  // Check if the document already exists
+const querySnapshot = await getDocs(
+  query(
+    historyRef,
+    where("ManuscriptID", "==", manuscriptId),
+    where("UserID", "==", userId)
+  )
+);
+
+if (!querySnapshot.empty) {
+  // Document exists, update the Date field
+  const existingDoc = querySnapshot.docs[0];
+  const existingDocRef = doc(historyRef, existingDoc.id);
+
+  await updateDoc(existingDocRef, {
+    Date: serverTimestamp(),
+  });
+} else {
+  // Document doesn't exist, create a new one
+  const historyData = {
+    Date: serverTimestamp(),
+    ManuscriptID: manuscriptId,
+    ManuscriptLocation: manuscriptLocation,
+    ManuscriptName: manuscriptName,
+    UserID: userId,
+    UserName: userName,
+    Department: manuscriptDepartment,
+    ManuscriptPicture: manuscriptFrontPageURL,
+    ManuscriptAbstract: manuscriptAbstract,
+  };
+
+  const docRef = await addDoc(historyRef, historyData);
+}
+  } catch (error) {
+    console.error("Error updating/add view:", error);
+    // Handle the error appropriately, e.g., show a user-friendly message
+    throw new Error("Failed to update/add view");
+  }
+};
+
 const handleCite = () => {
   setCiteModal(!citeModal)
 console.log("CiteBtn is Clicked")
@@ -80,7 +132,7 @@ const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptNa
         where('UserID', '==', userId)
       )
     );
-
+       
     // If a bookmark already exists, don't bookmark again
     if (querySnapshot.size > 0) {
       alert('Bookmark already exists');

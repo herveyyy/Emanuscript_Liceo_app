@@ -68,6 +68,7 @@ useEffect(() => {
         <BookmarkCard
           key={index}
           id={bookmarkData.id}
+          manuscriptID={bookmarkData.ManuscriptID}
           title={bookmarkData.ManuscriptName}
           abstract={bookmarkData.ManuscriptAbstract}
           frontPage={bookmarkData.ManuscriptPicture}

@@ -8,7 +8,6 @@ const SearchCard = ({title,department,abstract,id,frontPage}) => {
     abstract.length > maxAbstractLength
       ? abstract.substring(0, maxAbstractLength) + '...'
       : abstract;
-
   return (
     <div> 
     <Card className="md:w-[35rem] md:h-[11rem] md:max-w-[48rem]  w-80 h-24  flex-row ">
