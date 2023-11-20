@@ -39,11 +39,11 @@ function Rated() {
         <div className=" justify-center mt-6 min-h-screen">
       <div className=" flex justify-center items-center">
           <div className="bg-red-800 rounded-full mb-[1rem] py-1 px-1">
-              <Avatar src="static/images/khian.png" alt='profile' size="xl"/>
+              <Avatar src={currentUser.photoURL} alt='profile' size="xl"/>
           </div>
           <div className="px-3 italic">
-              <h1>Khian Justice A. Abad</h1>
-              <h2>kabad37796@liceo.edu.ph</h2>
+              <h1>{currentUser.displayName}</h1>
+              <h2>{currentUser.email}</h2>
           </div>
       </div>
       <div className="">

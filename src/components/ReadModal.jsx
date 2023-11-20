@@ -4,6 +4,7 @@ import {FaXmark} from "react-icons/fa6";
 const ReadModal = ({open,handler}) => {
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
+
   return (
     <Dialog open={open}  size='xxl'>
     <DialogHeader className='flex justify-between border-b-2 '>
