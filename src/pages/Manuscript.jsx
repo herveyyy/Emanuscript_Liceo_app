@@ -24,6 +24,7 @@ const Manuscript = () => {
   const [onLoading,setOnLoading] = useState(false)
   useEffect(() => {
     // Function to fetch manuscript data from Firebase Firestore
+
     const fetchManuscriptData = async () => {
       try {
         const manuscriptRef = doc(database, "Manuscript", id);
@@ -102,6 +103,7 @@ if (!querySnapshot.empty) {
   }
 };
 
+
 const handleCite = () => {
   setCiteModal(!citeModal)
 console.log("CiteBtn is Clicked")
@@ -151,10 +153,8 @@ const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptNa
       ManuscriptPicture: manuscriptFrontPageURL,
       ManuscriptAbstract: manuscriptAbstract,
     };
-
     // Add the bookmark data to the 'Bookmark' collection
     const docRef = await addDoc(bookmarksCollectionRef, bookmarkData);
-
     alert('Bookmark added');
     setOnLoading(false);
     // Optionally, you can update the manuscript data with the new bookmark information if needed
@@ -163,6 +163,21 @@ const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptNa
     setOnLoading(false);
   }
 
+  const requestReadOnSite = async () => {
+    try {
+      const colRef = collection(database, "BorrowManuscriptRequest")
+      const requestData = {
+        Date: serverTimestamp(),
+        ManuscriptLocation: manuscriptLocation,
+        UserID: userId,
+        UserName: userName,
+        Department: manuscriptDeparment,
+      };
+      const docRef = await  addDoc(colRef, bookmarkData);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 };
 if(!manuscript){
   return <div>
@@ -173,7 +188,7 @@ if(!manuscript){
     <div className='w-full '>
       {onLoading && <LoadingModal/>}
        <CiteModal open={citeModal} handler={handleCite}/>
-       <ReadModal open={readModal} handler={handleReadRequest}/>
+       <ReadModal open={readModal} handler={handleReadRequest} userData={currentUser}/>
        <RateModal open={rateModal} handler={handleRate} userData={currentUser} manuscriptData={manuscript}/>
       <div>ManuscriptID: {id}</div>
       <div className='max-w-screen-xl mx-auto'>
@@ -340,8 +355,16 @@ if(!manuscript){
               <div className='md:w-1/2 w-full h-52 px-2 '>
                 <div className='text-center md:text-left text-gray-900 font-semibold border-b '>Rules and Regulations</div>
                 <p className='text-justify md:text-left text-xs sm:text-sm  py-2'>
-                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse maiores maxime nesciunt error commodi quaerat est mollitia harum suscipit repellendus repellat cum, alias molestias voluptates expedita, totam sapiente nam ad.
-                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi facere nisi voluptatibus. Sunt a dolore voluptate dolor accusamus, commodi optio exercitationem culpa sint, nostrum sed magnam cupiditate sit quaerat? Rerum?</p>
+                By accessing and reading unpublished manuscripts on this platform,
+                 users agree to abide by the following rules and regulations. 
+                 Users may only view and read manuscripts for personal, non-commercial purposes.
+                  Reproduction, distribution, or any form of unauthorized sharing of the manuscript
+                   content is strictly prohibited. Users must respect the intellectual property rights of 
+                   the authors and refrain from disclosing or using any information contained in the unpublished 
+                   manuscripts without explicit permission. Any violation of these rules may result in the suspension
+                    or termination of the user's access to the platform. The platform assumes no responsibility for the 
+                    consequences of any misuse or unauthorized dissemination of unpublished manuscript content by users.
+                </p>
                 </div>
               <Footer/>
             </div>
