@@ -10,6 +10,7 @@ import {React, useContext, useEffect,useState} from 'react'
 import { collection,doc,getDoc,where} from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import LoadingModal from "../components/Loading";
+import RegisterAuthor from "../components/RegisterAuthor";
 const AccountSettings = () => {
     const { currentUser, logout } = useContext(UserContext);
     const [user,setUser] = useState([])
@@ -44,6 +45,7 @@ return true
 }
 
 }
+
     return ( 
         <div className="flex justify-center mt-6">
             <div className="absolute flex justify-center items-center mb-[20rem] px-1">
@@ -62,6 +64,9 @@ return true
         <p className="w-[24rem] text-center uppercase">Account Settings</p>
         <div className="border-t mt-2.5 border-gray-400 h-1 w-full"></div>
         </div>
+<div className=" w-full flex justify-center">     
+   <RegisterAuthor userData={user} />
+   </div>
                 <form className=" flex justify-center w-full  my-12">
                 <div className="flex flex-wrap mb-8 w-full justify-center md:justify-normal md:w-[40rem]">
                     <div className="w-full md:w-1/2 px-3 md:mb-0 text-center md:text-left ">
