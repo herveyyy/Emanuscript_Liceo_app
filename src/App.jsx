@@ -17,6 +17,7 @@ import {database} from "../firebaseConfig";
 
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
 import Manuscript from "./pages/Manuscript";
+import AboutUs from "./pages/AboutUs";
 function App() {
   const { currentUser, logout } = useContext(UserContext);
   const auth = getAuth();
@@ -125,7 +126,7 @@ function App() {
           <Route path="/AccountSettings/Rated" element={<Rated />} />
           <Route path="/Manuscript/:id" Component={Manuscript} />
           <Route path="/*" element={<Navigate to="/Home" />} />
-        
+            <Route path="/AboutUs" element={<AboutUs/>} />
         </Routes>
       </div>
     </>
