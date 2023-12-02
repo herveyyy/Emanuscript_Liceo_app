@@ -9,13 +9,13 @@ const AboutUs = () => {
       <div className='flex w-full px-8'>
       <Typography variant='h1'>About Us</Typography>
       </div>
-      <div className='w-full flex justify-center'>
-      <ProfileCard name={"Dr. Marco Marvin L. Rado"} role={"Adviser"} />
+      <div className='w-full flex justify-center my-9'>
+      <ProfileCard name={"Dr. Marco Marvin L. Rado"} role={"Adviser"} profileLink={"/static/images/sir.png"} />
       </div>
       <div className='w-full flex flex-wrap justify-center gap-2'>
-      <ProfileCard name={"Hervey Geralph C. Mapano"} role={"Full Stack Developer / Data Architect"} />
-      <ProfileCard  name={"Rossiel D. Britania"} role={"Technical Write/ Project Manager / CEO"}/>
-      <ProfileCard  name={"Khian Justice A. Abad"} role={"Front End Developer / UI/UX Designer"}/>
+      <ProfileCard name={"Hervey Geralph C. Mapano"} role={"Full Stack Developer / Data Architect"} profileLink={"/static/images/herver.jpg"} />
+      <ProfileCard  name={"Rossiel D. Britania"} role={"Technical Write/ Project Manager / CEO"} profileLink={"/static/images/rossiel.jpg"}/>
+      <ProfileCard  name={"Khian Justice A. Abad"} role={"Front End Developer / UI/UX Designer"} profileLink={"/static/images/khian.jpg"}/>
       </div>
       <Footer />
     </div>
