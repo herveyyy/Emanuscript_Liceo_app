@@ -108,16 +108,12 @@ window.location.reload()
         className="bg-transparent shadow-none"
       >
         <Card className="mx-auto w-full">
-          <CardHeader
-            variant="gradient"
-            color="amber"
-            className="grid h-28 place-items-center"
-          >
-            <img src="/static/images/liceo.png" className="w-20 h-auto" />
-          </CardHeader>
-          <CardBody className="flex flex-col gap-4 max-h-[400px] overflow-y-auto">
-            <Typography variant="h4" color="black" className="text-center">
-              Register
+            
+          <CardBody className="flex flex-col gap-4 max-h-[700px] overflow-y-auto">
+            
+            <Typography variant="h4" color="black" className="flex items-center gap-x-3 gap-y-1 flex-wrap justify-center text-center">
+              <img src="/static/images/libraryLogo.png" className="w-20 h-auto" />
+              REGISTRATION FORM
             </Typography>
             <div className="flex items-center gap-x-2">
               <Avatar src={user.photoURL} alt="avatar" />
@@ -255,6 +251,7 @@ window.location.reload()
                   <Option value="2nd Year">2nd Year</Option>
                   <Option value="3rd Year">3rd Year</Option>
                   <Option value="4th Year">4th Year</Option>
+                  <Option value="5th Year">5th Year</Option>
                 </Select>
               </div>
             </div>
@@ -262,28 +259,17 @@ window.location.reload()
             <div className="flex-1 lg:flex lg:gap-x-2">
               <div className="pt-2 w-full">
                 <Select
-                  label="Gender"
+                  label="Sex"
                   value={gender}
                   onChange={(e) => setGender(e)}
                   error={gender.length > 0 ? false : true}
                 >
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
-                  <Option value="Non-binary">Non-binary</Option>
-                  <Option value="Other">Other</Option>
                 </Select>
             
               </div>
               
-                  <div className="pt-2 w-full">
-                    <Input
-                      label="Specify Your Gender"
-                      value={customGender}
-                      onChange={(e) => setCustomGender(e.target.value)}
-                      disabled={gender !== "Other"}
-                     
-                    />
-                  </div>
                   <div className="pt-2 w-full">
                   <Datepicker  
             value={value} 
