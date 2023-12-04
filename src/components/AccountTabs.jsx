@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const AccountTabs = () => {
   return (
-    <div className="bg-red-900 rounded-md">
+    <div className="bg-maroon-900 rounded-md">
     <ul className="flex justify-evenly cursor-pointer">
       <Typography as='li' className='mx-9 text-lg py-1 hover:bg-gray-600 hover:rounded-lg hover:px-1 hover:py-1' color='white'>
         <Link to='/AccountSettings'>

@@ -34,7 +34,7 @@ const navList = (
     >
       <Link to='/Home' className="flex items-center">
       <Button
-       className="w-full bg-red-800"
+       className="w-full bg-maroon-800"
        color=""
        size="sm"
        >
@@ -51,7 +51,7 @@ const navList = (
     >
       <Link to='/Search' className="flex items-center">
       <Button
-       className="w-full bg-red-800"
+       className="w-full bg-maroon-800"
        color=""
        size="sm"
        >
@@ -68,7 +68,7 @@ const navList = (
     >
       <Link to='/whatsNew' className="flex items-center">
       <Button
-       className="w-full bg-red-800"
+       className="w-full bg-maroon-800"
        color=""
        size="sm"
        variant="filled">
@@ -83,7 +83,7 @@ const navList = (
         <Navbar
         color="transparent"
         variant = "gradient"
-         className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-red-900  z-50  tra">
+         className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 bg-maroon-900  z-50  tra">
         <div className="container mx-auto flex items-center justify-between text-blue-gray-50">
         <div className="w-12 max-h-12">
                 <img src="static/images/libraryLogo.png" onClick={handleClick}/>

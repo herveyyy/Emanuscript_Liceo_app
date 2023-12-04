@@ -104,7 +104,7 @@ if(!userData){
      {btnShow && <Tooltip content="Become a Author">
         <button
           onClick={handleOpen}
-          className="border-red-800 border rounded-3xl p-2 font-bold text-gray-800 hover:bg-red-700 hover:text-white duration-700"
+          className="border-maroon-800 border rounded-3xl p-2 font-bold text-gray-800 hover:bg-maroon-700 hover:text-white duration-700"
         >
           Become a Author
         </button>

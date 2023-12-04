@@ -112,9 +112,9 @@ function ManuscriptComponent() {
   };
   return (
     <div className="flex flex-col items-center justify-center  ">
-      <div className="w-full md:w-80% border-y-2 py-2 text-2xl lg:text-4xl text-center px-2 justify-center duration-700 flex-wrap">
-        <span className="md:w-80% py-5 text-white bg-black px-6 rounded-xl w-full mt-1 flex justify-center uppercase">
-          NEWLY ADDED Manuscripts
+      <div className=" border-y-2 py-2 text-2xl lg:text-4xl text-center px-2 justify-center duration-700 flex-wrap">
+        <span className="md:w-80% py-5 text-white bg-maroon-900 px-6 rounded-xl mt-1 flex justify-center uppercase">
+          NEWLY ADDED MANUSCRIPTS
         </span>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 mt-10">
