@@ -393,6 +393,4 @@ const researchKeywords = [
   "Fintech",
   "Data Center Management",
 ];
-
-// Export the array for use in other JavaScript code
 export default researchKeywords;
