@@ -101,12 +101,12 @@ if(!userData){
 }
   return (
     <>
-     {btnShow && <Tooltip content="Become a Author">
+     {btnShow && <Tooltip content="Become an Author">
         <button
           onClick={handleOpen}
           className="border-maroon-800 border rounded-3xl p-2 font-bold text-gray-800 hover:bg-maroon-700 hover:text-white duration-700"
         >
-          Become a Author
+          REGISTER AUTHOR
         </button>
       </Tooltip>} 
       <Dialog

@@ -93,7 +93,7 @@ const Search = () => {
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <img
             className="sm:w-44 md:w-32 w-44"
-            src="/static/images/liceo.png"
+            src="/static/images/libraryLogo.png"
             alt="Liceo Logo"
           />
           <label className="flex justify-center">
