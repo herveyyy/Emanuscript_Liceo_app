@@ -40,7 +40,7 @@ useEffect(() => {
     return ( 
     <div className="flex justify-center mt-6 min-h-screen">
       <div className="absolute flex justify-center items-center mb-[20rem] px-1">
-          <div className="bg-red-800 rounded-full flex justify-center mb-[1rem] py-1 px-1">
+          <div className="bg-maroon-800 rounded-full flex justify-center mb-[1rem] py-1 px-1">
               <Avatar src={currentUser.photoURL} alt='profile' size="xl"/>
           </div>
           <div className="px-3 italic">

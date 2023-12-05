@@ -38,7 +38,7 @@ function Rated() {
     return ( 
         <div className=" justify-center mt-6 min-h-screen">
       <div className=" flex justify-center items-center">
-          <div className="bg-red-800 rounded-full mb-[1rem] py-1 px-1">
+          <div className="bg-maroon-800 rounded-full mb-[1rem] py-1 px-1">
               <Avatar src={currentUser.photoURL} alt='profile' size="xl"/>
           </div>
           <div className="px-3 italic">
@@ -55,7 +55,7 @@ function Rated() {
         <p className="uppercase text-center w-96">Rated Manuscripts</p>
         <div className="border-t  border-gray-400 h-1 w-full"></div>
         </div>
-        <div className="flex flex-wrap gap-x-3 justify-center">
+        <div className="flex flex-wrap gap-3 justify-center">
          {ratingsList.map((ratingsData, index) => {
     if (ratingsData.ManuscriptName && ratingsData.Abstract && ratingsData.ManuscriptPicture && ratingsData.ManuscriptDepartment) {
       return (

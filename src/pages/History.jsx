@@ -41,7 +41,7 @@ function History() {
     return ( 
         <div className=" min-h-screen">
       <div className=" flex justify-center items-center mb-[2rem] px-1">
-          <div className="bg-red-800 rounded-full flex justify-center mb-[1rem] py-1 px-1">
+          <div className="bg-maroon-800 rounded-full flex justify-center mb-[1rem] py-1 px-1">
               <Avatar src={currentUser.photoURL} alt='profile' size="xl"/>
           </div>
           <div className="px-3 italic">
