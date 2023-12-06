@@ -92,7 +92,7 @@ const Home = () => {
       <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
      
       </div>
-    <div className='sm:mx-9 md:mx-8 lg:mx-52 px-2 mt-28 md:h-[32rem] h-[14rem] '>
+    <div className='sm:mx-9 md:mx-8 px-2 mt-28 md:h-[32rem] h-[14rem] '>
     <Carousel
     className="rounded-xl mt-3  "
     navigation={({ setActiveIndex, activeIndex, length }) => (
@@ -111,17 +111,17 @@ const Home = () => {
     )}
   >
     <img
-      src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+      src="/static/images/bg7.jpg"
       alt="image 1"
       className="h-full w-full object-cover"
     />
     <img
-      src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+      src="/static/images/bg1.jpg"
       alt="image 2"
       className="h-full w-full object-cover"
     />
     <img
-      src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
+      src="/static/images/bg4.jpg"
       alt="image 3"
       className="h-full w-full object-cover"
      
