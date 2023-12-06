@@ -307,7 +307,7 @@ if(!manuscript){
         {/* AuthorList */}
         <div className='w-full  justify-center'>
           <p className='text-center text-gray-900  font-semibold '>Authors </p>
-            <AuthorList list={manuscript.authors || []} dept= {manuscript.department} />
+            <AuthorList list={manuscript.authors || []} dept= {manuscript.department} profilePic={manuscript.authorsPicture} />
         </div>
         {/* Abstract */}
         <div className=' p-2 border-t-2 w-full mt-2 border-t-maroon-700'>
