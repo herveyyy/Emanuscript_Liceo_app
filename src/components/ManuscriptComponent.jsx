@@ -129,7 +129,6 @@ function ManuscriptComponent() {
               department={doc.department}
             />
          ) )}
-
         </div>
       </div>
       <div className="z-99 flex justify-center md:justify-end my-4">{getPageButtons()}</div>
