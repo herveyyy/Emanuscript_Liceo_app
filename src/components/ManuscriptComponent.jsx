@@ -129,16 +129,6 @@ function ManuscriptComponent() {
               department={doc.department}
             />
          ) )}
-         {getPageItems().map((doc, index) => (
-            <ManuscriptItem
-            docID={doc.docID}
-              key={index}
-              imgUrl={doc.frontPageURL}
-              title={doc.title}
-              course={doc.course}
-              department={doc.department}
-            />
-         ) )}
 
         </div>
       </div>
