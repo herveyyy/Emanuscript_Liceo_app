@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingPage from './LoadingPage';
 import ManuscriptScreens from '../components/ManuscriptsScreen';
 
 const WhatsNew = () => {

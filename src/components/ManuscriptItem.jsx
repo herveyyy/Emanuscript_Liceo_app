@@ -25,7 +25,7 @@ try {
       <img
         src={imgUrl}
         alt="Manuscript"
-        className="w-full h-36 md:h-48 object-cover cursor-pointer"
+        className="w-full h-auto md:h-48 object-cover cursor-pointer "
       />
       <div className="w-full p-4 bg-gray-200 duration-200 opacity-80">
         <h3 className="text-lg md:text-xl mb-2 md:mb-3 font-semibold">{titleTruncated}</h3>
