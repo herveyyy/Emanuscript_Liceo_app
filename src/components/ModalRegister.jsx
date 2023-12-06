@@ -270,8 +270,10 @@ window.location.reload()
             
               </div>
               
-                  <div className="pt-2 w-full">
-                  <Datepicker  
+                  <div className="pt-2 w-full flex items-center">
+               <Typography className="w-24">Birth Date:</Typography>
+               <div className="w-full">
+              <Datepicker  
             value={value} 
             onChange={handleValueChange} 
             asSingle={true} 
@@ -283,6 +285,7 @@ window.location.reload()
             displayFormat={"MM/DD/YYYY"}
            
             />
+            </div>
               </div>
             </div>
          
