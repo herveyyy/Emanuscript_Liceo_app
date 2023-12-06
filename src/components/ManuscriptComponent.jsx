@@ -139,26 +139,7 @@ function ManuscriptComponent() {
               department={doc.department}
             />
          ) )}
-         {getPageItems().map((doc, index) => (
-            <ManuscriptItem
-            docID={doc.docID}
-              key={index}
-              imgUrl={doc.frontPageURL}
-              title={doc.title}
-              course={doc.course}
-              department={doc.department}
-            />
-         ) )}
-         {getPageItems().map((doc, index) => (
-            <ManuscriptItem
-            docID={doc.docID}
-              key={index}
-              imgUrl={doc.frontPageURL}
-              title={doc.title}
-              course={doc.course}
-              department={doc.department}
-            />
-         ) )}
+
         </div>
       </div>
       <div className="z-99 flex justify-center md:justify-end my-4">{getPageButtons()}</div>
