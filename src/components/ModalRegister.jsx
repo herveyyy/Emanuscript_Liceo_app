@@ -102,7 +102,7 @@ window.location.reload()
     <>
 
       <Dialog
-        size="lg"
+        size="xxl"
         open={userNew}
         
         className="bg-transparent shadow-none"
@@ -279,7 +279,7 @@ window.location.reload()
             placeholder={"Birthdate"}
             inputClassName="rounded-lg w-full p-2 text-sm border-[1px] border-slate-900"
             containerClassName=" bg-slate-300 text-slate-100 rounded-2xl relative "
-            popoverDirection="down" 
+            popoverDirection="up" 
             displayFormat={"MM/DD/YYYY"}
            
             />
