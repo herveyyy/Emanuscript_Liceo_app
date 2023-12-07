@@ -5,8 +5,6 @@ import { database } from '../../firebaseConfig';
 import { collection,doc,getDoc,addDoc ,serverTimestamp} from 'firebase/firestore';
 
 const ReadModal = ({open,handler,userData}) => {
-  const [numPages, setNumPages] = useState();
-  const [pageNumber, setPageNumber] = useState(1);
   const [user, setUser] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState("")
   useEffect(() => {

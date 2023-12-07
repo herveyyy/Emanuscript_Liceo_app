@@ -13,6 +13,7 @@ import { database } from '../../firebaseConfig';
 import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,updateDoc} from 'firebase/firestore';
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
+import ViewerPDF from '../components/ViewerPDF';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -20,11 +21,11 @@ const Manuscript = () => {
   const [readModal, setReadModal] = useState(false)
   const [rateModal, setRateModal] = useState(false)
   const [citeModal, setCiteModal] = useState(false)
+  const [readPDF, setReadPDF] = useState(false)
   const { currentUser, logout } = useContext(UserContext);
   const [onLoading,setOnLoading] = useState(false)
   useEffect(() => {
     // Function to fetch manuscript data from Firebase Firestore
-
     const fetchManuscriptData = async () => {
       try {
         const manuscriptRef = doc(database, "Manuscript", id);
@@ -112,7 +113,10 @@ const handleRate = () => {
   setRateModal(!rateModal)
   console.log("RateBtn is Clicked")
 }
-
+const handleViewer = () => {
+  setReadPDF(!readPDF)
+  console.log("RateBtn is Clicked")
+}
 const handleReadRequest = () => {
   console.log("handleReadRequest is Clicked")
   setReadModal(!readModal)
@@ -190,6 +194,7 @@ if(!manuscript){
        <CiteModal open={citeModal} handler={handleCite}/>
        <ReadModal open={readModal} handler={handleReadRequest} userData={currentUser}/>
        <RateModal open={rateModal} handler={handleRate} userData={currentUser} manuscriptData={manuscript}/>
+       <ViewerPDF open={readPDF} handler={handleViewer} docURL={manuscript.manuscriptPDF} title={manuscript.title}/>
       <div>ManuscriptID: {id}</div>
       <div className='max-w-screen-xl mx-auto'>
         {/* Picture and Title and bookmark Icon */}
@@ -226,7 +231,6 @@ if(!manuscript){
                     <p className='text-center sm:text-left'>Year: N/A</p>
                   )}
                 </div>
-
                 </div>
                 <div className='flex gap-2 justify-center sm:justify-start lg:flex-wrap flex-col lg:flex-row pl-2'>
                   <div className=' h-8 border-gray-900 border-l-2 px-2 '>
@@ -258,7 +262,7 @@ if(!manuscript){
           // Render the navigation bar on large screens
           <div className='flex w-full gap-x-2 justify-end'>
             <div className='h-16 flex items-center'>
-              <button onClick={handleRead} className=' gap-x-2 bg-maroon-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
+              <button onClick={handleViewer} className=' gap-x-2 bg-maroon-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaBookReader />Read
               </button>
             </div>
