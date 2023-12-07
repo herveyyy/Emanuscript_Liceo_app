@@ -12,7 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { HiOutlineXMark } from 'react-icons/hi2';
 import { database } from '../../firebaseConfig';
-import { collection,query,where,getDocs,addDoc } from 'firebase/firestore';
+import { collection,query,where,getDocs,addDoc, serverTimestamp } from 'firebase/firestore';
 
 const registerAsAuthor = async (userData, selectedAdviser) => {
     try {
@@ -31,6 +31,7 @@ const registerAsAuthor = async (userData, selectedAdviser) => {
         Address: userData.address,
         Email: userData.email,
         profilePicture: userData.profilePictureURL,
+        dateAdded:serverTimestamp(),
         status:"waiting",
     });
   
