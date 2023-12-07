@@ -197,7 +197,7 @@ if(!manuscript){
           <div className='flex w-full px-12 h-80 gap-x-4 gap-y-1 flex-wrap justify-center duration-300'>
             <div className='lg:w-[28%] w-full flex justify-center items-center shadow-2xl  rounded-2xl  '>
               <img
-                className='w-full h-32 sm:w-full sm:h-40 md:h-56 md:w-full lg:h-72 lg:w-full object-cover'
+                className='w-full h-32 sm:w-full sm:h-40 md:h-56 md:w-full lg:h-72 lg:w-full object-center'
                 src={manuscript.frontPageURL}
                 alt='Manuscript Cover'
               />
@@ -250,13 +250,6 @@ if(!manuscript){
                   </div>
                   <p className='text-xs text-center'>{manuscript.location}</p>
                   </div>
-                  <div className=' h-8 border-gray-900 border-l-2 px-2 lg:border-r-2 my-4 sm:my-0'>
-                  <div className='flex items-center justify-center gap-1'>
-                      <div className='text-maroon-900'><BsNewspaper/></div>
-                      <p className='text-xs text-center font-bold'>Pages</p>
-                  </div>
-                  <p className='text-xs text-center'>143</p>
-                  </div>
                 </div>
                        
               </div>
@@ -281,11 +274,7 @@ if(!manuscript){
                 Rate
               </button>
             </div>
-            <div className='h-16 flex items-center'>
-              <button onClick={handleReadRequest}  className='bg-blue-500 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
-                Request Read On-site
-              </button>
-            </div>
+
           </div>
         ) : (
           // Render the navigation bar on small screens
