@@ -38,7 +38,7 @@ const AdvanceSearch = ({updatedManuscripts}) => {
   const fetchManuscriptData = async () => {
     try {
       const db = database;
-      const manuscriptCollection = collection(db, 'Manuscript'); // Replace with your collection name
+      const manuscriptCollection = collection(db, 'Manuscript'); 
 
       let manuscriptQuery = query(manuscriptCollection);
 
@@ -101,7 +101,6 @@ const AdvanceSearch = ({updatedManuscripts}) => {
       setShowSuggestions(true);
     }
   };
-
   const handleSuggestionClick = (suggestion) => {
     setTagInput(suggestion);
     setShowSuggestions(false);

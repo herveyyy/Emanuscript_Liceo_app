@@ -10,6 +10,7 @@ import {
   getDocs,
   query,
   where,
+  Timestamp,
 } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import ResultsPage from "./ResultsPage";
@@ -29,12 +30,58 @@ const collegeNames = Object.keys(colleges["List of Colleges"]);
 const updateManuscripts = (newManuscripts) => {
   setSearchResults(newManuscripts);
 }
-
-const handleFilterSearch = () =>{
+const handleFilterSearch = async () =>{
   console.log("selectedDepartment: ", selectedDepartment)
   console.log("fromYear: ", fromYear)
   console.log("toYear: ", toYear)
+  if(selectedDepartment == "" && fromYear == "" && toYear == ""){
+    return alert("Please fill if you want to use that function. :))))")
+  }
+  const manuscriptData = await fetchManuscriptData();
+  setSearchResults(manuscriptData)
+  console.log(searchResults,'result')
 }
+const fetchManuscriptData = async () => {
+
+  try {
+    const db = database;
+    const manuscriptCollection = collection(db, 'Manuscript'); 
+    let manuscriptQuery = query(manuscriptCollection);
+
+    if(fromYear && toYear && selectedDepartment){
+      console.log("dunno")
+      const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+      const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+      manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp),where('department', '==', selectedDepartment));
+    }
+      if (selectedDepartment) {
+        manuscriptQuery = query(manuscriptCollection, where('department', '==', selectedDepartment));
+      }
+      if (fromYear && toYear) {
+        const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+        const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+        manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp));
+      }
+ 
+    const querySnapshot = await getDocs(manuscriptQuery);
+    const results = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        docID: doc.id,
+        title: data.title,
+        abstract: data.abstract,
+        frontPageURL: data.frontPageURL,
+        department: data.department,
+        keywords: data.keywords,
+
+      };
+    });
+    return results;
+  } catch (error) {
+    console.error('Error fetching manuscript data:', error);
+  }
+};
+
   useEffect(() => {
     if (!currentUser) {
       navigate("/Home");
@@ -56,15 +103,12 @@ const handleFilterSearch = () =>{
     try {
       setIsLoading(true)
       console.log(keywords);
-  
       const manuscriptRef = collection(database, "Manuscript");
-      const querySnapshot = await getDocs(
-        query(
+      if(search){
+        const searchQuery  = query(
           manuscriptRef,
-          where("keywords", "array-contains-any", keywords)
-        )
-      );
-  
+          where("title", ">=", search.toUpperCase()))
+         const  querySnapshot = await getDocs(searchQuery)
       const results = querySnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
@@ -78,6 +122,29 @@ const handleFilterSearch = () =>{
         };
       });
       setSearchResults(results);
+      }
+      
+      if(keywords.length > 2) {
+ const querySnapshot = await getDocs(
+        query(
+          manuscriptRef,
+          where("keywords", "array-contains-any", keywords)
+        )
+      );
+      const results = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          docID: doc.id,
+          title: data.title,
+          abstract: data.abstract,
+          frontPageURL: data.frontPageURL,
+          department: data.department,
+          keywords: data.keywords,
+        };
+      });
+      setSearchResults(results);
+      }
+     
       console.log("Search results:", results); // Log the results to the console
     } catch (error) {
       console.error("Error searching manuscripts:", error);

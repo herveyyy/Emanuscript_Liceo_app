@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchCard from '../components/SearchCards';
 import {
   collection,
@@ -7,10 +7,9 @@ import {
   where,
 } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
-import AdvanceSearch from '../components/AdvanceSearch';
-import LoadingModal from '../components/Loading';
-import {Navigate, Link} from "react-router-dom";
 import { Typography,Input } from '@material-tailwind/react';
+import colleges from '../colleges';
+import LoadingModal from '../components/Loading';
 const ResultsPage = ({ results, inputSearch }) => {
   const [search, setSearch] = useState('');
   const [keywords, setKeywords] = useState([]);
@@ -18,6 +17,21 @@ const ResultsPage = ({ results, inputSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 6; // Number of results to display per page
   const [open, setOpen] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState("")
+  const [toYear,setToYear] = useState("")
+  const [fromYear,setFromYear] = useState("")
+  const collegeNames = Object.keys(colleges["List of Colleges"]);
+  const handleFilterSearch = async () =>{
+    console.log("selectedDepartment: ", selectedDepartment)
+    console.log("fromYear: ", fromYear)
+    console.log("toYear: ", toYear)
+    if(selectedDepartment == "" && fromYear == "" && toYear == ""){
+      return alert("Please fill if you want to use that function. :))))")
+    }
+    const manuscriptData = await fetchManuscriptData();
+    setSearchResults(manuscriptData)
+    console.log(searchResults,'result')
+  }
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
     setSearch(query);
@@ -29,11 +43,48 @@ const ResultsPage = ({ results, inputSearch }) => {
     setSearchResults(results);
     setSearch(inputSearch);
   }
-
   const splitSearchQuery = (searchData) => {
     return searchData.split(' ').filter((keyword) => keyword.trim() !== '');
   };
-
+  
+  const fetchManuscriptData = async () => {
+    try {
+      const db = database;
+      const manuscriptCollection = collection(db, 'Manuscript'); 
+      let manuscriptQuery = query(manuscriptCollection);
+      if(fromYear && toYear && selectedDepartment){
+        console.log("dunno")
+        const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+        const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+        manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp),where('department', '==', selectedDepartment));
+      }
+        if (selectedDepartment) {
+          manuscriptQuery = query(manuscriptCollection, where('department', '==', selectedDepartment));
+        }
+        if (fromYear && toYear) {
+          const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+          const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+          manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp));
+        }
+   
+      const querySnapshot = await getDocs(manuscriptQuery);
+      const results = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          docID: doc.id,
+          title: data.title,
+          abstract: data.abstract,
+          frontPageURL: data.frontPageURL,
+          department: data.department,
+          keywords: data.keywords,
+  
+        };
+      });
+      return results;
+    } catch (error) {
+      console.error('Error fetching manuscript data:', error);
+    }
+  };
   const handleSearch = async () => {
     try {
       setOpen(true);
@@ -64,43 +115,43 @@ const ResultsPage = ({ results, inputSearch }) => {
     }
 };
 
-  const maxPage = Math.ceil(searchResults.length / resultsPerPage);
+const maxPage = Math.ceil(searchResults.length / resultsPerPage);
 
-  // Calculate the indexes of the results to display based on the current page
-  const indexOfLastResult = currentPage * resultsPerPage;
-  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-  const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
+// Calculate the indexes of the results to display based on the current page
+const indexOfLastResult = currentPage * resultsPerPage;
+const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
 
-  // Update the page when the current page changes
-  const paginate = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= maxPage) {
-      setCurrentPage(pageNumber);
-    }
-  };
+// Update the page when the current page changes
+const paginate = (pageNumber) => {
+  if (pageNumber >= 1 && pageNumber <= maxPage) {
+    setCurrentPage(pageNumber);
+  }
+};
 
-  // Render pagination links
-  const renderPaginationLinks = () => {
-    const pages = [];
-    for (let i = 1; i <= maxPage; i++) {
-      pages.push(
-        <p
-          key={i}
-          onClick={() => paginate(i)}
-          className={`text-sm font-medium leading-none cursor-pointer ${
-            currentPage === i
-              ? 'text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2'
-              : 'text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2'
-          }`}
-        >
-          {i}
-        </p>
-      );
-    }
-    return pages;
-  };
+// Render pagination links
+const renderPaginationLinks = () => {
+  const pages = [];
+  for (let i = 1; i <= maxPage; i++) {
+    pages.push(
+      <p
+        key={i}
+        onClick={() => paginate(i)}
+        className={`text-sm font-medium leading-none cursor-pointer ${
+          currentPage === i
+            ? 'text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2'
+            : 'text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2'
+        }`}
+      >
+        {i}
+      </p>
+    );
+  }
+  return pages;
+};
 
-  const showPrevious = currentPage > 1;
-  const showNext = currentPage < maxPage;
+const showPrevious = currentPage > 1;
+const showNext = currentPage < maxPage;
 
  return (
     <div className="">
@@ -144,26 +195,27 @@ const ResultsPage = ({ results, inputSearch }) => {
 <div className=" my-2 z-10 w-full flex items-end justify-center">
   <div className="flex items-center gap-2 border-2  rounded-xl px-2">
     <div className="flex">
-<select className="bg-transparent border-2 rounded-lg p-2 ">
+    <select className="bg-transparent border-2 rounded-lg p-2 text-black w-52 overflow-hidden" value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
   <option className="text-black" selected  >Select Department</option>
-  <option className="text-black" value="US">United States</option>
-  <option className="text-black" value="CA">Canada</option>
-  <option className="text-black" >France</option>
-  <option className="text-black">Germany</option>
+      {collegeNames.map((college,index) => (
+        <option className="text-black" key={index} value={college} >{college}</option>
+      ))}
 </select>
 </div>
   <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="" variant="small">Year:
   </Typography>
-  <Input variant="standard" className="h-36" color="black" placeholder="" />
+  <Input variant="standard" className="h-36" color="black" value={fromYear} onChange={(e) => setFromYear(e.target.value)} placeholder="" />
   </div> 
    <div className="w-24 overflow-hidden flex items-end">
-  <Typography className="px-2" color="" variant="small">To
+  <Typography className="px-2" color="" variant="small" >To
   </Typography>
-  <Input variant="standard" className="h-36" color="black" placeholder="" />
+  <Input variant="standard" className="h-36" color="black" placeholder=""  value={toYear} onChange={(e) => setToYear(e.target.value)}/>
   </div>
 
-          <button className={`m-2 px-2 py-1 border-2 rounded-lg text-black duration-500 hover:bg-black hover:text-white hover:font-semibold`}>
+          <button 
+          onClick={handleFilterSearch}
+          className={`m-2 px-2 py-1 border-2 rounded-lg text-black duration-500 hover:bg-black hover:text-white hover:font-semibold`}>
             Filter
           </button>
           </div>
