@@ -222,7 +222,7 @@ const fetchManuscriptData = async () => {
             alt="Liceo Logo"
           />
           <label className="flex justify-center">
-            <h1 className="text-gray-100 text-lg font-bold sm:text-1xl lg:text-1xl italic mt-8">
+            <h1 className="text-yellow-200 text-lg font-bold sm:text-1xl lg:text-1xl italic mt-8">
               Hi, {currentUser.displayName}
             </h1>
           </label>

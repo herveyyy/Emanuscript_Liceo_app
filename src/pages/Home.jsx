@@ -126,6 +126,30 @@ const Home = () => {
       className="h-full w-full object-cover"
      
     />
+      <img
+      src="/static/images/bg2.jpg"
+      alt="image 3"
+      className="h-full w-full object-cover"
+     
+    />
+      <img
+      src="/static/images/bg5.jpg"
+      alt="image 3"
+      className="h-full w-full object-cover"
+     
+    />
+      <img
+      src="/static/images/bg3.jpg"
+      alt="image 3"
+      className="h-full w-full object-cover"
+     
+    />
+      <img
+      src="/static/images/bg6.jpg"
+      alt="image 3"
+      className="h-full w-full object-cover"
+     
+    />
   </Carousel>
   </div>
 
