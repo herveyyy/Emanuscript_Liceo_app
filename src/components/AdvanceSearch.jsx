@@ -32,9 +32,7 @@ const AdvanceSearch = ({updatedManuscripts}) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const handleSearch = async () => {
     console.log("From Year: ", fromYear, "To Year: ", toYear, "Course: ", course, "and", "Department: ", department, "Tags:", tags);
-    
-    // Call the fetchManuscriptData function
-    const manuscriptData = await fetchManuscriptData();
+        const manuscriptData = await fetchManuscriptData();
     updatedManuscripts(manuscriptData)
   };
   const fetchManuscriptData = async () => {
@@ -61,13 +59,20 @@ const AdvanceSearch = ({updatedManuscripts}) => {
       }
 
       const querySnapshot = await getDocs(manuscriptQuery);
-      const manuscriptData = [];
+      
+      const results = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          docID: doc.id,
+          title: data.title,
+          abstract: data.abstract,
+          frontPageURL: data.frontPageURL,
+          department: data.department,
+          keywords: data.keywords,
 
-      querySnapshot.forEach((doc) => {
-        manuscriptData.push(doc.data());
+        };
       });
-
-      return manuscriptData;
+      return results;
     } catch (error) {
       console.error('Error fetching manuscript data:', error);
     }
@@ -106,7 +111,7 @@ const AdvanceSearch = ({updatedManuscripts}) => {
     setTags(updatedTags);
   };
   return (
-<>
+<div className='md:hidden flex'>
 <Tooltip content="Advance Search Filter">
                <button 
                onClick={()=>setOpen(true)}
@@ -239,7 +244,7 @@ onClick={handleSearch}
 >Search </Button>
         </DialogFooter>
                 </Dialog>
-</>
+</div>
   )
 }
 

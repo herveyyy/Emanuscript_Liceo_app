@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Home from "./Home";
 import AdvanceSearch from "../components/AdvanceSearch";
 import { Input, Select, Typography,Option } from "@material-tailwind/react";
+import colleges from "../colleges";
 import {
   collection,
   getDocs,
@@ -20,11 +21,20 @@ const Search = () => {
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+const [selectedDepartment, setSelectedDepartment] = useState("")
+const [fromYear, setFromYear] = useState("")
+const [toYear, setToYear] = useState("")
+const collegeNames = Object.keys(colleges["List of Colleges"]);
 
-  const updateManuscripts = (newManuscripts) => {
-    setSearchResults(newManuscripts);
-  }
+const updateManuscripts = (newManuscripts) => {
+  setSearchResults(newManuscripts);
+}
 
+const handleFilterSearch = () =>{
+  console.log("selectedDepartment: ", selectedDepartment)
+  console.log("fromYear: ", fromYear)
+  console.log("toYear: ", toYear)
+}
   useEffect(() => {
     if (!currentUser) {
       navigate("/Home");
@@ -80,10 +90,9 @@ const Search = () => {
   if (!currentUser) {
     return <Home />;
   } else {
-    if(searchResults.length  === 0){
+    if(searchResults.length   === 0 ){
     return (
       <>
-  
     {isLoading && <LoadingModal/>}
       <div className="absolute top-0  bottom-0 -z-10  h-screen bg-black">
         <img
@@ -91,30 +100,29 @@ const Search = () => {
           className="blur-sm object-cover h-screen w-screen"
           alt="background"
         />
-        <div className=" w-full  top-0 absolute flex items-center justify-center">
+        <div className="hidden w-full  top-0 absolute md:flex items-center justify-center">
 <div className=" h-[9rem] z-10 w-full flex items-end justify-center">
   <div className="flex items-center gap-2 border-2  rounded-xl px-2">
     <div className="flex">
-<select className="bg-transparent border-2 rounded-lg p-2 text-white ">
+<select className="bg-transparent border-2 rounded-lg p-2 text-white w-52 overflow-hidden" value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
   <option className="text-black" selected  >Select Department</option>
-  <option className="text-black" value="US">United States</option>
-  <option className="text-black" value="CA">Canada</option>
-  <option className="text-black" >France</option>
-  <option className="text-black">Germany</option>
+      {collegeNames.map((college,index) => (
+        <option className="text-black" key={index} value={college} >{college}</option>
+      ))}
 </select>
 </div>
   <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="white" variant="small">Year:
   </Typography>
-  <Input variant="standard" className="h-36" color="white" placeholder="" />
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={fromYear} onChange={(e) => setFromYear(e.target.value)} />
   </div> 
    <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="white" variant="small">To
   </Typography>
-  <Input variant="standard" className="h-36" color="white" placeholder="" />
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={toYear} onChange={(e) => setToYear(e.target.value)} />
   </div>
 
-          <button className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}>
+          <button onClick={handleFilterSearch} className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}>
             Filter
           </button>
           </div>
@@ -150,7 +158,7 @@ const Search = () => {
               onChange={handleSearchInputChange}
               value={search}
             />
-            <AdvanceSearch updatedManuscripts={updateManuscripts} />
+            <AdvanceSearch className="" updatedManuscripts={updateManuscripts} />
           </div>
           <button
             onClick={() => handleSearch()}
@@ -166,7 +174,6 @@ const Search = () => {
     );
   }else{
     return(
-      
       <ResultsPage results={searchResults} inputSearch={search}/>
     )
   }

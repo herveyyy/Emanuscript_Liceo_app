@@ -10,12 +10,13 @@ import { database } from '../../firebaseConfig';
 import AdvanceSearch from '../components/AdvanceSearch';
 import LoadingModal from '../components/Loading';
 import {Navigate, Link} from "react-router-dom";
+import { Typography,Input } from '@material-tailwind/react';
 const ResultsPage = ({ results, inputSearch }) => {
   const [search, setSearch] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 9; // Number of results to display per page
+  const resultsPerPage = 6; // Number of results to display per page
   const [open, setOpen] = useState(false);
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
@@ -103,11 +104,14 @@ const ResultsPage = ({ results, inputSearch }) => {
 
  return (
     <div className="">
+
       {open && <LoadingModal />}
       <div className="w-full text-center pt-10 pb-12">
+        
         <p>Searched for "{search}"</p>
         <p>Search Results ({results.length})</p>
       </div>
+
       <div className="mx-2 flex justify-center">
         <div className="mb-2 flex border-2 rounded w-full sm:w-full md:w-96 border-black ring-black d">
           <button
@@ -132,21 +136,51 @@ const ResultsPage = ({ results, inputSearch }) => {
             onChange={handleSearchInputChange}
             value={search}
           />
+          
         </div>
+        
       </div>
+      <div className=" w-full  flex items-center justify-center">
+<div className=" my-2 z-10 w-full flex items-end justify-center">
+  <div className="flex items-center gap-2 border-2  rounded-xl px-2">
+    <div className="flex">
+<select className="bg-transparent border-2 rounded-lg p-2 ">
+  <option className="text-black" selected  >Select Department</option>
+  <option className="text-black" value="US">United States</option>
+  <option className="text-black" value="CA">Canada</option>
+  <option className="text-black" >France</option>
+  <option className="text-black">Germany</option>
+</select>
+</div>
+  <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="" variant="small">Year:
+  </Typography>
+  <Input variant="standard" className="h-36" color="black" placeholder="" />
+  </div> 
+   <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="" variant="small">To
+  </Typography>
+  <Input variant="standard" className="h-36" color="black" placeholder="" />
+  </div>
+
+          <button className={`m-2 px-2 py-1 border-2 rounded-lg text-black duration-500 hover:bg-black hover:text-white hover:font-semibold`}>
+            Filter
+          </button>
+          </div>
+        </div>
+        </div>
       <div className="flex flex-wrap gap-3 justify-center">
         {currentResults.map((result) => (
-          <Link className="hover:cursor-pointer"
-     to={"/Manuscript/"+ result.docID}  >
             <SearchCard
               key={result.docID}
+              id={result.docID}
               title={result.title}
               abstract={result.abstract}
               frontPage={result.frontPageURL}
               keywords={result.keywords}
               department={result.department}
             />
-          </Link>
+
         ))}
       </div>
       <div className="w-full">

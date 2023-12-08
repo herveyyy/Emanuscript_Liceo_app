@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card,CardHeader,Typography,Button,CardBody } from '@material-tailwind/react'
+import { Link } from 'react-router-dom';
 const SearchCard = ({title,department,abstract,id,frontPage}) => {
   const maxAbstractLength = 200;
 
@@ -9,7 +10,7 @@ const SearchCard = ({title,department,abstract,id,frontPage}) => {
       ? abstract.substring(0, maxAbstractLength) + '...'
       : abstract;
   return (
-    <div> 
+    <Link to={"/Manuscript/"+id}> 
     <Card className="md:w-[35rem] md:h-[11rem] md:max-w-[48rem]  w-80 h-24  flex-row overflow-hidden shadow-lg ">
     <CardHeader
     shadow={false}
@@ -35,7 +36,7 @@ const SearchCard = ({title,department,abstract,id,frontPage}) => {
     {truncatedAbstract}
     </Typography>
     </CardBody>
-    </Card></div>
+    </Card></Link>
   )
 }
 
