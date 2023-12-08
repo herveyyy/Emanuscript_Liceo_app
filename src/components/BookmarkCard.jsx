@@ -36,7 +36,7 @@ const BookmarkCard = ({title,department,abstract,id,frontPage,manuscriptID}) => 
         }
       };
   return (
-    <div className='flex relative' > 
+    <div className='flex relative overflow-hidden shadow-lg' > 
     <Card 
     onClick={handleCardLink}
     className="md:w-[35rem] md:h-[11rem] md:max-w-[48rem]  w-[18rem] h-24  flex-row ">
@@ -49,7 +49,7 @@ const BookmarkCard = ({title,department,abstract,id,frontPage,manuscriptID}) => 
     <img
       src={frontPage}
       alt="card-image"
-      className="h-full w-full object-cover"
+      className="h-full w-full object-center"
     />
   
     </CardHeader>

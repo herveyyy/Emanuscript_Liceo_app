@@ -13,7 +13,7 @@ const HistoryCard = ({title,department,abstract,id,frontPage, manuscriptID}) => 
 
     }
   return (
-<Card onClick={handleCardLink} className="w-full md:w-[35rem] h-auto md:h-[14rem]  flex-row">
+<Card onClick={handleCardLink} className="w-full md:w-[35rem] h-auto md:h-[14rem]  flex-row overflow-hidden shadow-lg">
         <CardHeader
         shadow={false}
         floated={false}
@@ -38,6 +38,7 @@ const HistoryCard = ({title,department,abstract,id,frontPage, manuscriptID}) => 
         {truncatedAbstract}
         </Typography>
         </CardBody>
+        
         </Card>
   )
 }

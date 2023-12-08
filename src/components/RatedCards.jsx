@@ -14,7 +14,7 @@ const RatedCards = ({title,department,abstract,id,frontPage,rate}) => {
 
     }
   return (
-    <Card onClick={handleCardLink} className="w-full md:w-[35rem] h-auto md:h-[14rem]  flex-row">
+    <Card onClick={handleCardLink} className="w-full md:w-[35rem] h-auto md:h-[14rem]  flex-row overflow-hidden shadow-lg">
         <CardHeader
         shadow={false}
         floated={false}
