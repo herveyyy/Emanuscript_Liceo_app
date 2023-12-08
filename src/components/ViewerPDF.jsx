@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react';
 import { FaXmark } from 'react-icons/fa6';
-import DocViewer, { DocViewerRenderers, DocRenderer } from '@cyntler/react-doc-viewer';
+import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 
 const ViewerPDF = ({ open, handler, docURL, title }) => {
-  const onLoadSuccess = ({ numPages }) => {
-    console.log(`Total Pages: ${numPages}`);
-  };
 
   const docs = [
     { uri: docURL, fileType: 'pdf', fileName: title },
@@ -15,7 +12,7 @@ const ViewerPDF = ({ open, handler, docURL, title }) => {
   return (
     <Dialog open={open} size='xxl'>
       <DialogHeader className='flex justify-between border-b-2 '>
-        <p className='w-[95%]'>Read</p>
+        <p className='w-full'>Read</p>
         <div className='flex justify-center w-[5%]'>
           <FaXmark onClick={handler} className='h-5 w-5 hover:cursor-pointer' />
         </div>
@@ -25,24 +22,23 @@ const ViewerPDF = ({ open, handler, docURL, title }) => {
           <DocViewer
             documents={docs}
             pluginRenderers={DocViewerRenderers}
-            config={{
-              header: {
-                disableHeader: false,
-                disableFileName: false,
-                retainURLParams: false,
-              },
-            }}
-            theme={{
-              primary: "#5296d8",
-              secondary: "#ffffff",
-              tertiary: "#5296d899",
-              textPrimary: "#ffffff",
-              textSecondary: "#5296d8",
-              textTertiary: "#00000099",
-              disableThemeScrollbar: false,
-            }}
-            onLoadSuccess={onLoadSuccess}
-          />
+            // config={{
+            //   header: {
+            //     disableHeader: false,
+            //     disableFileName: false,
+            //     retainURLParams: false,
+            //   },
+            // }}
+            // theme={{
+            //   primary: "#5296d8",
+            //   secondary: "#ffffff",
+            //   tertiary: "#5296d899",
+            //   textPrimary: "#ffffff",
+            //   textSecondary: "#5296d8",
+            //   textTertiary: "#00000099",
+            //   disableThemeScrollbar: false,
+            // }}
+                      />
         </div>
       </DialogBody>
       <DialogFooter className='flex gap-x-2 justify-center'>

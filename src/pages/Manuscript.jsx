@@ -284,7 +284,7 @@ if(!manuscript){
           // Render the navigation bar on small screens
           <div className='bg-maroon-600 p-2 fixed bottom-0 left-0 right-0'>
             <div className='flex justify-around'>
-              <button onClick={handleReadRequest} className='text-center text-white  w-full  flex justify-center' >
+              <button onClick={handleViewer} className='text-center text-white  w-full  flex justify-center' >
                 <FaBookReader />
               </button>
               <button onClick={handleCite} className='text-center text-white border-x-2 w-full  flex justify-center'>
