@@ -3,6 +3,7 @@ import { UserContext } from "../data/userData";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
 import AdvanceSearch from "../components/AdvanceSearch";
+import { Input, Select, Typography,Option } from "@material-tailwind/react";
 import {
   collection,
   getDocs,
@@ -90,6 +91,35 @@ const Search = () => {
           className="blur-sm object-cover h-screen w-screen"
           alt="background"
         />
+        <div className=" w-full  top-0 absolute flex items-center justify-center">
+<div className=" h-[9rem] z-10 w-full flex items-end justify-center">
+  <div className="flex items-center gap-2 border-2  rounded-xl px-2">
+    <div className="flex">
+<select className="bg-transparent border-2 rounded-lg p-2 text-white ">
+  <option className="text-black" selected  >Select Department</option>
+  <option className="text-black" value="US">United States</option>
+  <option className="text-black" value="CA">Canada</option>
+  <option className="text-black" >France</option>
+  <option className="text-black">Germany</option>
+</select>
+</div>
+  <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="white" variant="small">Year:
+  </Typography>
+  <Input variant="standard" className="h-36" color="white" placeholder="" />
+  </div> 
+   <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="white" variant="small">To
+  </Typography>
+  <Input variant="standard" className="h-36" color="white" placeholder="" />
+  </div>
+
+          <button className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}>
+            Filter
+          </button>
+          </div>
+        </div>
+        </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <img
             className="sm:w-44 md:w-32 w-44"
