@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+#pdf-download {
+    display: none;
+  }
+  #pdf-controls{
+    z-index: 3;
+  }
