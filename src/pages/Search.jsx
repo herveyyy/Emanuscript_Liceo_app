@@ -26,7 +26,23 @@ const [selectedDepartment, setSelectedDepartment] = useState("")
 const [fromYear, setFromYear] = useState("")
 const [toYear, setToYear] = useState("")
 const collegeNames = Object.keys(colleges["List of Colleges"]);
+const handleFromYearChange = (event) => {
+  const input = event.target.value;
 
+  // Check if input is a number and has 4 digits
+  if (/^\d{0,4}$/.test(input)) {
+    setFromYear(input);
+  }
+};
+
+const handleToYearChange = (event) => {
+  const input = event.target.value;
+
+  // Check if input is a number and has 4 digits
+  if (/^\d{0,4}$/.test(input)) {
+    setToYear(input);
+  }
+};
 const updateManuscripts = (newManuscripts) => {
   setSearchResults(newManuscripts);
 }
@@ -36,6 +52,11 @@ const handleFilterSearch = async () =>{
   console.log("toYear: ", toYear)
   if(selectedDepartment == "" && fromYear == "" && toYear == ""){
     return alert("Please fill if you want to use that function. :))))")
+  }
+  if(Number(fromYear) > Number(toYear)) {
+    setFromYear("")
+    setToYear("")
+    return alert("Please fill the date properly")
   }
   const manuscriptData = await fetchManuscriptData();
   setSearchResults(manuscriptData)
@@ -181,14 +202,13 @@ const fetchManuscriptData = async () => {
   <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="white" variant="small">Year:
   </Typography>
-  <Input variant="standard" className="h-36" color="white" placeholder="" value={fromYear} onChange={(e) => setFromYear(e.target.value)} />
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={fromYear} onChange={handleFromYearChange} />
   </div> 
    <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="white" variant="small">To
   </Typography>
-  <Input variant="standard" className="h-36" color="white" placeholder="" value={toYear} onChange={(e) => setToYear(e.target.value)} />
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={toYear} onChange={handleToYearChange} />
   </div>
-
           <button onClick={handleFilterSearch} className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}>
             Filter
           </button>

@@ -28,6 +28,11 @@ const ResultsPage = ({ results, inputSearch }) => {
     if(selectedDepartment == "" && fromYear == "" && toYear == ""){
       return alert("Please fill if you want to use that function. :))))")
     }
+    if(Number(fromYear) > Number(toYear)) {
+      setFromYear("")
+      setToYear("")
+      return alert("Please fill the date properly")
+    }
     const manuscriptData = await fetchManuscriptData();
     setSearchResults(manuscriptData)
     console.log(searchResults,'result')
