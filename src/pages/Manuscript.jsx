@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AuthorList from '../components/AuthorList';
 import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,BsNewspaper,BsPostcard} from 'react-icons/bs';
 import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
-import { Progress } from '@material-tailwind/react';
+import { Progress, Typography } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
 import Loading from '../components/Loading';
 import CiteModal from '../components/CiteModal';
@@ -17,7 +17,7 @@ import ViewerPDF from '../components/ViewerPDF';
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
-  const isLargeScreen = window.innerWidth >= 1024;
+  const isLargeScreen = window.innerWidth >= 1030;
   const [readModal, setReadModal] = useState(false)
   const [rateModal, setRateModal] = useState(false)
   const [citeModal, setCiteModal] = useState(false)
@@ -191,7 +191,7 @@ if(!manuscript){
   return (
     <div className='w-full '>
       {onLoading && <LoadingModal/>}
-       <CiteModal open={citeModal} handler={handleCite}/>
+       {/* <CiteModal open={citeModal} handler={handleCite} manuscriptData={manuscript}/> */}
        <ReadModal open={readModal} handler={handleReadRequest} userData={currentUser}/>
        <RateModal open={rateModal} handler={handleRate} userData={currentUser} manuscriptData={manuscript}/>
        <ViewerPDF open={readPDF} handler={handleViewer} docURL={manuscript.manuscriptPDF} title={manuscript.title}/>
@@ -266,12 +266,12 @@ if(!manuscript){
                 <FaBookReader />Read
               </button>
             </div>
-            <div className='h-16 flex items-center'>
+            {/* <div className='h-16 flex items-center'>
               <button onClick={handleCite} className='gap-x-2 bg-blue-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaQuoteLeft />
                 Cite
               </button>
-            </div>
+            </div> */}
             <div className='h-16 flex items-center'>
               <button onClick={handleRate} className='gap-x-2 bg-orange-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaStar />
@@ -282,16 +282,26 @@ if(!manuscript){
           </div>
         ) : (
           // Render the navigation bar on small screens
-          <div className='bg-maroon-600 p-2 fixed bottom-0 left-0 right-0'>
+          <div className='bg-maroon-900 bg-opacity-90  backdrop-blur-lg p-2 fixed bottom-0 left-0 right-0'>
             <div className='flex justify-around'>
               <button onClick={handleViewer} className='text-center text-white  w-full  flex justify-center' >
-                <FaBookReader />
-              </button>
-              <button onClick={handleCite} className='text-center text-white border-x-2 w-full  flex justify-center'>
+                <div>
+                  <div className='flex justify-center'>
+                  <FaBookReader />
+                  </div>
+                <Typography variant='small' className='font-semibold'>Read</Typography>
+                </div>
+                </button>
+              {/* <button onClick={handleCite} className='text-center text-white border-x-2 w-full  flex justify-center'>
                 <FaQuoteLeft />
-              </button>
-              <button onClick={handleRate} className='text-center text-white w-full flex justify-center'>
+              </button> */}
+              <button onClick={handleRate} className=' border-l-2 text-center text-white w-full flex justify-center'>
+              <div>
+                  <div className='flex justify-center'>
                 <FaStar />
+                </div>
+                <Typography variant='small' className='font-semibold'>Cite</Typography>
+                </div>
               </button>
             </div>
           </div>
