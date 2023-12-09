@@ -1,9 +1,9 @@
 import React from 'react'
-import {VscLoading} from 'react-icons/vsc'
+import LoadingModal from '../components/Loading'
 const LoadingPage = () => {
   return (
-    <div className='min-h-screen '>
-
+    <div className='h-screen  w-screen bg-white absolute inset-0 '>
+<LoadingModal/>
   </div>
   )
 }

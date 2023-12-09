@@ -2,6 +2,7 @@ import React from 'react';
 import ManuscriptScreens from '../components/ManuscriptsScreen';
 
 const WhatsNew = () => {
+
   return (
     <div className="absolute top-0 -z-10 h-auto overflow-hidden bg-black w-full">
       {/* Background Image */}

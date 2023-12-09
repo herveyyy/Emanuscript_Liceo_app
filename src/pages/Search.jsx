@@ -3,11 +3,14 @@ import { UserContext } from "../data/userData";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
 import AdvanceSearch from "../components/AdvanceSearch";
+import { Input, Select, Typography,Option } from "@material-tailwind/react";
+import colleges from "../colleges";
 import {
   collection,
   getDocs,
   query,
   where,
+  Timestamp,
 } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import ResultsPage from "./ResultsPage";
@@ -19,10 +22,86 @@ const Search = () => {
   const [keywords, setKeywords] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+const [selectedDepartment, setSelectedDepartment] = useState("")
+const [fromYear, setFromYear] = useState("")
+const [toYear, setToYear] = useState("")
+const collegeNames = Object.keys(colleges["List of Colleges"]);
+const handleFromYearChange = (event) => {
+  const input = event.target.value;
 
-  const updateManuscripts = (newManuscripts) => {
-    setSearchResults(newManuscripts);
+  // Check if input is a number and has 4 digits
+  if (/^\d{0,4}$/.test(input)) {
+    setFromYear(input);
   }
+};
+
+const handleToYearChange = (event) => {
+  const input = event.target.value;
+
+  // Check if input is a number and has 4 digits
+  if (/^\d{0,4}$/.test(input)) {
+    setToYear(input);
+  }
+};
+const updateManuscripts = (newManuscripts) => {
+  setSearchResults(newManuscripts);
+}
+const handleFilterSearch = async () =>{
+  console.log("selectedDepartment: ", selectedDepartment)
+  console.log("fromYear: ", fromYear)
+  console.log("toYear: ", toYear)
+  if(selectedDepartment == "" && fromYear == "" && toYear == ""){
+    return alert("Please fill if you want to use that function. :))))")
+  }
+  if(Number(fromYear) > Number(toYear)) {
+    setFromYear("")
+    setToYear("")
+    return alert("Please fill the date properly")
+  }
+  const manuscriptData = await fetchManuscriptData();
+  setSearchResults(manuscriptData)
+  console.log(searchResults,'result')
+}
+const fetchManuscriptData = async () => {
+
+  try {
+    const db = database;
+    const manuscriptCollection = collection(db, 'Manuscript'); 
+    let manuscriptQuery = query(manuscriptCollection);
+
+    if(fromYear && toYear && selectedDepartment){
+      console.log("dunno")
+      const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+      const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+      manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp),where('department', '==', selectedDepartment));
+    }
+      if (selectedDepartment) {
+        manuscriptQuery = query(manuscriptCollection, where('department', '==', selectedDepartment));
+      }
+      if (fromYear && toYear) {
+        const fromYearTimestamp = Timestamp.fromDate(new Date(`${fromYear}-01-01`));
+        const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
+        manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp));
+      }
+ 
+    const querySnapshot = await getDocs(manuscriptQuery);
+    const results = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        docID: doc.id,
+        title: data.title,
+        abstract: data.abstract,
+        frontPageURL: data.frontPageURL,
+        department: data.department,
+        keywords: data.keywords,
+
+      };
+    });
+    return results;
+  } catch (error) {
+    console.error('Error fetching manuscript data:', error);
+  }
+};
 
   useEffect(() => {
     if (!currentUser) {
@@ -45,15 +124,12 @@ const Search = () => {
     try {
       setIsLoading(true)
       console.log(keywords);
-  
       const manuscriptRef = collection(database, "Manuscript");
-      const querySnapshot = await getDocs(
-        query(
+      if(search){
+        const searchQuery  = query(
           manuscriptRef,
-          where("keywords", "array-contains-any", keywords)
-        )
-      );
-  
+          where("title", ">=", search.toUpperCase()))
+         const  querySnapshot = await getDocs(searchQuery)
       const results = querySnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
@@ -67,6 +143,29 @@ const Search = () => {
         };
       });
       setSearchResults(results);
+      }
+      
+      if(keywords.length > 2) {
+ const querySnapshot = await getDocs(
+        query(
+          manuscriptRef,
+          where("keywords", "array-contains-any", keywords)
+        )
+      );
+      const results = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          docID: doc.id,
+          title: data.title,
+          abstract: data.abstract,
+          frontPageURL: data.frontPageURL,
+          department: data.department,
+          keywords: data.keywords,
+        };
+      });
+      setSearchResults(results);
+      }
+     
       console.log("Search results:", results); // Log the results to the console
     } catch (error) {
       console.error("Error searching manuscripts:", error);
@@ -79,10 +178,9 @@ const Search = () => {
   if (!currentUser) {
     return <Home />;
   } else {
-    if(searchResults.length  === 0){
+    if(searchResults.length   === 0 ){
     return (
       <>
-  
     {isLoading && <LoadingModal/>}
       <div className="absolute top-0  bottom-0 -z-10  h-screen bg-black">
         <img
@@ -90,6 +188,33 @@ const Search = () => {
           className="blur-sm object-cover h-screen w-screen"
           alt="background"
         />
+        <div className="hidden w-full  top-0 absolute md:flex items-center justify-center">
+<div className=" h-[9rem] z-10 w-full flex items-end justify-center">
+  <div className="flex items-center gap-2 border-2  rounded-xl px-2">
+    <div className="flex">
+<select className="bg-transparent border-2 rounded-lg p-2 text-white w-52 overflow-hidden" value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
+  <option className="text-black" selected  >Select Department</option>
+      {collegeNames.map((college,index) => (
+        <option className="text-black" key={index} value={college} >{college}</option>
+      ))}
+</select>
+</div>
+  <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="white" variant="small">Year:
+  </Typography>
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={fromYear} onChange={handleFromYearChange} />
+  </div> 
+   <div className="w-24 overflow-hidden flex items-end">
+  <Typography className="px-2" color="white" variant="small">To
+  </Typography>
+  <Input variant="standard" className="h-36" color="white" placeholder="" value={toYear} onChange={handleToYearChange} />
+  </div>
+          <button onClick={handleFilterSearch} className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}>
+            Filter
+          </button>
+          </div>
+        </div>
+        </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <img
             className="sm:w-44 md:w-32 w-44"
@@ -120,7 +245,7 @@ const Search = () => {
               onChange={handleSearchInputChange}
               value={search}
             />
-            <AdvanceSearch updatedManuscripts={updateManuscripts} />
+            <AdvanceSearch className="" updatedManuscripts={updateManuscripts} />
           </div>
           <button
             onClick={() => handleSearch()}
@@ -136,7 +261,6 @@ const Search = () => {
     );
   }else{
     return(
-      
       <ResultsPage results={searchResults} inputSearch={search}/>
     )
   }
