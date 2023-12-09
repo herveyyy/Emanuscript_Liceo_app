@@ -24,7 +24,7 @@ function App() {
   const [displayName, setDisplayName] = useState("");
   const [profile, setProfile] = useState("");
   const [email, setEmail] = useState("");
-  const [remainingTime, setRemainingTime] = useState(30);  // 5 minutes in seconds
+  const [remainingTime, setRemainingTime] = useState(60);  // 5 minutes in seconds
 
   let inactivityTimeout;
 
@@ -35,12 +35,11 @@ function App() {
       console.log('Logging out due to inactivity');
       handleLogout();
     }, remainingTime * 1000);
-    console.log(`Inactivity timer reset. Remaining time: ${remainingTime} seconds`);
   };
 
   // Function to handle user activity events (e.g., mousemove, keydown)
   const handleUserActivity = () => {
-    setRemainingTime(30);  // Reset remaining time on activity
+    setRemainingTime(60);  // Reset remaining time on activity
     resetInactivityTimer();
   };
 
