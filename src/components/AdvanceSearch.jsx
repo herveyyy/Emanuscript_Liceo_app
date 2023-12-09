@@ -18,7 +18,7 @@ import researchKeywords from '../data/searchData';
 import { database } from "../../firebaseConfig";
 import { Timestamp, collection, query, where, getDocs } from 'firebase/firestore';
 
-const AdvanceSearch = ({updatedManuscripts}) => {
+  const AdvanceSearch = ({updatedManuscripts}) => {
   const [open, setOpen] = useState(false);
   const [department, setDepartment] = useState("");
   const [course, setCourse] = useState("");

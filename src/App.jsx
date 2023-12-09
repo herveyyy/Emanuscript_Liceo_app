@@ -96,6 +96,9 @@ function App() {
   setTimeout(() => {
     setIsLoading(false);
   }, 1000);
+  if(!currentUser){
+    return<Home/>
+  }
   return (
     <>
     {isLoading && <LoadingModal />}
