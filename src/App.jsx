@@ -15,7 +15,7 @@ import { UserContext } from "./data/userData";
 import { getAuth,deleteUser } from "firebase/auth";
 import { useState } from "react";
 import {database} from "../firebaseConfig";
-import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
+import {collection,getDocs,query,where,doc,setDoc,updateDoc} from 'firebase/firestore'
 import LoadingPage from "./pages/LoadingPage";
 function App() {
   const { currentUser, logout } = useContext(UserContext);
@@ -24,6 +24,74 @@ function App() {
   const [displayName, setDisplayName] = useState("");
   const [profile, setProfile] = useState("");
   const [email, setEmail] = useState("");
+  const [remainingTime, setRemainingTime] = useState(30);  // 5 minutes in seconds
+
+  let inactivityTimeout;
+
+  // Function to reset the inactivity timer
+  const resetInactivityTimer = () => {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(() => {
+      console.log('Logging out due to inactivity');
+      handleLogout();
+    }, remainingTime * 1000);
+    console.log(`Inactivity timer reset. Remaining time: ${remainingTime} seconds`);
+  };
+
+  // Function to handle user activity events (e.g., mousemove, keydown)
+  const handleUserActivity = () => {
+    setRemainingTime(30);  // Reset remaining time on activity
+    resetInactivityTimer();
+  };
+
+  // Function to perform logout on inactivity
+  const handleLogout = async () => {
+    console.log(inactivityTimeout);
+
+    if (currentUser) {
+      console.log(currentUser.uid);
+      const userRef = doc(database, 'Users', currentUser.uid);
+
+      try {
+        // Update user status to "offline"
+        await updateDoc(userRef, {
+          status: 'offline'
+        });
+        logout();
+        console.log('User status updated to offline');
+      } catch (error) {
+        console.error('Error updating user status:', error.message);
+      }
+    }
+  };
+
+  // Attach event listeners for user activity
+  useEffect(() => {
+    document.addEventListener('mousemove', handleUserActivity);
+    document.addEventListener('keydown', handleUserActivity);
+
+    // Cleanup event listeners when the component unmounts
+    return () => {
+      document.removeEventListener('mousemove', handleUserActivity);
+      document.removeEventListener('keydown', handleUserActivity);
+    };
+  }, []);
+
+  // Start the inactivity timer
+  useEffect(() => {
+    resetInactivityTimer();
+
+    // Update the remaining time every second
+    const timerInterval = setInterval(() => {
+      setRemainingTime(prev => (prev > 0 ? prev - 1 : prev));
+    }, 1000);
+
+    // Cleanup the inactivity timer and interval when the component unmounts
+    return () => {
+      clearTimeout(inactivityTimeout);
+      clearInterval(timerInterval);
+    };
+  }, [remainingTime]);
 
   useEffect(() => {
     setIsLoading(true)

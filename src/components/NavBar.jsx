@@ -11,6 +11,8 @@ import {Avatar,
 import { Link,useNavigate } from "react-router-dom";
 import React,{useContext} from "react";
 import { UserContext } from "../data/userData";
+import { doc, updateDoc } from "firebase/firestore";
+import { database } from "../../firebaseConfig";
 export default function NavBar({displayName, email, profilePic}) {
   const [openNav, setOpenNav] = React.useState(false);
    const {currentUser, logout } = useContext(UserContext);
@@ -24,6 +26,20 @@ export default function NavBar({displayName, email, profilePic}) {
 const handleClick = () => {
   navigate("/Home")
 }
+const handleLogout = async () => {
+  console.log(currentUser.uid)
+  const userRef = doc(database, "Users", currentUser.uid);
+  try {
+    // Update user status to "offline"
+    await updateDoc(userRef, {
+      status: "offline"
+    });
+    logout()
+    console.log("User status updated to offline");
+  } catch (error) {
+    console.error("Error updating user status:", error.message);
+  }
+};
 const navList = (
   <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
     <Typography
@@ -40,7 +56,6 @@ const navList = (
        >
       HOME
       </Button>
-       
       </Link>
     </Typography>
     <Typography
@@ -200,7 +215,7 @@ const navList = (
                 d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
               />
             </svg>
-            <Typography onClick={logout} variant="small" className="font-normal text-red-900">
+            <Typography onClick={handleLogout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
@@ -367,7 +382,7 @@ const navList = (
               />
             </svg>
             <Typography
-             onClick={logout} variant="small" className="font-normal text-red-900">
+             onClick={handleLogout} variant="small" className="font-normal text-red-900">
               Sign Out
             </Typography>
           </MenuItem>
