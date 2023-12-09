@@ -1,23 +1,22 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Suspense } from "react";
 import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
-import WhatsNew from "./pages/whatsNew";
-import Bookmark from "./pages/Bookmark";
-import Search from "./pages/Search";
-import AccountSettings from "./pages/AccountSettings";
-import History from "./pages/History";
-import Rated from "./pages/Rated";
+const Home  =  React.lazy(() => import("./pages/Home"))
+const WhatsNew  =  React.lazy(() => import("./pages/whatsNew"))
+const Bookmark  =  React.lazy(() => import("./pages/Bookmark"))
+const Search  =  React.lazy(() => import("./pages/Search"))
+const AccountSettings  =  React.lazy(() => import("./pages/AccountSettings"))
+const History = React.lazy(() => import("./pages/History"))
+const Rated = React.lazy(() => import("./pages/Rated"))
+const Manuscript = React.lazy(() => import("./pages/Manuscript"))
+const AboutUs = React.lazy(() => import("./pages/AboutUs"))
 import LoadingModal from "./components/Loading";
 import { Route, Routes, Navigate} from "react-router-dom";
 import { UserContext } from "./data/userData";
 import { getAuth,deleteUser } from "firebase/auth";
 import { useState } from "react";
 import {database} from "../firebaseConfig";
-
-
 import {collection,getDocs,query,where,doc,setDoc} from 'firebase/firestore'
-import Manuscript from "./pages/Manuscript";
-import AboutUs from "./pages/AboutUs";
+import LoadingPage from "./pages/LoadingPage";
 function App() {
   const { currentUser, logout } = useContext(UserContext);
   const auth = getAuth();
@@ -116,6 +115,7 @@ function App() {
             </div>
           )}
         </div>
+        <Suspense fallback={<LoadingPage/>}>
         <Routes >
           <Route path="/Home" element={<Home />} />
           <Route path="/Search" element={<Search />} />
@@ -126,8 +126,11 @@ function App() {
           <Route path="/AccountSettings/Rated" element={<Rated />} />
           <Route path="/Manuscript/:id" Component={Manuscript} />
           <Route path="/*" element={<Navigate to="/Home" />} />
-            <Route path="/AboutUs" element={<AboutUs/>} />
+          <Route path="/AboutUs" element={<AboutUs/>} />
+            {/* <Route path="/Loadingpage" element={<LoadingPage/>} /> */}
         </Routes>
+                  
+        </Suspense>
       </div>
     </>
   );
