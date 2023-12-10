@@ -17,6 +17,7 @@ import { useState } from "react";
 import {database} from "../firebaseConfig";
 import {collection,getDocs,query,where,doc,setDoc,updateDoc} from 'firebase/firestore'
 import LoadingPage from "./pages/LoadingPage";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 function App() {
   const { currentUser, logout } = useContext(UserContext);
   const auth = getAuth();
