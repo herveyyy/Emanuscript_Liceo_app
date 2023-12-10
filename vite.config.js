@@ -8,10 +8,9 @@ export default defineConfig({
     manifest:{
       name: 'Elsa P. Pelaez Memorial Library App',
         short_name: 'EPPML App',
-        "display": "standalone",
       icons:[
         {
-          src:"/static/appIcon.png",
+          src:"/static/images/appIcon.png",
           sizes:"512x512",
           type:"image/png",
           
