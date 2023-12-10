@@ -6,7 +6,6 @@ import BookmarkCard from "../components/BookmarkCard";
 import LoadingModal from "../components/Loading";
 import { database } from "../../firebaseConfig";
 import { collection,where, getDocs,query} from "firebase/firestore";
-import { async } from "@firebase/util";
 const Bookmark = () => {
 const [bookmarks, setBookmarks] = useState([])
 const {currentUser,logout} = useContext(UserContext)

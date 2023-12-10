@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Card, CardHeader,CardBody, Button, Rating } from "@material-tailwind/react";
+import { Typography, Card, CardHeader,CardBody, Rating } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 const RatedCards = ({title,department,abstract,id,frontPage,rate}) => {
      const maxAbstractLength = 200;

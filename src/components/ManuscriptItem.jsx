@@ -1,21 +1,9 @@
-import React,{useEffect, useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link} from 'react-router-dom';
 import { database } from '../../firebaseConfig';
-function ManuscriptItem({ title, imgUrl,course,department,year,docID}) { 
+function ManuscriptItem({ title, imgUrl,course,department,docID}) { 
   const titleTruncated = title.length > 20 ? title.substring(0, 25) + '...' : title;
-  const keywords = 3;
-  const navigate = useNavigate();
 
-
-  useEffect(()=>{
-const fetchDataManuscript = async () => {
-try {
-  const getRef = database("Manuscript")
-} catch (error) {
-  
-}
-}
-},[])
 
   return (
     <Link

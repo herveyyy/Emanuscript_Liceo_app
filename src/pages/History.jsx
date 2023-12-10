@@ -1,5 +1,4 @@
 import { Avatar, Typography, Card, CardHeader,CardBody, Button } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 import AccountTabs from "../components/AccountTabs";
 import HistoryCard from "../components/HistoryCard";
 import React,{useContext,useState,useEffect} from "react";

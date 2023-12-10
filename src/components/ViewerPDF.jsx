@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react';
+import React from 'react';
+import { Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react';
 import { FaXmark } from 'react-icons/fa6';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 
