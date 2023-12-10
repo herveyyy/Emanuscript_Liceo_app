@@ -11,7 +11,7 @@ export default defineConfig({
         "display": "standalone",
       icons:[
         {
-          src:"/static/images/appIcon.png",
+          src:"/static/appIcon.png",
           sizes:"512x512",
           type:"image/png",
           
