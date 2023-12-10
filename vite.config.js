@@ -5,11 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [react(),
   VitePWA({
-    base: '/Home/',
     manifest:{
-      name: 'Elsa P. Pelaez Memorial Library App',
-        short_name: 'EPPML App',
-        display: "standalone",
       icons:[
         {
           src:"/static/images/AppIcon.png",
