@@ -1,13 +1,10 @@
 import { Avatar,
-        Typography, 
-        Button, 
         Radio, 
         } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 import AccountTabs from "../components/AccountTabs";
 import { UserContext } from "../data/userData";
 import {React, useContext, useEffect,useState} from 'react'
-import { collection,doc,getDoc,where} from "firebase/firestore";
+import { doc,getDoc} from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import LoadingModal from "../components/Loading";
 import RegisterAuthor from "../components/RegisterAuthor";

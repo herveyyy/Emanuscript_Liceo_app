@@ -4,7 +4,6 @@ import {
   Button,
   Dialog,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Typography,
@@ -14,12 +13,10 @@ import {
   Radio,
 } from "@material-tailwind/react";
 import Datepicker from "react-tailwindcss-datepicker"; 
-import {BsGoogle} from 'react-icons/bs'
 import { database } from "../../firebaseConfig";
-import { collection,addDoc,updateDoc,doc } from "firebase/firestore";
+import {updateDoc,doc } from "firebase/firestore";
 import colleges from "../colleges";
 const ModalRegister = ({user,userNew}) => {
-  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");

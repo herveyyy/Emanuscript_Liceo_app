@@ -16,7 +16,7 @@ import {
 import { useState } from 'react';
 import LoadingModal from '../components/Loading';
 const Home = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser,logout } = useContext(UserContext);
   const [newUser, setNewUser] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -39,9 +39,15 @@ const Home = () => {
       if (userDocSnapshot.exists()) {
         // Check if the user document has a schoolID field
         const userData = userDocSnapshot.data();
+        
         if (userData && userData.schoolID) {
+          if(userData && userData.status == "block"){
+            alert("You have been blocked")
+            return logout()
+          }
           return true; // User has a schoolID
         }
+      
       }
 
       return false; // User does not have a schoolID
@@ -59,7 +65,7 @@ const Home = () => {
     const checkSchoolID = async () => {
       const userHasSchoolID = await hasSchoolID(currentUser);
       if (userHasSchoolID) {
-        // User has a schoolID, you can perform actions or render content accordingly
+        console.log(userHasSchoolID)
         setNewUser(false);
       } else {
         // User does not have a schoolID, you can handle this case as needed
