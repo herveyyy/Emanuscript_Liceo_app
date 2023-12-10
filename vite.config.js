@@ -5,37 +5,18 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [react(),
   VitePWA({
-    base: '/Home/',
     manifest:{
       "name": 'Elsa P. Pelaez Memorial Library App',
         "short_name": 'EPPML App',
         "display": "standalone",
+        start_url: "/",
+        id: "/",
       icons:[
         {
-          "src":"/static/images/libraryLogo.png",
+          "src":"/static/images/AppIcon.png",
           "sizes":"512x512",
           "type":"image/png",
-          
-        }, {
-          "src": "/static/images/libraryLogo.png",
-          "sizes": "72x72",
-          "type": "image/png"
-        },
-        {
-          "src": "/static/images/libraryLogo.png",
-          "sizes": "128x128",
-          "type": "image/png"
-        },
-        {
-          "src": "/static/images/libraryLogo.png",
-          "sizes": "144x144",
-          "type": "image/png"
-        },
-        {
-          "src": "/static/images/libraryLogo.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        },
+        }
       ]
     }
   })],
