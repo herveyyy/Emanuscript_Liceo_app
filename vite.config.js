@@ -9,8 +9,6 @@ export default defineConfig({
       "name": 'Elsa P. Pelaez Memorial Library App',
         "short_name": 'EPPML App',
         "display": "standalone",
-        start_url: "/",
-        id: "/",
       icons:[
         {
           "src":"/static/images/AppIcon.png",
