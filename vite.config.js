@@ -6,9 +6,6 @@ export default defineConfig({
   plugins: [react(),
   VitePWA({
     manifest:{
-      "name": 'Elsa P. Pelaez Memorial Library App',
-        "short_name": 'EPPML App',
-        "display": "standalone",
       icons:[
         {
           "src":"/static/images/AppIcon.png",
