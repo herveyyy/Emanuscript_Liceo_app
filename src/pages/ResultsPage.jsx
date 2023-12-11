@@ -5,11 +5,13 @@ import {
   getDocs,
   query,
   where,
+  Timestamp
 } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
 import { Typography,Input } from '@material-tailwind/react';
 import colleges from '../colleges';
 import LoadingModal from '../components/Loading';
+import { useEffect } from 'react';
 const ResultsPage = ({ results, inputSearch }) => {
   const [search, setSearch] = useState('');
   const [keywords, setKeywords] = useState([]);
@@ -21,22 +23,46 @@ const ResultsPage = ({ results, inputSearch }) => {
   const [toYear,setToYear] = useState("")
   const [fromYear,setFromYear] = useState("")
   const collegeNames = Object.keys(colleges["List of Colleges"]);
-  const handleFilterSearch = async () =>{
-    console.log("selectedDepartment: ", selectedDepartment)
-    console.log("fromYear: ", fromYear)
-    console.log("toYear: ", toYear)
-    if(selectedDepartment == "" && fromYear == "" && toYear == ""){
-      return alert("Please fill if you want to use that function. :))))")
+
+  const handleFromYearChange = (event) => {
+    const input = event.target.value;
+      if (/^\d{0,4}$/.test(input)) {
+      setFromYear(input);
     }
-    if(Number(fromYear) > Number(toYear)) {
-      setFromYear("")
-      setToYear("")
-      return alert("Please fill the date properly")
+  };
+  
+  const handleToYearChange = (event) => {
+    const input = event.target.value;
+      if (/^\d{0,4}$/.test(input)) {
+      setToYear(input);
     }
+  };
+
+  const handleFilterSearch = async () => {
+    console.log("Calling handleFilterSearch");
+    console.log("selectedDepartment: ", selectedDepartment);
+    console.log("fromYear: ", fromYear);
+    console.log("toYear: ", toYear);
+  
+    if (selectedDepartment === "" && fromYear === "" && toYear === "") {
+      return alert("Please fill in at least one filter criteria to use this function. :))))");
+    }
+  
+    if (Number(fromYear) > Number(toYear)) {
+      setFromYear("");
+      setToYear("");
+      return alert("Please fill in the date properly");
+    }
+  
     const manuscriptData = await fetchManuscriptData();
-    setSearchResults(manuscriptData)
-    console.log(searchResults,'result')
-  }
+    setSearchResults(manuscriptData);
+    console.log(searchResults, 'result');
+  };
+
+useEffect(() => {
+console.log(searchResults,'result')
+}, [fromYear])
+
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
     setSearch(query);
@@ -44,7 +70,7 @@ const ResultsPage = ({ results, inputSearch }) => {
     setKeywords(parsedKeywords);
   };
 
-  if (searchResults.length === 0) {
+  if (searchResults && searchResults.length === 0) {
     setSearchResults(results);
     setSearch(inputSearch);
   }
@@ -71,7 +97,7 @@ const ResultsPage = ({ results, inputSearch }) => {
           const toYearTimestamp = Timestamp.fromDate(new Date(`${toYear}-12-31`));
           manuscriptQuery = query(manuscriptCollection, where('yearCompleted', '>=', fromYearTimestamp), where('yearCompleted', '<=', toYearTimestamp));
         }
-   
+
       const querySnapshot = await getDocs(manuscriptQuery);
       const results = querySnapshot.docs.map((doc) => {
         const data = doc.data();
@@ -85,6 +111,7 @@ const ResultsPage = ({ results, inputSearch }) => {
   
         };
       });
+      console.log(results)
       return results;
     } catch (error) {
       console.error('Error fetching manuscript data:', error);
@@ -120,12 +147,13 @@ const ResultsPage = ({ results, inputSearch }) => {
     }
 };
 
-const maxPage = Math.ceil(searchResults.length / resultsPerPage);
-
-// Calculate the indexes of the results to display based on the current page
+const maxPage = searchResults ? Math.ceil(searchResults.length / resultsPerPage) : 0;
 const indexOfLastResult = currentPage * resultsPerPage;
 const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
+const currentResults = (searchResults && Array.isArray(searchResults))
+  ? searchResults.slice(indexOfFirstResult, indexOfLastResult)
+  : [];
+
 
 // Update the page when the current page changes
 const paginate = (pageNumber) => {
@@ -210,12 +238,12 @@ const showNext = currentPage < maxPage;
   <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="" variant="small">Year:
   </Typography>
-  <Input variant="standard" className="h-36" color="black" value={fromYear} onChange={(e) => setFromYear(e.target.value)} placeholder="" />
+  <Input variant="standard" className="h-36" color="black" value={fromYear} onChange={handleFromYearChange} placeholder="" />
   </div> 
    <div className="w-24 overflow-hidden flex items-end">
   <Typography className="px-2" color="" variant="small" >To
   </Typography>
-  <Input variant="standard" className="h-36" color="black" placeholder=""  value={toYear} onChange={(e) => setToYear(e.target.value)}/>
+  <Input variant="standard" className="h-36" color="black" placeholder=""  value={toYear} onChange={handleToYearChange}/>
   </div>
 
           <button 
