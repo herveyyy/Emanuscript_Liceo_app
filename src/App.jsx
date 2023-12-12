@@ -17,6 +17,12 @@ import { useState } from "react";
 import {database} from "../firebaseConfig";
 import {collection,getDocs,query,where,doc,setDoc,updateDoc} from 'firebase/firestore'
 import LoadingPage from "./pages/LoadingPage";
+import { pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 function App() {
   const { currentUser, logout } = useContext(UserContext);
   const auth = getAuth();

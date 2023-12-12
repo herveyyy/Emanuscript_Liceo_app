@@ -14,6 +14,7 @@ import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,u
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 import ViewerPDF from '../components/ViewerPDF';
+
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
@@ -114,6 +115,8 @@ const handleRate = () => {
   console.log("RateBtn is Clicked")
 }
 const handleViewer = () => {
+  addView(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName,manuscript.abstract,manuscript.frontPageURL, manuscript.department)
+
   setReadPDF(!readPDF)
   console.log("RateBtn is Clicked")
 }
