@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link} from 'react-router-dom';
-import { database } from '../../firebaseConfig';
 function ManuscriptItem({ title, imgUrl,course,department,docID}) { 
   const titleTruncated = title.length > 20 ? title.substring(0, 25) + '...' : title;
 
@@ -34,5 +33,4 @@ function ManuscriptItem({ title, imgUrl,course,department,docID}) {
     </Link>
   );
 }
-
 export default ManuscriptItem;
