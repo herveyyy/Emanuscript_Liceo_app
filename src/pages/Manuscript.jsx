@@ -14,6 +14,12 @@ import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,u
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 import ViewerPDF from '../components/ViewerPDF';
+import { pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 const Manuscript = () => {
   const { id } = useParams();
   const [manuscript, setManuscript] = useState([]);
