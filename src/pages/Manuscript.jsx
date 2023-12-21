@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import AuthorList from '../components/AuthorList';
-import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,BsNewspaper,BsPostcard} from 'react-icons/bs';
-import {FaBookReader, FaQuoteLeft, FaStar} from 'react-icons/fa'
+import { BsFillBookmarkPlusFill,BsFillBuildingFill,BsFillHouseExclamationFill,BsPostcard} from 'react-icons/bs';
+import {FaBookReader, FaStar,FaQuoteLeft} from 'react-icons/fa'
 import { Progress, Typography } from '@material-tailwind/react';
 import { Footer } from '../components/Footer';
-import Loading from '../components/Loading';
-import CiteModal from '../components/CiteModal';
 import ReadModal from '../components/ReadModal';
 import RateModal from '../components/RateModal';
 import { database } from '../../firebaseConfig';
@@ -14,6 +12,7 @@ import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,u
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 import ViewerPDF from '../components/ViewerPDF';
+import CiteModal from '../components/CiteModal';
 
 const Manuscript = () => {
   const { id } = useParams();
@@ -116,7 +115,6 @@ const handleRate = () => {
 }
 const handleViewer = () => {
   addView(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName,manuscript.abstract,manuscript.frontPageURL, manuscript.department)
-
   setReadPDF(!readPDF)
   console.log("RateBtn is Clicked")
 }
@@ -194,7 +192,7 @@ if(!manuscript){
   return (
     <div className='w-full '>
       {onLoading && <LoadingModal/>}
-       {/* <CiteModal open={citeModal} handler={handleCite} manuscriptData={manuscript}/> */}
+       <CiteModal open={citeModal} handler={handleCite} manuscriptData={manuscript}/>
        <ReadModal open={readModal} handler={handleReadRequest} userData={currentUser}/>
        <RateModal open={rateModal} handler={handleRate} userData={currentUser} manuscriptData={manuscript}/>
        <ViewerPDF open={readPDF} handler={handleViewer} docURL={manuscript.manuscriptPDF} title={manuscript.title}/>
@@ -229,7 +227,7 @@ if(!manuscript){
                 <div className='w-full pb-4'>
                 <div className='w-full pb-4'>
                   {manuscript.date ? (
-                    <p className='text-center sm:text-left'>Year: {manuscript.date.toDate().getFullYear()}</p>
+                    <p className='text-center sm:text-left'>Year: {manuscript.yearCompleted.toDate().getFullYear()}</p>
                   ) : (
                     <p className='text-center sm:text-left'>Year: N/A</p>
                   )}
@@ -269,12 +267,12 @@ if(!manuscript){
                 <FaBookReader />Read
               </button>
             </div>
-            {/* <div className='h-16 flex items-center'>
+            <div className='h-16 flex items-center'>
               <button onClick={handleCite} className='gap-x-2 bg-blue-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaQuoteLeft />
                 Cite
               </button>
-            </div> */}
+            </div>
             <div className='h-16 flex items-center'>
               <button onClick={handleRate} className='gap-x-2 bg-orange-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded'>
                 <FaStar />
