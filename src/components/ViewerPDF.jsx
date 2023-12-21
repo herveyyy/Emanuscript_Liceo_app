@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { IconButton, Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react';
+import { IconButton, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from '@material-tailwind/react';
 import { FaXmark, FaPlus,FaMinus,FaEquals } from 'react-icons/fa6';
 import { Document, Page } from 'react-pdf';
 import LoadingModal from './Loading';
@@ -8,9 +8,6 @@ import 'react-pdf/dist/Page/TextLayer.css';
 
 const ViewerPDF = ({ open, handler, docURL, title }) => {
   const [numPages, setNumPages] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [scale, setScale] = useState(1);
-
   const loadedDocURL = useMemo(() => docURL, [docURL]);
 
   useEffect(() => {
@@ -36,8 +33,8 @@ const ViewerPDF = ({ open, handler, docURL, title }) => {
 </Document>
         )}
       </DialogBody>
-
       <DialogFooter className='flex gap-x-2 justify-center'>
+        <Typography>Total Pages: {numPages}</Typography>
       </DialogFooter>
     </Dialog>
   );
