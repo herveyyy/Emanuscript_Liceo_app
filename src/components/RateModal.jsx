@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {  Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography, Rating } from '@material-tailwind/react'
 import {FaXmark} from "react-icons/fa6"
-import { addDoc, collection, serverTimestamp ,where,query,getDocs} from 'firebase/firestore';
+import {addDoc, collection, serverTimestamp ,where,query,getDocs,doc,increment,updateDoc} from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
 const RateModal = ({open,handler,manuscriptData,userData}) => {
 const [rating, setRating] = useState(1);
@@ -12,7 +12,7 @@ const [rating, setRating] = useState(1);
   const rateManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, rating, userId, userName,frontPageURL,abstract,department) => {
     try {
       const ratingsCollectionRef = collection(database, 'Ratings');
-  
+      const manuscriptRef = doc(database,'Manuscript', manuscriptId)
       // Check if the user has already rated the manuscript
       const existingRatingQuery = query(
         ratingsCollectionRef,
@@ -43,7 +43,32 @@ const [rating, setRating] = useState(1);
   
       // Add the rating data to the 'Ratings' collection
       const docRef = await addDoc(ratingsCollectionRef, ratingData);
-  
+        if(1 === rating){
+          const docUpdate = await updateDoc(manuscriptRef, {rated: {
+            one: increment(1)
+          }})
+        }
+        if(2 === rating){
+          const docUpdate = await updateDoc(manuscriptRef, {rated: {
+            two: increment(1)
+          }})
+        }
+        if(3 === rating){
+          const docUpdate = await updateDoc(manuscriptRef, {rated: {
+            three: increment(1)
+          }})
+        }
+        if(4 === rating){
+          const docUpdate = await updateDoc(manuscriptRef, {rated: {
+            four: increment(1)
+          }})
+        }
+        if(5 === rating){
+          const docUpdate = await updateDoc(manuscriptRef, {rated: {
+            five: increment(1)
+          }})
+        }
+
       console.log('Rating added with ID: ', docRef.id);
       setRating(0);
       handler(!open);

@@ -8,7 +8,7 @@ import { Footer } from '../components/Footer';
 import ReadModal from '../components/ReadModal';
 import RateModal from '../components/RateModal';
 import { database } from '../../firebaseConfig';
-import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,updateDoc} from 'firebase/firestore';
+import { collection, doc, where, getDoc, addDoc,serverTimestamp, query,getDocs,updateDoc,increment} from 'firebase/firestore';
 import {UserContext} from './../data/userData'
 import LoadingModal from '../components/Loading';
 import ViewerPDF from '../components/ViewerPDF';
@@ -44,6 +44,16 @@ const Manuscript = () => {
       
    
     };
+const viewIncrement = async () => {
+  try {
+        const manuscriptRef = doc(database, "Manuscript", id);
+        const incrementView = updateDoc(manuscriptRef,{views: increment(1)})
+      } catch (error) {
+        console.error(error);
+      }
+  
+    }
+    viewIncrement();
       fetchManuscriptData();
   }, [id]);
 const handleRead = () => {
@@ -64,48 +74,56 @@ const addView = async (
   try {
     const historyRef = collection(database, "History");
 
-  // Check if the document already exists
-const querySnapshot = await getDocs(
-  query(
-    historyRef,
-    where("ManuscriptID", "==", manuscriptId),
-    where("UserID", "==", userId)
-  )
-);
+    // Check if the document already exists
+    const querySnapshot = await getDocs(
+      query(
+        historyRef,
+        where("ManuscriptID", "==", manuscriptId),
+        where("UserID", "==", userId)
+      )
+    );
 
-if (!querySnapshot.empty) {
-  // Document exists, update the Date field
-  const existingDoc = querySnapshot.docs[0];
-  const existingDocRef = doc(historyRef, existingDoc.id);
+    if (!querySnapshot.empty) {
+      // Document exists, update the Date field
+      const existingDoc = querySnapshot.docs[0];
+      const existingDocRef = doc(historyRef, existingDoc.id);
 
-  await updateDoc(existingDocRef, {
-    Date: serverTimestamp(),
-  });
-} else {
-  // Document doesn't exist, create a new one
-  const historyData = {
-    Date: serverTimestamp(),
-    ManuscriptID: manuscriptId,
-    ManuscriptLocation: manuscriptLocation,
-    ManuscriptName: manuscriptName,
-    UserID: userId,
-    UserName: userName,
-    Department: manuscriptDepartment,
-    ManuscriptPicture: manuscriptFrontPageURL,
-    ManuscriptAbstract: manuscriptAbstract,
-  };
+      await updateDoc(existingDocRef, {
+        Date: serverTimestamp(),
+      });
+    } else {
+      // Document doesn't exist, create a new one
+      const historyData = {
+        Date: serverTimestamp(),
+        ManuscriptID: manuscriptId,
+        ManuscriptLocation: manuscriptLocation,
+        ManuscriptName: manuscriptName,
+        UserID: userId,
+        UserName: userName,
+        Department: manuscriptDepartment,
+        ManuscriptPicture: manuscriptFrontPageURL,
+        ManuscriptAbstract: manuscriptAbstract,
+      };
+      const docRef = await addDoc(historyRef, historyData);
 
-  const docRef = await addDoc(historyRef, historyData);
-}
+    }
   } catch (error) {
     console.error("Error updating/add view:", error);
     // Handle the error appropriately, e.g., show a user-friendly message
     throw new Error("Failed to update/add view");
   }
 };
+const citeIncrement  = async () =>{
+  try {
+    const manuscriptRef = doc(database, "Manuscript", id)
+    const incrementCite = await updateDoc(manuscriptRef,{cite: increment(1)})
+  } catch (error) {
+    console.error(error);
+  }
 
-
+}
 const handleCite = () => {
+  citeIncrement()
   setCiteModal(!citeModal)
 console.log("CiteBtn is Clicked")
 }
