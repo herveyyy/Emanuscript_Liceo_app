@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { IconButton, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from '@material-tailwind/react';
-import { FaXmark, FaPlus,FaMinus,FaEquals } from 'react-icons/fa6';
+import { FaXmark } from 'react-icons/fa6';
 import { Document, Page } from 'react-pdf';
-import LoadingModal from './Loading';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
