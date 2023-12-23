@@ -370,7 +370,7 @@ if(!manuscript){
             <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
               <div className='md:w-1/2 w-full h-40 px-2'>
                 <div className='text-center md:text-left text-gray-900  flex font-semibold border-b items-center'>Ratings
-                (<p className='text-sm flex items-center'>{totalAvg} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
+                (<p className='text-sm flex items-center'>{totalAvg.toFixed(1)} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
                 <div className='py-2'>
                   
                   <div className='flex items-center w-[90%] gap-2'>
