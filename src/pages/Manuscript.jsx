@@ -24,38 +24,63 @@ const Manuscript = () => {
   const [readPDF, setReadPDF] = useState(false)
   const { currentUser, logout } = useContext(UserContext);
   const [onLoading,setOnLoading] = useState(false)
-  useEffect(() => {
-    // Function to fetch manuscript data from Firebase Firestore
-    const fetchManuscriptData = async () => {
-      try {
-        const manuscriptRef = doc(database, "Manuscript", id);
-        const manuscriptDoc = await getDoc(manuscriptRef);
-        if (manuscriptDoc.exists()) {
-          // If the manuscript exists, set the manuscript state
-          setManuscript({ id: manuscriptDoc.id, ...manuscriptDoc.data() });
+ const [starOne, setStarOne] = useState(0)
+ const [starTwo, setStarTwo] = useState(0)
+ const [starThree, setStarThree] = useState(0)
+ const [starFour, setStarFour] = useState(0)
+ const [starFive, setStarFive] = useState(0)
+ const [totalAvg, setTotalAvg] = useState(0)
+useEffect(() => {
+ 
+  const calculateRates = (rate, total) => {
+    const starOnePercent = (rate.one || 0) ? (rate.one / total) * 100 : 0;
+    const starTwoPercent = (rate.two || 0) ? (rate.two / total) * 100 : 0;
+    const starThreePercent = (rate.three || 0) ? (rate.three / total) * 100 : 0;
+    const starFourPercent = (rate.four || 0) ? (rate.four / total) * 100 : 0;
+    const starFivePercent = (rate.five || 0) ? (rate.five / total) * 100 : 0;
 
-        } else {
-          // Handle case when manuscript does not exist
-          console.log("Manuscript not found!");
-        }
-      } catch (error) {
-        console.error("Error fetching manuscript:", error);
+    setStarOne(starOnePercent);
+    setStarTwo(starTwoPercent);
+    setStarThree(starThreePercent); 
+    setStarFour(starFourPercent);
+    setStarFive(starFivePercent);
+  //AR = ax1 + bx2 + cx3 + dx4 + ex5 / R2
+  const oneStar = (rate.one || 0) ? 1 * (rate.one): 0;
+  const twoStar = (rate.two || 0) ? 2* (rate.two) : 0;
+  const threeStar = (rate.three || 0) ? 3* (rate.three) : 0;
+  const fourStar = (rate.four || 0) ? 4 *(rate.four)  : 0;
+  const fiveStar = (rate.five || 0) ?   5 * (rate.five): 0;
+  console.log(rate.five * 5)
+  setTotalAvg((oneStar +twoStar+ threeStar+ fourStar + fiveStar) / total );
+  };
+  const fetchManuscriptData = async () => {
+    try {
+      const manuscriptRef = doc(database, "Manuscript", id);
+      const manuscriptDoc = await getDoc(manuscriptRef);
+      if (manuscriptDoc.exists()) {
+        setManuscript({ id: manuscriptDoc.id, ...manuscriptDoc.data() });
+        const manuscriptData = manuscriptDoc.data();
+        const rated = manuscriptData.rated || {};  // Assuming rated is an object in your manuscript data
+        const newTotalRatings = (rated.one || 0) + (rated.two || 0) + (rated.three || 0) + (rated.four || 0) + (rated.five || 0);
+        calculateRates(rated, newTotalRatings);
+      } else {
+        console.log("Manuscript not found!");
       }
-      
-   
-    };
-const viewIncrement = async () => {
-  try {
-        const manuscriptRef = doc(database, "Manuscript", id);
-        const incrementView = updateDoc(manuscriptRef,{views: increment(1)})
-      } catch (error) {
-        console.error(error);
-      }
-  
+    } catch (error) {
+      console.error("Error fetching manuscript:", error);
     }
-    viewIncrement();
-      fetchManuscriptData();
-  }, [id]);
+  };
+  const viewIncrement = async () => {
+    try {
+      const manuscriptRef = doc(database, "Manuscript", id);
+      const incrementView = await updateDoc(manuscriptRef, { views: increment(1) });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  viewIncrement();
+  fetchManuscriptData();
+}, [id]);
 const handleRead = () => {
 console.log("ReadButton is Clicked")
 addView(id,manuscript.location,manuscript.title,currentUser.uid,currentUser.displayName,manuscript.abstract,manuscript.frontPageURL, manuscript.department)
@@ -245,7 +270,7 @@ if(!manuscript){
                 <div className='w-full pb-4'>
                 <div className='w-full pb-4'>
                   {manuscript.date ? (
-                    <p className='text-center sm:text-left'>Year: {manuscript.yearCompleted.toDate().getFullYear()}</p>
+                    <p className='text-center sm:text-left'>Year: {manuscript.yearCompleted.toDate().getFullYear() || 0}</p>
                   ) : (
                     <p className='text-center sm:text-left'>Year: N/A</p>
                   )}
@@ -345,34 +370,37 @@ if(!manuscript){
             <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
               <div className='md:w-1/2 w-full h-40 px-2'>
                 <div className='text-center md:text-left text-gray-900  flex font-semibold border-b items-center'>Ratings
-                (<p className='text-sm flex items-center'>{manuscript.rate} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
+                (<p className='text-sm flex items-center'>{totalAvg} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
                 <div className='py-2'>
+                  
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>5</div>
-                  <Progress value={90} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={starFive} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>5</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                     <div className='text-sm sm:hidden'>4</div>
-                  <Progress value={70} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={starFour} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>4</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>3</div>
-                  <Progress value={40} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={starThree} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>3</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>2</div>
-                  <Progress value={20} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={starTwo} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm '>2</div>
                   </div>
                   <div className='flex items-center w-[90%] gap-2'>
                   <div className='text-sm sm:hidden'>1</div>
-                  <Progress value={10} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
+                  <Progress value={starOne} color='amber' className='border border-gray-900/10 bg-blue-900/5 p-1' size='lg'/>
                   <div className='hidden sm:contents pl-10 font-bold text-center text-sm'>1</div>
                   </div>
+                     
                 </div>
+            
               </div>
               <div className='md:w-1/2 w-full h-52 px-2 '>
                 <div className='text-center md:text-left text-gray-900 font-semibold border-b '>Rules and Regulations</div>
