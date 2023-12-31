@@ -173,7 +173,7 @@ const handleBookmark = () => {
 const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptName, userId, userName,manuscriptAbstract, manuscriptFrontPageURL,manuscriptDeparment) => {
   try {
     const bookmarksCollectionRef = collection(database, 'Bookmark');
-
+    const bookmarkDoc = doc(database,'Manuscript',id)
     // Check if the bookmark already exists
     const querySnapshot = await getDocs(
       query(
@@ -203,6 +203,7 @@ const bookmarkManuscript = async (manuscriptId, manuscriptLocation, manuscriptNa
     };
     // Add the bookmark data to the 'Bookmark' collection
     const docRef = await addDoc(bookmarksCollectionRef, bookmarkData);
+    const docIncrement  = await updateDoc(bookmarkDoc,{bookmarks: increment(1)})
     alert('Bookmark added');
     setOnLoading(false);
     // Optionally, you can update the manuscript data with the new bookmark information if needed
@@ -370,7 +371,7 @@ if(!manuscript){
             <div className='h-56 flex flex-wrap gap-x-2 md:gap-0 '>
               <div className='md:w-1/2 w-full h-40 px-2'>
                 <div className='text-center md:text-left text-gray-900  flex font-semibold border-b items-center'>Ratings
-                (<p className='text-sm flex items-center'>{totalAvg} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
+                (<p className='text-sm flex items-center'>{totalAvg.toFixed(1)} <p className='text-yellow-800'> <FaStar/></p></p>)</div>
                 <div className='py-2'>
                   
                   <div className='flex items-center w-[90%] gap-2'>

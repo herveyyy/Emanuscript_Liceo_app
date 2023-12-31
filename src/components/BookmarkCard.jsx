@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card,CardHeader,Typography,Button,CardBody } from '@material-tailwind/react'
 import { database } from '../../firebaseConfig';
-import { collection,doc,deleteDoc } from 'firebase/firestore';
+import { collection,doc,deleteDoc, updateDoc, increment } from 'firebase/firestore';
 import { CiBookmarkMinus } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 
@@ -27,14 +27,16 @@ const BookmarkCard = ({title,department,abstract,id,frontPage,manuscriptID}) => 
         try {
           // Reference to the document
           const docRef = doc(collection(database, 'Bookmark'), id);
-    
+          const docManuscriptRef = doc(database,'Manuscript',manuscriptID)
           // Delete the document
+          await updateDoc(docManuscriptRef,{bookmarks: increment(-1)})
           await deleteDoc(docRef);
           window.location.reload()
         } catch (error) {
           console.error('Error removing document: ', error);
         }
       };
+
   return (
     <div className='flex relative overflow-hidden shadow-lg' > 
     <Card 
