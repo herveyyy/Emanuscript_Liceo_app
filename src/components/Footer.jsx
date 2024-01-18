@@ -6,11 +6,10 @@ export function Footer() {
   return (
     <footer className="w-full bg-white p-8">
       <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between">
-      <div className="flex items-center flex-wrap">
+        <div className="flex items-center flex-wrap">
           <img src="/static/images/ITLOGO.png" alt="logo-ct" className="w-20" />
-      </div>
-      
-        
+        </div>
+
         <ul className="flex flex-wrap items-center  gap-y-2 gap-x-8">
           <Link to={"/AboutUs"}>
             <Typography
