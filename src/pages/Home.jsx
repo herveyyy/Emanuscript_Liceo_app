@@ -6,7 +6,7 @@ import ModalRegister from "../components/ModalRegister";
 import { Footer } from "../components/Footer";
 import { FcGoogle } from "react-icons/fc";
 import { database, handleLogin } from "../../firebaseConfig";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { UserContext } from "../data/userData";
 import { useState } from "react";
 import LoadingModal from "../components/Loading";
@@ -41,7 +41,10 @@ const Home = () => {
             alert("You have been blocked");
             return logout();
           }
-          return true; // User has a schoolID
+          const userDocOnline = await updateDoc(userDocRef, {
+            status: "online",
+          });
+          return true;
         }
       }
 
