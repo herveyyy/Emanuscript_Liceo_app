@@ -1,22 +1,18 @@
-import React, {useContext, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Carousel } from "@material-tailwind/react";
-import {
-  Card,
-  CardBody,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
- import ModalRegister from '../components/ModalRegister';
- import { Footer } from '../components/Footer';
- import {FcGoogle} from 'react-icons/fc'
- import { database, handleLogin } from '../../firebaseConfig';
- import { collection, doc, getDoc } from 'firebase/firestore';
- import { UserContext } from '../data/userData';
-import { useState } from 'react';
-import LoadingModal from '../components/Loading';
+import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
+import ModalRegister from "../components/ModalRegister";
+import { Footer } from "../components/Footer";
+import { FcGoogle } from "react-icons/fc";
+import { database, handleLogin } from "../../firebaseConfig";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { UserContext } from "../data/userData";
+import { useState } from "react";
+import LoadingModal from "../components/Loading";
+import Search from "./Search";
 const Home = () => {
-  const { currentUser,logout } = useContext(UserContext);
+  const { currentUser, logout } = useContext(UserContext);
   const [newUser, setNewUser] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // Initialize useNavigate
@@ -30,7 +26,7 @@ const Home = () => {
       }
 
       // Reference to the "Users" collection in Firestore
-      const usersCollectionRef = collection(database, 'Users');
+      const usersCollectionRef = collection(database, "Users");
 
       // Get the user's document from the collection using the user's UID
       const userDocRef = doc(usersCollectionRef, currentUser.uid);
@@ -39,33 +35,37 @@ const Home = () => {
       if (userDocSnapshot.exists()) {
         // Check if the user document has a schoolID field
         const userData = userDocSnapshot.data();
-        
+
         if (userData && userData.schoolID) {
-          if(userData && userData.status == "block"){
-            alert("You have been blocked")
-            return logout()
+          if (userData && userData.status == "block") {
+            alert("You have been blocked");
+            return logout();
           }
-          return true; // User has a schoolID
+          const userDocOnline = await updateDoc(userDocRef, {
+            status: "online",
+          });
+          return true;
         }
-      
       }
 
       return false; // User does not have a schoolID
     } catch (error) {
-      console.error('Error checking for schoolID:', error);
+      console.error("Error checking for schoolID:", error);
       throw error;
     }
   };
 
   useEffect(() => {
     if (!currentUser) {
-      navigate('/Home');
+      navigate("/Home");
+    } else {
+      navigate("/Search");
     }
 
     const checkSchoolID = async () => {
       const userHasSchoolID = await hasSchoolID(currentUser);
       if (userHasSchoolID) {
-        console.log(userHasSchoolID)
+        console.log(userHasSchoolID);
         setNewUser(false);
       } else {
         // User does not have a schoolID, you can handle this case as needed
@@ -78,137 +78,57 @@ const Home = () => {
 
     if (currentUser) {
       checkSchoolID();
-    }else{
+    } else {
       setTimeout(() => {
         setIsLoading(false);
-      }, 10000);
+      }, 3000);
     }
   }, [currentUser]);
 
   return (
     <>
-    
-    {isLoading &&
-      <LoadingModal/>
-    }
-    <div className="absolute top-0  bottom-0 -z-10  h-screen">
-    
-       <div className='absolute top-0  bg-black h-screen' >
-        <img src='/static/images/LiceoBG.jpg' className="blur-sm object-cover h-screen w-screen bg-black"/>
-      <img src='/static/images/libraryBG.jpg' className="blur-sm object-cover  lg:h-[48vh] md:h-[50vh] sm:h-[70vh] h-[80vh] w-screen bg-black"/>
-     
-      </div>
-    <div className='sm:mx-9 md:mx-8 px-2 mt-28 md:h-[32rem] h-[14rem] '>
-    <Carousel
-    className="rounded-xl mt-3  "
-    navigation={({ setActiveIndex, activeIndex, length }) => (
-      <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-        {new Array(length).fill("").map((_, i) => (
-          <span
-            key={i}
-            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-            activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
-            }`
-          }
-            onClick={() => setActiveIndex(i)}
+      {isLoading && <LoadingModal />}
+      <div className="absolute top-0  bottom-0 -z-10  h-screen w-screen">
+        <div className="absolute top-0  bg-black h-screen">
+          <img
+            src="/static/images/LiceoBG.jpg"
+            className="blur-sm object-cover h-screen w-screen bg-black"
           />
-        ))}
-      </div>
-    )}
-  >
-    <img
-      src="/static/images/bg7.jpg"
-      alt="image 1"
-      className="h-full w-full object-cover"
-    />
-    <img
-      src="/static/images/bg1.jpg"
-      alt="image 2"
-      className="h-full w-full object-cover"
-    />
-    <img
-      src="/static/images/bg4.jpg"
-      alt="image 3"
-      className="h-full w-full object-cover"
-     
-    />
-      <img
-      src="/static/images/bg2.jpg"
-      alt="image 3"
-      className="h-full w-full object-cover"
-     
-    />
-      <img
-      src="/static/images/bg5.jpg"
-      alt="image 3"
-      className="h-full w-full object-cover"
-     
-    />
-      <img
-      src="/static/images/bg3.jpg"
-      alt="image 3"
-      className="h-full w-full object-cover"
-     
-    />
-      <img
-      src="/static/images/bg6.jpg"
-      alt="image 3"
-      className="h-full w-full object-cover"
-     
-    />
-  </Carousel>
-  </div>
-
-  <div className='px-8 w-full flex justify-center '>
-  <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full gap-y-2 p-4 bg-transparent">
-    {currentUser &&
-      <ModalRegister user={currentUser} userNew={newUser}/>
-
-    }
-      {!currentUser &&
-        <Button
-        onClick={handleLogin} 
-        color='blue' className='flex justify-center gap-2 items-center '>
-          <FcGoogle className='w-8 h-8'/>Login
-        </Button>
-          }
-      </Card>
-      </div>
-    
-<div className='px-8 mt-2 w-full flex md:justify-start  sm:justify-center  lg:justify-center'>
-  <Card className="mt-6 mr-2 md:w-full sm:w-full lg:w-[75%] " >
-      <CardBody >
-        <div className='flex justify-center'>
-<img src='/static/images/libraryIcon.gif' className='lg:w-20 sm:w-14 w-12 '/>
         </div>
-      <p className='lg:text-4xl text-2xl md:text-3xl text-black my-4  text-center'>ELSA P. PELAEZ MEMORIAL LIBRARY</p>
-      <Typography className='md:text-justify  text-left'>
-        The LIBRARY is indeed the most important intellectual resource in the academic community. It is the place where the teaching-learning process is effectively enhanced and aptly complemented through the use of books, periodicals, journals, and variety of multi-media resources. It is an intellectual center of an academic community – a place for research, thought, and reflection. It significantly plays an indispensable role in accomplishing the educational objectives of Liceo de Cagayan University.
-        </Typography>
-        <div className='flex justify-center lg:justify-start gap-2'>
-          <img src='/static/images/vision.gif' className='w-12 h-12 ' />
-        <p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>vision</p>
-        </div>
-        <Typography className='md:text-justify  text-left'>
-        Facilitates total human formation through excellent and relevant information services.
-</Typography>
-<div className='flex justify-center lg:justify-start gap-2'>
-  <img src='/static/images/mission.gif' className='w-12 h-12 ' />
-<p className='lg:text-3xl text-black uppercase my-4 lg:text-start text-center sm:text-lg md:text-2xl'>mission</p>
-</div>
-<Typography className='md:text-justify  text-left'>
-        Supports the university's commitment to academic excellence, Christian values, research, and extension programs via adequate library resources, facilities, and fast delivery of information service.
-</Typography>
-      </CardBody>
-    </Card>
-</div>
-<div className='mt-32 z-0 relative '>
-<Footer/>
-</div>
 
-</div>
-</>
-  )
-}
+        <div className="px-8 w-full flex justify-center mt-40 bg-transparent">
+          <Card className="mt-6 mr-2 lg:w-[25%] xl:w-[35%] md:w-full sm:w-full w-full lg:gap-y-64 md:gap-y-12 p-4 bg-transparent">
+            <div className="  flex w-full justify-center">
+              <div className="h-48 w-48">
+                <img src="/static/images/liceo.png" />
+              </div>
+            </div>
+            {currentUser && (
+              <ModalRegister user={currentUser} userNew={newUser} />
+            )}
+            {!currentUser && (
+              <Button
+                onClick={handleLogin}
+                color="blue"
+                className="flex justify-center gap-2 items-center "
+              >
+                <FcGoogle className="w-8 h-8" />
+                Login
+              </Button>
+            )}
+          </Card>
+        </div>
+        <div className="text-center fixed bottom-0 w-full">
+          <div className="py-3 pb-1 justify-center -py-2 bg-red-900">
+            <p className="text-xs pb-2 opacity-50 text-white">
+              &copy; {new Date().getFullYear()} Liceo de Cagayan University. All
+              rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Home;
