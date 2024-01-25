@@ -38,8 +38,26 @@ function App() {
   const [displayName, setDisplayName] = useState("");
   const [profile, setProfile] = useState("");
   const [email, setEmail] = useState("");
-  const [remainingTime, setRemainingTime] = useState(10);
+  const [remainingTime, setRemainingTime] = useState(60); // 5 minutes in seconds
 
+  let inactivityTimeout;
+
+  // Function to reset the inactivity timer
+  const resetInactivityTimer = () => {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(() => {
+      console.log("Logging out due to inactivity");
+      handleLogout();
+    }, remainingTime * 1000);
+  };
+
+  // Function to handle user activity events (e.g., mousemove, keydown)
+  const handleUserActivity = () => {
+    setRemainingTime(60); // Reset remaining time on activity
+    resetInactivityTimer();
+  };
+
+  // Function to perform logout on inactivity
   const handleLogout = async () => {
     console.log(inactivityTimeout);
 
@@ -60,38 +78,19 @@ function App() {
     }
   };
 
-  let inactivityTimeout;
-
-  const resetInactivityTimer = () => {
-    clearTimeout(inactivityTimeout);
-    inactivityTimeout = setTimeout(() => {
-      console.log("Logging out due to inactivity");
-      handleLogout();
-    }, remainingTime * 1000);
-  };
-
-  const handleUserActivity = () => {
-    setRemainingTime(60); // Reset remaining time on activity
-    resetInactivityTimer();
-  };
-
+  // Attach event listeners for user activity
   useEffect(() => {
-    const handleBeforeUnload = async () => {
-      // Handle logout or update user status to "offline" when the user is leaving
-      await handleLogout();
-    };
-
     document.addEventListener("mousemove", handleUserActivity);
     document.addEventListener("keydown", handleUserActivity);
-    window.addEventListener("beforeunload", handleBeforeUnload);
 
+    // Cleanup event listeners when the component unmounts
     return () => {
       document.removeEventListener("mousemove", handleUserActivity);
       document.removeEventListener("keydown", handleUserActivity);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
+  // Start the inactivity timer
   useEffect(() => {
     resetInactivityTimer();
 
