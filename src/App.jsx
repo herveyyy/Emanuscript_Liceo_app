@@ -79,15 +79,23 @@ function App() {
   };
 
   useEffect(() => {
+    const handleBeforeUnload = async () => {
+      // Handle logout or update user status to "offline" when the user is leaving
+      await handleLogout();
+    };
     document.addEventListener("mousemove", handleUserActivity);
     document.addEventListener("keydown", handleUserActivity);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       document.removeEventListener("mousemove", handleUserActivity);
       document.removeEventListener("keydown", handleUserActivity);
+      window.addEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
   useEffect(() => {
     resetInactivityTimer();
+
+    // Update the remaining time every second
     const timerInterval = setInterval(() => {
       setRemainingTime((prev) => (prev > 0 ? prev - 1 : prev));
     }, 1000);
