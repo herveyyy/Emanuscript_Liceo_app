@@ -207,7 +207,7 @@ const Search = () => {
               <Typography
                 variant="h1"
                 color="white"
-                className="lg:text-9xl md:text-6xl"
+                className="lg:text-9xl md:text-6xl italic uppercase"
               >
                 E-Manuscript
               </Typography>
