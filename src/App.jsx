@@ -78,33 +78,33 @@ function App() {
     }
   };
 
-  // // Attach event listeners for user activity
-  // useEffect(() => {
-  //   document.addEventListener("mousemove", handleUserActivity);
-  //   document.addEventListener("keydown", handleUserActivity);
+  // Attach event listeners for user activity
+  useEffect(() => {
+    document.addEventListener("mousemove", handleUserActivity);
+    document.addEventListener("keydown", handleUserActivity);
 
-  //   // Cleanup event listeners when the component unmounts
-  //   return () => {
-  //     document.removeEventListener("mousemove", handleUserActivity);
-  //     document.removeEventListener("keydown", handleUserActivity);
-  //   };
-  // }, []);
+    // Cleanup event listeners when the component unmounts
+    return () => {
+      document.removeEventListener("mousemove", handleUserActivity);
+      document.removeEventListener("keydown", handleUserActivity);
+    };
+  }, []);
 
-  // // Start the inactivity timer
-  // useEffect(() => {
-  //   resetInactivityTimer();
+  // Start the inactivity timer
+  useEffect(() => {
+    resetInactivityTimer();
 
-  //   // Update the remaining time every second
-  //   const timerInterval = setInterval(() => {
-  //     setRemainingTime((prev) => (prev > 0 ? prev - 1 : prev));
-  //   }, 1000);
+    // Update the remaining time every second
+    const timerInterval = setInterval(() => {
+      setRemainingTime((prev) => (prev > 0 ? prev - 1 : prev));
+    }, 1000);
 
-  //   // Cleanup the inactivity timer and interval when the component unmounts
-  //   return () => {
-  //     clearTimeout(inactivityTimeout);
-  //     clearInterval(timerInterval);
-  //   };
-  // }, [remainingTime]);
+    // Cleanup the inactivity timer and interval when the component unmounts
+    return () => {
+      clearTimeout(inactivityTimeout);
+      clearInterval(timerInterval);
+    };
+  }, [remainingTime]);
 
   useEffect(() => {
     setIsLoading(true);
