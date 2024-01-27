@@ -207,13 +207,13 @@ const Search = () => {
               <Typography
                 variant="h1"
                 color="white"
-                className="lg:text-9xl md:text-6xl"
+                className="lg:text-8xl md:text-6xl italic uppercase"
               >
                 E-Manuscript
               </Typography>
-              <Typography color="white" className="mt-2">
+              <Typography color="white" className="mt-2 italic">
                 DIGITAL ARCHIVAL PLATFORM FOR ACCESSING UNPUBLISHED STUDENT
-                RESEARCH{" "}
+                RESEARCH MANUSCRIPT{" "}
               </Typography>
               <div className="hidden w-full  md:flex items-center justify-center">
                 <div className=" my-2 z-10 w-full flex items-end justify-center ">
