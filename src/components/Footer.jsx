@@ -7,6 +7,16 @@ export function Footer() {
     <footer className="w-full bg-white p-8">
       <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between">
         <div className="flex items-center flex-wrap">
+          <img
+            src="/static/images/libraryLogo.png"
+            alt="logo-library"
+            className="w-20"
+          />
+          <img
+            src="/static/images/liceo.png"
+            alt="logo-liceo"
+            className="w-20"
+          />
           <img src="/static/images/ITLOGO.png" alt="logo-ct" className="w-20" />
         </div>
 
@@ -34,7 +44,7 @@ export function Footer() {
           <li>
             <Typography
               as="a"
-              href="#"
+              href="https://www.facebook.com/CITLiceoU"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
@@ -45,7 +55,8 @@ export function Footer() {
       </div>
       <hr className="my-8 border-blue-gray-50" />
       <Typography color="blue-gray" className="text-center font-normal">
-        &copy; 2023 Rossiel and Friends
+        &copy; {new Date().getFullYear()} Liceo de Cagayan University. All
+        rights reserved.
       </Typography>
     </footer>
   );
