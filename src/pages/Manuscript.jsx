@@ -464,18 +464,18 @@ const Manuscript = () => {
                 </div>
               </div>
             )}
-            <div className="">
-              {/* AuthorList */}
-              <div className="w-full  justify-center">
-                <p className="text-center text-gray-900  font-semibold ">
-                  Authors
-                </p>
-                <AuthorList
-                  names={manuscript.authors || []}
-                  dept={manuscript.department}
-                  profilePics={manuscript.authorsPicture}
-                />
-              </div>
+
+            {/* AuthorList */}
+            <div className="w-full  justify-center">
+              <p className="text-center text-gray-900 font-semibold ">
+                Authors
+              </p>
+              <AuthorList
+                names={manuscript.authors || []}
+                dept={manuscript.department}
+                profilePics={manuscript.authorsPicture}
+              />
+
               {/* Abstract */}
               <div className=" p-2 border-t-2 w-full mt-2 border-t-maroon-700">
                 <p className="md:text-left text-center text-gray-900  font-semibold ">
@@ -585,6 +585,7 @@ const Manuscript = () => {
                         unpublished manuscript content by users.
                       </p>
                     </div>
+
                     <Footer />
                   </div>
                 </div>

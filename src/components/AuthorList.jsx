@@ -8,7 +8,7 @@ const AuthorList = ({ names, profilePics, dept }) => {
   }));
   console.log(list);
   return (
-    <div className="h-28 w-80 md:w-[90vh] lg:w-[150vh] overflow-x-auto">
+    <div className="h-28 w-full overflow-x-auto">
       <div className="flex gap-x-3">
         {list.map(({ name, profilePic }, index) => (
           <AuthorCard
