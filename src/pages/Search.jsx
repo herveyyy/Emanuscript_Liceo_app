@@ -3,7 +3,18 @@ import { UserContext } from "../data/userData";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
 import AdvanceSearch from "../components/AdvanceSearch";
-import { Input, Select, Typography, Option } from "@material-tailwind/react";
+import { RxHamburgerMenu } from "react-icons/rx";
+import {
+  Input,
+  Select,
+  Typography,
+  Option,
+  Menu,
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+} from "@material-tailwind/react";
 import colleges from "../colleges";
 import {
   collection,
@@ -15,6 +26,8 @@ import {
 import { database } from "../../firebaseConfig";
 import ResultsPage from "./ResultsPage";
 import LoadingModal from "../components/Loading";
+import { FaBurger } from "react-icons/fa6";
+import { BsMenuApp } from "react-icons/bs";
 const Search = () => {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -215,79 +228,13 @@ const Search = () => {
                 DIGITAL ARCHIVAL PLATFORM FOR ACCESSING UNPUBLISHED STUDENT
                 RESEARCH MANUSCRIPT{" "}
               </Typography>
-              <div className="hidden w-full  md:flex items-center justify-center">
-                <div className=" my-2 z-10 w-full flex items-end justify-center ">
-                  <div className="flex items-center gap-2  bg-maroon-700 rounded-xl px-2 ">
-                    <div className="flex">
-                      <select
-                        className="bg-transparent   rounded-lg p-2 text-white
-                         w-52 overflow-hidden"
-                        value={selectedDepartment}
-                        onChange={(e) => setSelectedDepartment(e.target.value)}
-                      >
-                        <option className="text-black" selected>
-                          Select Department
-                        </option>
-                        {collegeNames.map((college, index) => (
-                          <option
-                            className="text-black"
-                            key={index}
-                            value={college}
-                          >
-                            {college}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="w-24 overflow-hidden flex items-end">
-                      <Typography
-                        className="px-2"
-                        color="white"
-                        variant="small"
-                      >
-                        Year:
-                      </Typography>
-                      <Input
-                        variant="standard"
-                        className="h-36"
-                        color="white"
-                        placeholder=""
-                        value={fromYear}
-                        onChange={handleFromYearChange}
-                      />
-                    </div>
-                    <div className="w-24 overflow-hidden flex items-end">
-                      <Typography
-                        className="px-2"
-                        color="white"
-                        variant="small"
-                      >
-                        To
-                      </Typography>
-                      <Input
-                        variant="standard"
-                        className="h-36"
-                        color="white"
-                        placeholder=""
-                        value={toYear}
-                        onChange={handleToYearChange}
-                      />
-                    </div>
-                    <button
-                      onClick={handleFilterSearch}
-                      className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}
-                    >
-                      Filter
-                    </button>
-                  </div>
-                </div>
-              </div>
+
               <label className="flex justify-center">
                 <h1 className="text-white text-lg font-bold sm:text-1xl lg:text-1xl italic mt-8">
                   Hi, {currentUser.displayName}
                 </h1>
               </label>
-              <div className="flex border-2 rounded ">
+              <div className="flex border-2 rounded  w-1/2">
                 <button
                   onClick={handleSearch}
                   className="hidden sm:flex items-center justify-center px-4 border-r "
@@ -302,11 +249,91 @@ const Search = () => {
                 </button>
                 <input
                   type="text"
-                  className="px-3 py-2  sm:w-full md:w-60 "
+                  className="px-3 py-2  w-full "
                   placeholder="Search Manuscript..."
                   onChange={handleSearchInputChange}
                   value={search}
                 />
+                <div className=" items-center hidden md:flex">
+                  <Popover placement="bottom-end">
+                    <PopoverHandler>
+                      <Button variant="text" color="white">
+                        <RxHamburgerMenu />
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent className="bg-transparent border-transparent translate-x-10  md:-translate-x-0 lg:-translate-x-30 hidden md:flex">
+                      <div className=" w-full">
+                        <div className=" my-2 z-10 w-full flex items-end justify-center ">
+                          <div className="flex items-center gap-2 bg-maroon-700 rounded-xl px-2 ">
+                            <div className="flex">
+                              <select
+                                className="bg-transparent rounded-lg p-2 text-white
+                         w-52 overflow-hidden"
+                                value={selectedDepartment}
+                                onChange={(e) =>
+                                  setSelectedDepartment(e.target.value)
+                                }
+                              >
+                                <option className="text-black" selected>
+                                  Select Department
+                                </option>
+                                {collegeNames.map((college, index) => (
+                                  <option
+                                    className="text-black"
+                                    key={index}
+                                    value={college}
+                                  >
+                                    {college}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="w-24 overflow-hidden flex items-end">
+                              <Typography
+                                className="px-2"
+                                color="white"
+                                variant="small"
+                              >
+                                Year:
+                              </Typography>
+                              <Input
+                                variant="standard"
+                                className="h-36"
+                                color="white"
+                                placeholder=""
+                                value={fromYear}
+                                onChange={handleFromYearChange}
+                              />
+                            </div>
+                            <div className="w-24 overflow-hidden flex items-end">
+                              <Typography
+                                className="px-2"
+                                color="white"
+                                variant="small"
+                              >
+                                To
+                              </Typography>
+                              <Input
+                                variant="standard"
+                                className="h-36"
+                                color="white"
+                                placeholder=""
+                                value={toYear}
+                                onChange={handleToYearChange}
+                              />
+                            </div>
+                            <button
+                              onClick={handleFilterSearch}
+                              className={`m-2 px-2 py-1 border-2 rounded-lg text-white duration-500 hover:bg-white hover:text-black hover:font-semibold`}
+                            >
+                              Filter
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
                 <AdvanceSearch
                   className=""
                   updatedManuscripts={updateManuscripts}
