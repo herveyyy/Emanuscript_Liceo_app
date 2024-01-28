@@ -58,18 +58,17 @@ const Home = () => {
   useEffect(() => {
     if (!currentUser) {
       navigate("/Home");
-    } else {
-      navigate("/Search");
     }
-
     const checkSchoolID = async () => {
       const userHasSchoolID = await hasSchoolID(currentUser);
       if (userHasSchoolID) {
         console.log(userHasSchoolID);
         setNewUser(false);
+        navigate("/Search");
       } else {
         // User does not have a schoolID, you can handle this case as needed
         setNewUser(true);
+        navigate("/Home");
       }
       setTimeout(() => {
         setIsLoading(false);
