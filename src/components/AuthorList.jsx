@@ -6,7 +6,6 @@ const AuthorList = ({ names, profilePics, dept }) => {
     name,
     profilePic: profilePics[index],
   }));
-  console.log(list);
   return (
     <div className="h-28 w-full overflow-x-auto">
       <div className="flex gap-x-3">
