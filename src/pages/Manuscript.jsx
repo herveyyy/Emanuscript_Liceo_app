@@ -105,19 +105,26 @@ const Manuscript = () => {
     viewIncrement();
     fetchManuscriptData();
   }, [id]);
-  const handleRead = () => {
-    console.log("ReadButton is Clicked");
-    addView(
-      id,
-      manuscript.location,
-      manuscript.title,
-      currentUser.uid,
-      currentUser.displayName,
-      manuscript.abstract,
-      manuscript.frontPageURL,
-      manuscript.department
+  const handleRead = async () => {
+    console.log(
+      "Structure",
+      manuscript.id,
+      manuscript.keywords,
+      manuscript.title
     );
-    window.open(manuscript.manuscriptPDF, "_blank");
+    try {
+      const viewsCollectionRef = collection(database, "ViewManuscript");
+      const viewData = {
+        manuscriptID: manuscript.id,
+        userID: currentUser.uid,
+        date: serverTimestamp(),
+        manuscriptTitle: manuscript.title,
+        keywords: manuscript.keywords,
+      };
+      const viewDocRef = await addDoc(viewsCollectionRef, viewData);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const addView = async (
     manuscriptId,
@@ -201,7 +208,6 @@ const Manuscript = () => {
       manuscript.department
     );
     setReadPDF(!readPDF);
-    console.log("RateBtn is Clicked");
   };
   const handleReadRequest = () => {
     console.log("handleReadRequest is Clicked");
@@ -273,22 +279,6 @@ const Manuscript = () => {
       console.log("Error adding bookmark: ", error);
       setOnLoading(false);
     }
-
-    const requestReadOnSite = async () => {
-      try {
-        const colRef = collection(database, "BorrowManuscriptRequest");
-        const requestData = {
-          Date: serverTimestamp(),
-          ManuscriptLocation: manuscriptLocation,
-          UserID: userId,
-          UserName: userName,
-          Department: manuscriptDeparment,
-        };
-        const docRef = await addDoc(colRef, bookmarkData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
   };
   if (!manuscript) {
     return (
@@ -402,7 +392,10 @@ const Manuscript = () => {
               <div className="flex w-full gap-x-2 justify-end">
                 <div className="h-16 flex items-center">
                   <button
-                    onClick={handleViewer}
+                    onClick={() => {
+                      handleViewer();
+                      handleRead();
+                    }}
                     className=" gap-x-2 bg-maroon-800 px-4 py-2 font-semibold text-sm text-white inline-flex items-center space-x-2 rounded"
                   >
                     <FaBookReader />
