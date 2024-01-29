@@ -58,17 +58,17 @@ const AboutUs = () => {
           <ProfileCard
             name={"Hervey Geralph C. Mapano"}
             role={"Full Stack Developer / Data Architect"}
-            profileLink={"/static/images/Picture3.png"}
+            profileLink={"/static/images/hervey(1).png"}
           />
           <ProfileCard
             name={"Rossiel D. Britania"}
             role={"Technical Write/ Project Manager / CEO"}
-            profileLink={"/static/images/Picture1.png"}
+            profileLink={"/static/images/rossiel(1).png"}
           />
           <ProfileCard
             name={"Khian Justice A. Abad"}
             role={"Front End Developer / UI/UX Designer"}
-            profileLink={"/static/images/Picture2.png"}
+            profileLink={"/static/images/khian (3).png"}
           />
         </div>
         <div className="w-full flex justify-center my-9">
