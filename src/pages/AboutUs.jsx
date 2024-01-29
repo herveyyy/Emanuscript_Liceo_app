@@ -78,7 +78,7 @@ const AboutUs = () => {
             profileLink={"/static/images/sir.png"}
           />
         </div>
-        <div className="relative bg-transparent">
+        <div className="relative">
           <Footer />
         </div>
       </div>
