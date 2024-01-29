@@ -63,12 +63,12 @@ const AboutUs = () => {
           <ProfileCard
             name={"Rossiel D. Britania"}
             role={"Technical Write/ Project Manager / CEO"}
-            profileLink={"/static/images/rossiel(1).png"}
+            profileLink={"/static/images/Rossiel(2).png"}
           />
           <ProfileCard
             name={"Khian Justice A. Abad"}
             role={"Front End Developer / UI/UX Designer"}
-            profileLink={"/static/images/khian (3).png"}
+            profileLink={"/static/images/Khian(1).png"}
           />
         </div>
         <div className="w-full flex justify-center my-9">
