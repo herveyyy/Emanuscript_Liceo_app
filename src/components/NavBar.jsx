@@ -69,7 +69,7 @@ export default function NavBar({ displayName, email, profilePic }) {
             size="sm"
             variant="filled"
           >
-            WHAT'S NEW
+           HOME
           </Button>
         </Link>
       </Typography>
