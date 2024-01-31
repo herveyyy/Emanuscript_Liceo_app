@@ -220,13 +220,13 @@ const Search = () => {
               <Typography
                 variant="h1"
                 color="white"
-                className="lg:text-8xl md:text-6xl italic uppercase"
+                className="lg:text-8xl md:text-6xl italic"
               >
-                E-Manuscript
+                eMANUSCRIPT
               </Typography>
               <Typography color="white" className="mt-2 italic">
-                DIGITAL ARCHIVAL PLATFORM FOR ACCESSING UNPUBLISHED STUDENT
-                RESEARCH MANUSCRIPT{" "}
+                Digital Archival Platform for Accessing Unpublished Student
+                Research Manuscript{" "}
               </Typography>
 
               <label className="flex justify-center">
