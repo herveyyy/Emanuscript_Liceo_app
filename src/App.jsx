@@ -142,6 +142,7 @@ function App() {
       setDisplayName(currentUser.displayName);
       setEmail(currentUser.email);
       setProfile(currentUser.photoURL);
+      console.log("Test");
       if (!emailExists) {
         handleRegister();
         setIsLoading(true);

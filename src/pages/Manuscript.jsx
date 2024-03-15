@@ -312,7 +312,6 @@ const Manuscript = () => {
         docURL={manuscript.manuscriptPDF}
         title={manuscript.title}
       />
-      <div>ManuscriptID: {id}</div>
       <div className="max-w-screen-xl mx-auto">
         {/* Picture and Title and bookmark Icon */}
         <div className="w-full mb-2">
@@ -487,7 +486,6 @@ const Manuscript = () => {
                         <p className="text-sm flex items-center">
                           {totalAvg.toFixed(1)}{" "}
                           <p className="text-yellow-800">
-                            {" "}
                             <FaStar />
                           </p>
                         </p>
