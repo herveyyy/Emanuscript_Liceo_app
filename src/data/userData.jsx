@@ -1,4 +1,4 @@
-// user.context.js
+// userData.jsx
 import React, { createContext, useState, useEffect } from "react";
 import { auth } from "../../firebaseConfig";
 
