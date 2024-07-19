@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signOut,
   deleteUser,
+  signInWithPopup,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -32,12 +33,9 @@ googleProvider.setCustomParameters({
 
 const handleLogin = async () => {
   try {
-    const result = await signInWithRedirect(auth, googleProvider);
-
-    // Wait for a short period (e.g., 3 seconds) to allow for potential caching to clear
+    const result = await signInWithPopup(auth, googleProvider);
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // Check if the user's email contains "@liceo.edu.ph"
     if (result?.user?.email && !result.user.email.endsWith("@liceo.edu.ph")) {
       // Delete the user from Firebase Authentication
       while (auth.currentUser) {
@@ -51,7 +49,6 @@ const handleLogin = async () => {
     console.error("Error during login:", error);
   }
 };
-// Function to check if user exists in Users collection and create if not
 const checkAndCreateUser = async (user) => {
   try {
     const usersRef = collection(database, "Users");
